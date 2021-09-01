@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_architecture/presentation/counter/viewmodel/counter_viewmodel.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class CounterScreen extends StatefulHookWidget {
@@ -14,19 +15,21 @@ class CounterScreen extends StatefulHookWidget {
 
 class _CounterScreenState extends State<CounterScreen> {
 
-  _CounterScreenState(this._counter): super();
+  final _viewModel = CounterViewModel();
+  int _initialValue = 0;
 
-  int _counter = 0;
+  _CounterScreenState(this._initialValue): super();
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _viewModel.initCounter(_initialValue);
+  }
+
+  @override
+  void dispose() {
+    _viewModel.dispose();
+    super.dispose();
   }
 
   @override
@@ -42,15 +45,18 @@ class _CounterScreenState extends State<CounterScreen> {
             Text(
               'You have pushed the button this many times:',
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            StreamBuilder(
+                stream: _viewModel.steamCounter,
+                builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+                  return Text('${snapshot.data}',
+                    style: Theme.of(context).textTheme.headline4,
+                  );
+                }),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: _viewModel.onIncrementButtonTapped,
         tooltip: 'Increment',
         child: Icon(Icons.add),
         elevation: 3,

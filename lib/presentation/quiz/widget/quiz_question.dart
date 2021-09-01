@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture/data/models/question.dart';
 import 'package:flutter_architecture/presentation/quiz/viewmodel/quiz_state.dart';
-import 'package:flutter_architecture/presentation/quiz/viewmodel/quiz_view_model.dart';
+import 'package:flutter_architecture/presentation/quiz/viewmodel/quiz_viewmodel.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:html_character_entities/html_character_entities.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

@@ -3,7 +3,7 @@ import 'package:flutter_architecture/data/models/question.dart';
 import 'package:flutter_architecture/presentation/common/widgets/custom_button.dart';
 import 'package:flutter_architecture/presentation/common/widgets/error.dart';
 import 'package:flutter_architecture/presentation/quiz/viewmodel/quiz_state.dart';
-import 'package:flutter_architecture/presentation/quiz/viewmodel/quiz_view_model.dart';
+import 'package:flutter_architecture/presentation/quiz/viewmodel/quiz_viewmodel.dart';
 import 'package:flutter_architecture/presentation/quiz/widget/quiz_question.dart';
 import 'package:flutter_architecture/presentation/quiz/widget/quiz_result.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';

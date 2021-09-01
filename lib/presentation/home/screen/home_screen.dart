@@ -41,6 +41,20 @@ class HomeScreen extends HookWidget {
                     , style: GoogleFonts.aleo(fontStyle: FontStyle.normal, color: Colors.grey[500])),
               ),
             ),
+          ),
+          GestureDetector(
+            onTap: () => {
+              Navigator.pushNamed(context, Routes.movieList.path, arguments: 12)
+            },
+            child: Card(
+              elevation: 4,
+              child: ListTile(
+                leading: Icon(Icons.movie_creation_outlined, color: Colors.red),
+                title: Text(
+                    "Movie List"
+                    , style: GoogleFonts.aleo(fontStyle: FontStyle.normal, color: Colors.grey[500])),
+              ),
+            ),
           )
         ],
       ),

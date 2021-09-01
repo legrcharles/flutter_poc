@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture/app_route.dart';
-import 'package:flutter_architecture/presentation/home/screen/home_screen.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void main() {
-  runApp(ProviderScope(child: MyApp()));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -18,8 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
         bottomSheetTheme: const BottomSheetThemeData(backgroundColor: Colors.transparent),
-      ),
-      home: HomeScreen(),
+      )
     );
   }
 }

@@ -23,6 +23,7 @@ class HttpClient {
       // Récupérer réponse
       if (response.statusCode == 200) {
         final data = Map<String, dynamic>.from(response.data);
+        log('data $data');
         return data;
       } else {
         throw Failure(message: 'Please check your connection.');
