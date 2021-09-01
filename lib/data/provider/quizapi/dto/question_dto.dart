@@ -25,13 +25,10 @@ class QuestionDto extends Equatable {
         incorrectAnswers,
       ];
 
-  factory QuestionDto.fromJson(Map<String, dynamic> map) {
-    return QuestionDto(
-      category: map['category'] ?? '',
-      difficulty: map['difficulty'] ?? '',
-      question: map['question'] ?? '',
-      correctAnswer: map['correct_answer'] ?? '',
-      incorrectAnswers: List<String>.from(map['incorrect_answers'] ?? []),
-    );
-  }
+  QuestionDto.fromJson(Map<String, dynamic> json)
+      : category = json['category'] ?? '',
+        difficulty = json['difficulty'] ?? '',
+        question = json['question'] ?? '',
+        correctAnswer = json['correct_answer'] ?? '',
+        incorrectAnswers = List<String>.from(json['incorrect_answers'] ?? []);
 }

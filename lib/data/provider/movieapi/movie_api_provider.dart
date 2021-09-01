@@ -1,31 +1,43 @@
-import 'package:flutter_architecture/core/network/http_client.dart';
+import 'dart:convert';
 import 'package:flutter_architecture/data/models/movie.dart';
 import 'package:flutter_architecture/data/provider/movieapi/dto/movie_dto.dart';
-import 'package:flutter_architecture/data/provider/movieapi/dto/movie_request_dto.dart';
 import 'package:flutter_architecture/data/provider/movieapi/mapper/movie_mapper.dart';
+import 'package:http/http.dart' as http;
 
 abstract class MovieApiProviderInterface {
   Future<List<Movie>> getMovies({required String query});
+  void dispose();
 }
 
 class MovieApiProvider extends MovieApiProviderInterface {
-  final HttpClient _httpClient;
-
-  MovieApiProvider(this._httpClient);
+  String endpoint = "www.omdbapi.com";
+  final _httpClient = http.Client();
 
   @override
-  Future<List<Movie>> getMovies({required String query}) {
-    final apiKey = "f9bed01b";
+  Future<List<Movie>> getMovies({required String query}) async {
+    final queryParameters = {
+      "apikey": "f9bed01b",
+      "s": query
+    };
+    final uri = Uri.http(endpoint, "", queryParameters);
+    final response = await _httpClient.get(uri);
 
-    Map<String, dynamic> queryParameters =
-        MovieRequestDto(apiKey: apiKey, query: query).toJson();
+    if (response.statusCode != 200) throw http.ClientException('Failed to load movies with query $query');
 
-    return _httpClient
-        .request("", queryParameters, null)
-        .then((value) {
-      final results = List<Map<String, dynamic>>.from(value['Search']);
-      final dtos = results.map((e) => MovieDto.fromJson(e)).toList();
-      return dtos.map((e) => MovieMapper.map(e)).toList();
-    });
+    /*
+    return (json.decode(response.body)["Search"] as List)
+        .map((e) => MovieDto.fromJson(e))
+        .map((e) => MovieMapper.map(e)).toList();
+
+     */
+
+    return MovieResponseDto.fromJson(json.decode(response.body))
+        .movies
+        .map((e) => MovieMapper.map(e)).toList();
+  }
+
+  @override
+  void dispose() {
+    _httpClient.close();
   }
 }

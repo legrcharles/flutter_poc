@@ -14,4 +14,9 @@ class DataManager {
   MovieApiProviderInterface get movieApi {
     return _movieApi;
   }
+
+  void dispose() {
+    _quizApi.dispose();
+    _movieApi.dispose();
+  }
 }

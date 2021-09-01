@@ -14,7 +14,8 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.indigo,
+        accentColor: Colors.redAccent,
         bottomSheetTheme: const BottomSheetThemeData(backgroundColor: Colors.transparent),
       )
     );

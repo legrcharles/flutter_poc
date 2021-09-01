@@ -1,32 +1,37 @@
-import 'package:flutter_architecture/core/network/http_client.dart';
+import 'dart:convert';
 import 'package:flutter_architecture/data/models/question.dart';
-import 'package:flutter_architecture/data/provider/quizapi/dto/question_request_dto.dart';
 import 'package:flutter_architecture/data/provider/quizapi/mapper/question_mapper.dart';
 import 'dto/question_dto.dart';
+import 'package:http/http.dart' as http;
 
 abstract class QuizApiProviderInterface {
   Future<List<Question>> getQuestions({required int numQuestions, required int categoryId});
+  void dispose();
 }
 
 class QuizApiProvider extends QuizApiProviderInterface {
-  final HttpClient _httpClient;
-
-  QuizApiProvider(this._httpClient);
+  String endpoint = "opentdb.com";
+  final _httpClient = http.Client();
 
   @override
-  Future<List<Question>> getQuestions({required int numQuestions, required int categoryId}) {
-    Map<String, dynamic> queryParameters =
-      QuestionRequestDto(type: 'multiple',
-          amount: numQuestions,
-          category: categoryId)
-        .toJson();
+  Future<List<Question>> getQuestions({required int numQuestions, required int categoryId}) async {
+    final queryParameters = {
+      "type": "multiple",
+      "amount": numQuestions,
+      "category": categoryId
+    };
+    final uri = Uri.https(endpoint, "api.php", queryParameters);
+    final response = await _httpClient.get(uri);
 
-    return _httpClient
-        .request("api.php", queryParameters, null)
-        .then((value) {
-          final results = List<Map<String, dynamic>>.from(value['results']);
-          final dtos = results.map((e) => QuestionDto.fromJson(e)).toList();
-          return dtos.map((e) => QuestionMapper.map(e)).toList();
-        });
+    if (response.statusCode != 200) throw http.ClientException('Failed to load quiz with params $queryParameters');
+
+    return (json.decode(response.body)["results"] as List)
+        .map((e) => QuestionDto.fromJson(e))
+        .map((e) => QuestionMapper.map(e)).toList();
+  }
+
+  @override
+  void dispose() {
+    _httpClient.close();
   }
 }
