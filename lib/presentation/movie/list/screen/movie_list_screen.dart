@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture/app_module.dart';
+import 'package:flutter_architecture/core/data_wrapper.dart';
 import 'package:flutter_architecture/data/models/movie.dart';
 import 'package:flutter_architecture/presentation/movie/list/viewmodel/movie_list_viewmodel.dart';
 import 'package:flutter_architecture/presentation/movie/list/widget/movie_list.dart';
@@ -60,12 +61,16 @@ class _MovieListScreenState extends State<MovieListScreen> {
                 ),
               ),
               Expanded(
-                  child:  StreamBuilder(
+                  child:  StreamBuilder<DataWrapper<List<Movie>>>(
                     stream: viewModel.moviesStream,
-                    initialData: <Movie>[],
-                    builder: (BuildContext context, AsyncSnapshot<List<Movie>> snapshot) {
-                      if (snapshot.hasData) return MovieList(movies: snapshot.data ?? []);
-                      if (snapshot.hasError) return Center(child: Text('${snapshot.error}'));
+                    builder: (BuildContext context, AsyncSnapshot<DataWrapper<List<Movie>>> snapshot) {
+                      final state = snapshot.data?.state ?? DataWrapper.loading();
+                      if (snapshot.hasData) {
+                        if (state is StateLoading) return Center(child: CircularProgressIndicator());
+                        if (state is StateData) return MovieList(movies: state.data ?? []);
+                        if (state is StateEmpty) return Center(child: Text('Aucun element'));
+                        if (state is StateError) return Center(child: Text('${state.error}'));
+                      }
                       return Center(child: CircularProgressIndicator());
                     },
                   ))
