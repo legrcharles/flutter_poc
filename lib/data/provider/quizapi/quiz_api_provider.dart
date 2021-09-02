@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter_architecture/data/models/question.dart';
 import 'package:flutter_architecture/data/provider/quizapi/mapper/question_mapper.dart';
 import 'dto/question_dto.dart';
@@ -17,10 +18,12 @@ class QuizApiProvider extends QuizApiProviderInterface {
   Future<List<Question>> getQuestions({required int numQuestions, required int categoryId}) async {
     final queryParameters = {
       "type": "multiple",
-      "amount": numQuestions,
-      "category": categoryId
+      "amount": numQuestions.toString(),
+      "category": categoryId.toString()
     };
-    final uri = Uri.https(endpoint, "api.php", queryParameters);
+
+    final uri = Uri.https(endpoint, "/api.php", queryParameters);
+    log(uri.toString());
     final response = await _httpClient.get(uri);
 
     if (response.statusCode != 200) throw http.ClientException('Failed to load quiz with params $queryParameters');

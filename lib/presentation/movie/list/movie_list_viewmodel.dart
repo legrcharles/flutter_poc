@@ -7,26 +7,25 @@ import 'package:flutter_architecture/data/models/movie.dart';
 class MovieListViewModel  {
   final DataManager _dataManager;
   final StreamController<DataWrapper<List<Movie>>> _moviesStreamController = StreamController();
+  Stream<DataWrapper<List<Movie>>> get moviesStream => _moviesStreamController.stream;
 
   MovieListViewModel(this._dataManager) {
-    _moviesStreamController.sink.add(DataWrapper.empty());
+    _moviesStreamController.sink.add(DataWrapper.initial());
   }
 
   void dispose() {
     _moviesStreamController.close();
   }
 
-  Future<void> fetchMovies(String keyword) async {
-    _moviesStreamController.sink.add(DataWrapper.empty());
+  void loadMovies(String keyword) async {
+    _moviesStreamController.sink.add(DataWrapper.loading());
     try {
       final results = await _dataManager.getMovies(query: keyword);
+      final movies = results.toList();
 
-      _moviesStreamController.sink.add(DataWrapper.data(results.toList()));
+      _moviesStreamController.sink.add(movies.isEmpty ? DataWrapper.empty() : DataWrapper.data(movies));
     } catch(error) {
       _moviesStreamController.sink.add(DataWrapper.error(error));
     }
   }
-
-  Stream<DataWrapper<List<Movie>>> get moviesStream => _moviesStreamController.stream;
-
 }

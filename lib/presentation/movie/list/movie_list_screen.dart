@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_architecture/app_module.dart';
 import 'package:flutter_architecture/core/data_wrapper.dart';
 import 'package:flutter_architecture/data/models/movie.dart';
-import 'package:flutter_architecture/presentation/movie/list/viewmodel/movie_list_viewmodel.dart';
-import 'package:flutter_architecture/presentation/movie/list/widget/movie_list.dart';
+import 'package:flutter_architecture/presentation/movie/list/movie_list_viewmodel.dart';
+import 'package:flutter_architecture/presentation/movie/list/widgets/movie_list.dart';
 
 class MovieListScreen extends StatefulWidget {
   @override
@@ -14,11 +14,6 @@ class _MovieListScreenState extends State<MovieListScreen> {
 
   final TextEditingController _controller = TextEditingController();
   final viewModel = MovieListViewModel(dataManager);
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -47,7 +42,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
                   controller: _controller,
                   onSubmitted: (value) {
                     if(value.isNotEmpty) {
-                      viewModel.fetchMovies(value);
+                      viewModel.loadMovies(value);
                       _controller.clear();
                     }
                   },
@@ -61,11 +56,12 @@ class _MovieListScreenState extends State<MovieListScreen> {
                 ),
               ),
               Expanded(
-                  child:  StreamBuilder<DataWrapper<List<Movie>>>(
+                  child: StreamBuilder<DataWrapper<List<Movie>>>(
                     stream: viewModel.moviesStream,
                     builder: (BuildContext context, AsyncSnapshot<DataWrapper<List<Movie>>> snapshot) {
-                      final state = snapshot.data?.state ?? DataWrapper.loading();
+                      final state = snapshot.data?.state ?? DataWrapper.initial();
                       if (snapshot.hasData) {
+                        if (state is StateInitial) return Container();
                         if (state is StateLoading) return Center(child: CircularProgressIndicator());
                         if (state is StateData) return MovieList(movies: state.data ?? []);
                         if (state is StateEmpty) return Center(child: Text('Aucun element'));
@@ -73,7 +69,8 @@ class _MovieListScreenState extends State<MovieListScreen> {
                       }
                       return Center(child: CircularProgressIndicator());
                     },
-                  ))
+                  )
+              )
             ])
         )
 

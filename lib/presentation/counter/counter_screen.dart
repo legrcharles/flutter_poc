@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture/presentation/counter/viewmodel/counter_viewmodel.dart';
+import 'package:flutter_architecture/presentation/counter/counter_viewmodel.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class CounterScreen extends StatefulHookWidget {

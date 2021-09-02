@@ -1,6 +1,8 @@
 class DataWrapper<T> {
   DataWrapperState state;
 
+  DataWrapper.initial() : state = StateInitial();
+
   DataWrapper.loading() : state = StateLoading();
 
   DataWrapper.empty() : state = StateEmpty();
@@ -12,6 +14,7 @@ class DataWrapper<T> {
 
 abstract class DataWrapperState {}
 
+class StateInitial extends DataWrapperState {}
 class StateLoading extends DataWrapperState {}
 class StateEmpty extends DataWrapperState {}
 class StateData<T> extends DataWrapperState {

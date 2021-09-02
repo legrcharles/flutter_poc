@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture/presentation/counter/screen/counter_screen.dart';
-import 'package:flutter_architecture/presentation/home/screen/home_screen.dart';
-import 'package:flutter_architecture/presentation/movie/list/screen/movie_list_screen.dart';
-import 'package:flutter_architecture/presentation/quiz/screen/quiz_screen.dart';
+import 'package:flutter_architecture/presentation/counter/counter_screen.dart';
+import 'package:flutter_architecture/presentation/home/home_screen.dart';
+import 'package:flutter_architecture/presentation/movie/list/movie_list_screen.dart';
+import 'package:flutter_architecture/presentation/quiz/question/quiz_question_screen.dart';
 import 'package:collection/collection.dart';
 
 enum Routes {
@@ -41,7 +41,7 @@ class RouteGenerator {
         return CupertinoPageRoute(builder: (context) => HomeScreen());
 
       case Routes.quiz:
-        return CupertinoPageRoute(builder: (context) => QuizScreen());
+        return CupertinoPageRoute(builder: (context) => QuizQuestionScreen());
 
       case Routes.counter:
         return CupertinoPageRoute(builder: (context) => CounterScreen(title: "My Counter", initialValue: int.parse(settings.arguments.toString())));

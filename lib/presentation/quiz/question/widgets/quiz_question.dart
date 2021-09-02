@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_architecture/app_route.dart';
 import 'package:flutter_architecture/data/models/question.dart';
-import 'package:flutter_architecture/presentation/quiz/viewmodel/quiz_state.dart';
-import 'package:flutter_architecture/presentation/quiz/viewmodel/quiz_viewmodel.dart';
+import 'package:flutter_architecture/presentation/common/widgets/custom_button.dart';
+import 'package:flutter_architecture/presentation/quiz/question/quiz_question_viewmodel.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:html_character_entities/html_character_entities.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,13 +11,13 @@ import 'answer_card.dart';
 
 class QuizQuestions extends StatelessWidget {
   final PageController pageController;
-  final QuizState state;
   final List<Question> questions;
+  final QuizQuestionViewModel viewModel;
 
   const QuizQuestions({
     required this.pageController,
-    required this.state,
     required this.questions,
+    required this.viewModel,
   }) : super();
 
   @override
@@ -91,19 +92,38 @@ class QuizQuestions extends StatelessWidget {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2, childAspectRatio: 1.4),
                   itemBuilder: (BuildContext context, int index) {
+
                     final answer = question.answers[index];
-                    return AnswerCard(
-                      answer:answer,
-                      isSelected: answer == state.selectedAnswer,
-                      isCorrect : answer == question.correctAnswer,
-                      isDisplayingAnswer : state.answered,
-                      onTap : () => context
-                          .read(quizViewModelProvider.notifier)
-                          .submitAnswer(question, answer)
+
+                    return StreamBuilder<String?>(
+                      stream: viewModel.selectedAnswerStream,
+                      builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
+                        return AnswerCard(
+                            answer: answer,
+                            isSelected: answer == snapshot.data,
+                            isCorrect : answer == question.correctAnswer,
+                            isDisplayingAnswer : snapshot.hasData,
+                            onTap : () => viewModel.submitAnswer(question, answer)
+                        );
+                      },
                     );
                   },
-                ))
-
+                )),
+                StreamBuilder<String?>(
+                  stream: viewModel.selectedAnswerStream,
+                  builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
+                    if (snapshot.hasData) {
+                      var currentIndex = pageController.page?.toInt() ?? 0;
+                      return Center(
+                          child: CustomButton(title: currentIndex + 1 < questions.length ? 'Next Question' : 'See results',
+                          onTap: () {
+                            viewModel.nextQuestion(context);
+                          })
+                      );
+                    }
+                    return SizedBox.shrink();
+                  },
+                )
               ],
             ),
           );

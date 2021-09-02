@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture/presentation/common/widgets/custom_button.dart';
-import 'package:flutter_architecture/presentation/quiz/viewmodel/quiz_state.dart';
-import 'package:flutter_architecture/presentation/quiz/viewmodel/quiz_viewmodel.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class QuizResults extends StatelessWidget {
-  final QuizState state;
+  final int nbCorrect;
   final int nbQuestions;
 
   const QuizResults({
-    required this.state,
+    required this.nbCorrect,
     required this.nbQuestions,
-  }) : super();
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +17,7 @@ class QuizResults extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          '${state.nbCorrect} / $nbQuestions',
+          '$nbCorrect / $nbQuestions',
           style: const TextStyle(
             color: Colors.white,
             fontSize: 60.0,
@@ -41,8 +38,8 @@ class QuizResults extends StatelessWidget {
         CustomButton(
           title: 'New Quiz',
           onTap: () {
-            context.refresh(questionsProvider);
-            context.read(quizViewModelProvider.notifier).reset();
+            //context.refresh(questionsProvider);
+            //context.read(quizViewModelProvider.notifier).reset();
           },
         ),
       ],
