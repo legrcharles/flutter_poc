@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture/presentation/counter/counter_screen.dart';
+import 'package:flutter_architecture/presentation/form/form_screen.dart';
 import 'package:flutter_architecture/presentation/home/home_screen.dart';
 import 'package:flutter_architecture/presentation/movie/list/movie_list_screen.dart';
 import 'package:flutter_architecture/presentation/quiz/question/quiz_question_screen.dart';
@@ -10,7 +11,8 @@ enum Routes {
   home,
   quiz,
   counter,
-  movieList
+  movieList,
+  form
 }
 
 extension RoutesExtension on Routes {
@@ -27,6 +29,9 @@ extension RoutesExtension on Routes {
 
       case Routes.movieList:
         return "/movies";
+
+      case Routes.form:
+        return "/form";
     }
   }
 }
@@ -48,6 +53,9 @@ class RouteGenerator {
 
       case Routes.movieList:
         return CupertinoPageRoute(builder: (context) => MovieListScreen());
+
+      case Routes.form:
+        return CupertinoPageRoute(builder: (context) => FormScreen());
         /*
       case Routes.quiz:
         return PageRouteBuilder(

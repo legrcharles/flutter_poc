@@ -112,11 +112,17 @@ class QuizQuestions extends StatelessWidget {
                   builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
                     if (snapshot.hasData) {
                       var currentIndex = pageController.page?.toInt() ?? 0;
-                      return Center(
-                          child: CustomButton(title: currentIndex + 1 < questions.length ? 'Next Question' : 'See results',
-                          onTap: () {
-                            viewModel.nextQuestion(context);
-                          })
+                      return Container(
+                          margin: const EdgeInsets.all(20.0),
+                          height: 50.0,
+                          width: double.infinity,
+                          alignment: Alignment.center,
+                          child: CustomButton(
+                              title: currentIndex + 1 < questions.length ? 'Next Question' : 'See results',
+                              onTap: () {
+                                viewModel.nextQuestion(context);
+                              }
+                          )
                       );
                     }
                     return SizedBox.shrink();

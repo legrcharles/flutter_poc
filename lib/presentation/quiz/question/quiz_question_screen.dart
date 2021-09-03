@@ -11,13 +11,15 @@ class QuizQuestionScreen extends StatefulWidget {
   _QuizQuestionScreenState createState() => _QuizQuestionScreenState();
 }
 
-class _QuizQuestionScreenState extends State<QuizQuestionScreen> {
+class _QuizQuestionScreenState extends State<QuizQuestionScreen> with WidgetsBindingObserver {
   final _viewModel = QuizQuestionViewModel(dataManager);
   final _pageController = PageController();
 
   _QuizQuestionScreenState() {
     _viewModel.currentIndexStream.listen((event) {
-      _pageController.animateToPage(event, duration: const Duration(microseconds: 250), curve: Curves.linear);
+      if (_pageController.hasClients) {
+        _pageController.animateToPage(event, duration: const Duration(microseconds: 250), curve: Curves.linear);
+      }
     });
   }
 
@@ -25,13 +27,21 @@ class _QuizQuestionScreenState extends State<QuizQuestionScreen> {
   void dispose() {
     _viewModel.dispose();
     _pageController.dispose();
+    WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance?.addObserver(this);
     _viewModel.loadQuestions();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    print('AppLifecycleState: $state');
   }
 
   @override
