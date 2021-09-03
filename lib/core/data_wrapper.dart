@@ -7,9 +7,11 @@ class DataWrapper<T> {
 
   DataWrapper.empty() : state = StateEmpty();
 
-  DataWrapper.data(T data) : state = StateData(data);
+  DataWrapper.data(T data)
+      : state = StateData(data);
 
-  DataWrapper.error(Object error) : state = StateError(error);
+  DataWrapper.error(Object error)
+      : state = StateError(error);
 }
 
 abstract class DataWrapperState {}

@@ -5,15 +5,33 @@ import 'package:flutter_architecture/data/models/question.dart';
 import 'package:flutter_architecture/presentation/quiz/question/quiz_question_viewmodel.dart';
 import 'package:flutter_architecture/presentation/quiz/question/widgets/quiz_question.dart';
 
-class QuizQuestionScreen extends StatelessWidget {
+class QuizQuestionScreen extends StatefulWidget {
 
-  final viewModel = QuizQuestionViewModel(dataManager);
-  final pageController = PageController();
+  @override
+  _QuizQuestionScreenState createState() => _QuizQuestionScreenState();
+}
 
-  QuizQuestionScreen() {
-    viewModel.currentIndexStream.listen((event) {
-      pageController.animateToPage(event, duration: const Duration(microseconds: 250), curve: Curves.linear);
+class _QuizQuestionScreenState extends State<QuizQuestionScreen> {
+  final _viewModel = QuizQuestionViewModel(dataManager);
+  final _pageController = PageController();
+
+  _QuizQuestionScreenState() {
+    _viewModel.currentIndexStream.listen((event) {
+      _pageController.animateToPage(event, duration: const Duration(microseconds: 250), curve: Curves.linear);
     });
+  }
+
+  @override
+  void dispose() {
+    _viewModel.dispose();
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _viewModel.loadQuestions();
   }
 
   @override
@@ -28,41 +46,20 @@ class QuizQuestionScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.transparent,
         body: StreamBuilder<DataWrapper<List<Question>>>(
-          stream: viewModel.questionsStream,
+          stream: _viewModel.questionsStream,
           builder: (BuildContext context, AsyncSnapshot<DataWrapper<List<Question>>> snapshot) {
             final state = snapshot.data?.state ?? DataWrapper.initial();
             if (snapshot.hasData) {
               if (state is StateInitial) return Container();
               if (state is StateLoading) return Center(child: CircularProgressIndicator());
-              if (state is StateData) return QuizQuestions(pageController: pageController, questions: state.data, viewModel: viewModel);
+              if (state is StateData) return QuizQuestions(pageController: _pageController, questions: state.data, viewModel: _viewModel);
               if (state is StateEmpty) return Center(child: Text('Aucune questions'));
               if (state is StateError) return Center(child: Text('${state.error}'));
             }
             return Center(child: CircularProgressIndicator());
           },
         ),
-        /*
-        bottomSheet: questionsFuture.maybeWhen(
-            data: (questions) {
-              if (!viewModelState.answered) return SizedBox.shrink();
-              var currentIndex = pageController.page?.toInt() ?? 0;
-              return CustomButton(
-                  title: currentIndex + 1 < questions.length ? 'Next Question' : 'See results',
-                  onTap: () {
-                    context
-                        .read(quizViewModelProvider.notifier)
-                        .nextQuestion(questions, currentIndex);
-                    if (currentIndex + 1 < questions.length) {
-                      pageController.nextPage(
-                          duration: const Duration(microseconds: 250), curve: Curves.linear);
-                    }
-                  });
-            },
-            orElse: () => SizedBox.shrink()),
-
-         */
       ),
     );
   }
-
 }

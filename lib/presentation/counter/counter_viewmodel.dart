@@ -1,21 +1,28 @@
 import 'dart:async';
 
+import 'package:rxdart/rxdart.dart';
+
 class CounterViewModel {
-  final StreamController<int> _counterStreamController = StreamController<int>();
-  int _counter = 0;
+
+  // Subjects
+
+  BehaviorSubject<int> _counterSubject;
+  Stream<int> get counterStream => _counterSubject.stream;
+
+  // Init
+
+  CounterViewModel({int initialCount = 0})
+      : _counterSubject = BehaviorSubject<int>.seeded(initialCount);
+
+  // Dispose
 
   void dispose() {
-    _counterStreamController.close();
+    _counterSubject.close();
   }
 
-  Stream<int> get steamCounter => _counterStreamController.stream;
-
-  void initCounter(int counter) {
-    _counter = counter;
-    _counterStreamController.sink.add(_counter);
-  }
+  // Events
 
   void onIncrementButtonTapped() {
-    _counterStreamController.sink.add(++_counter);
+    _counterSubject.sink.add(_counterSubject.value + 1);
   }
 }

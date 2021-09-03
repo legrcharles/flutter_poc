@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture/app_route.dart';
 import 'package:flutter_architecture/data/models/question.dart';
 import 'package:flutter_architecture/presentation/common/widgets/custom_button.dart';
 import 'package:flutter_architecture/presentation/quiz/question/quiz_question_viewmodel.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:html_character_entities/html_character_entities.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'answer_card.dart';
 
@@ -68,7 +66,7 @@ class QuizQuestions extends StatelessWidget {
                 ),
                 Padding(padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
                   child: LinearProgressIndicator(
-                    value: index / questions.length,
+                    value: (index + 1) / questions.length,
                     valueColor: AlwaysStoppedAnimation<Color>(Color(0xffE6812F)),
                     backgroundColor: Colors.white,
                   ),

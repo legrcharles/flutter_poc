@@ -2,9 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture/app_route.dart';
 import 'package:flutter_architecture/presentation/home/widgets/home_item.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
-class HomeScreen extends HookWidget {
+class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +13,15 @@ class HomeScreen extends HookWidget {
       ),
       body: ListView(
         children: [
-          HomeItem(Routes.quiz, "Quiz", Icons.question_answer),
-          HomeItem(Routes.counter, "Counter", Icons.looks_one),
-          HomeItem(Routes.movieList, "Movie List", Icons.movie_creation_outlined)
+          HomeItem("Quiz", Icons.question_answer, () => {
+            Navigator.pushNamed(context, Routes.quiz.path)
+          }),
+          HomeItem("Counter", Icons.looks_one, () => {
+            Navigator.pushNamed(context, Routes.counter.path, arguments: 6)
+          }),
+          HomeItem("Movie List", Icons.movie_creation_outlined, () => {
+            Navigator.pushNamed(context, Routes.movieList.path)
+          })
         ],
       ),
     );

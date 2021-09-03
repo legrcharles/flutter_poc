@@ -4,16 +4,16 @@ import 'package:google_fonts/google_fonts.dart';
 
 class HomeItem extends StatelessWidget {
 
-  final Routes _routes;
   final String _name;
   final IconData _icon;
+  final VoidCallback _onTap;
 
-  HomeItem(this._routes, this._name, this._icon);
+  HomeItem(this._name, this._icon, this._onTap);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => {Navigator.pushNamed(context, _routes.path)},
+      onTap: _onTap,
       child: Card(
         elevation: 4,
         child: ListTile(

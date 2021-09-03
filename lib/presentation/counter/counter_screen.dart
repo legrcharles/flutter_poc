@@ -1,30 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture/presentation/counter/counter_viewmodel.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
-class CounterScreen extends StatefulHookWidget {
-  CounterScreen({Key? key, required this.title, required this.initialValue}) : super(key: key);
-
+class CounterScreen extends StatefulWidget {
   final String title;
   final int initialValue;
 
+  CounterScreen({Key? key, required this.title, this.initialValue = 0}) : super(key: key);
+
   @override
-  _CounterScreenState createState() => _CounterScreenState(initialValue);
+  _CounterScreenState createState() => _CounterScreenState(initialValue: initialValue);
 }
 
 class _CounterScreenState extends State<CounterScreen> {
 
-  final _viewModel = CounterViewModel();
-  int _initialValue = 0;
+  final CounterViewModel _viewModel;
 
-  _CounterScreenState(this._initialValue): super();
-
-  @override
-  void initState() {
-    super.initState();
-    _viewModel.initCounter(_initialValue);
-  }
+  _CounterScreenState({int initialValue = 0}):
+    _viewModel = CounterViewModel(initialCount: initialValue);
 
   @override
   void dispose() {
@@ -46,7 +39,7 @@ class _CounterScreenState extends State<CounterScreen> {
               'You have pushed the button this many times:',
             ),
             StreamBuilder(
-                stream: _viewModel.steamCounter,
+                stream: _viewModel.counterStream,
                 builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
                   return Text('${snapshot.data}',
                     style: Theme.of(context).textTheme.headline4,

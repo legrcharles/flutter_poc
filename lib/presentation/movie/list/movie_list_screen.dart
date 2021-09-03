@@ -13,11 +13,12 @@ class MovieListScreen extends StatefulWidget {
 class _MovieListScreenState extends State<MovieListScreen> {
 
   final TextEditingController _controller = TextEditingController();
-  final viewModel = MovieListViewModel(dataManager);
+  final _viewModel = MovieListViewModel(dataManager);
 
   @override
   void dispose() {
-    viewModel.dispose();
+    _viewModel.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -42,7 +43,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
                   controller: _controller,
                   onSubmitted: (value) {
                     if(value.isNotEmpty) {
-                      viewModel.loadMovies(value);
+                      _viewModel.loadMovies(value);
                       _controller.clear();
                     }
                   },
@@ -57,7 +58,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
               ),
               Expanded(
                   child: StreamBuilder<DataWrapper<List<Movie>>>(
-                    stream: viewModel.moviesStream,
+                    stream: _viewModel.moviesStream,
                     builder: (BuildContext context, AsyncSnapshot<DataWrapper<List<Movie>>> snapshot) {
                       final state = snapshot.data?.state ?? DataWrapper.initial();
                       if (snapshot.hasData) {

@@ -5,51 +5,55 @@ import 'package:flutter_architecture/core/data_wrapper.dart';
 import 'package:flutter_architecture/data/datamanager/datamanager.dart';
 import 'package:flutter_architecture/data/datamanager/quiz_datamanager.dart';
 import 'package:flutter_architecture/data/models/question.dart';
+import 'package:rxdart/rxdart.dart';
 
 class QuizQuestionViewModel {
+
+  // Dependencies
+
   final DataManager _dataManager;
   int _nbCorrectAnswers = 0;
-  List<Question> _questions = [];
-  String? _selectedAnswer;
-  int _currentIndex = 0;
 
-  final StreamController<DataWrapper<List<Question>>> _questionsStreamController = StreamController();
-  Stream<DataWrapper<List<Question>>> get questionsStream => _questionsStreamController.stream;
+  // Subjects
 
-  final StreamController<int> _currentIndexStreamController = StreamController.broadcast();
-  Stream<int> get currentIndexStream => _currentIndexStreamController.stream;
+  final BehaviorSubject<DataWrapper<List<Question>>> _questionsSubject = BehaviorSubject.seeded(DataWrapper.initial());
+  Stream<DataWrapper<List<Question>>> get questionsStream => _questionsSubject.stream;
 
-  final StreamController<String?> _selectedAnswerStreamController = StreamController.broadcast();
-  Stream<String?> get selectedAnswerStream => _selectedAnswerStreamController.stream;
+  final BehaviorSubject<int> _currentIndexSubject = BehaviorSubject.seeded(0);
+  Stream<int> get currentIndexStream => _currentIndexSubject.stream;
 
-  QuizQuestionViewModel(this._dataManager) {
-    _questionsStreamController.sink.add(DataWrapper.initial());
-//    _currentIndexStreamController.sink.add(0);
-    loadQuestions();
-  }
+  final BehaviorSubject<String?> _selectedAnswerSubject = BehaviorSubject.seeded(null);
+  Stream<String?> get selectedAnswerStream => _selectedAnswerSubject.stream;
+
+  // Init
+
+  QuizQuestionViewModel(this._dataManager);
+
+  // Dispose
 
   void dispose() {
-    _questionsStreamController.close();
-    _currentIndexStreamController.close();
-    _selectedAnswerStreamController.close();
+    _questionsSubject.close();
+    _currentIndexSubject.close();
+    _selectedAnswerSubject.close();
   }
 
+  // Events
+
   void loadQuestions() async {
-    _questionsStreamController.sink.add(DataWrapper.loading());
+    _questionsSubject.sink.add(DataWrapper.loading());
     try {
       final results = await _dataManager.getQuestions();
-      _questions = results.toList();
-      _questionsStreamController.sink.add(_questions.isEmpty ? DataWrapper.empty() : DataWrapper.data(_questions));
-    } catch(error) {
-      _questionsStreamController.sink.add(DataWrapper.error(error));
+      final questions = results.toList();
+      _questionsSubject.sink.add(questions.isEmpty ? DataWrapper.empty() : DataWrapper.data(questions));
+    } catch (error) {
+      _questionsSubject.sink.add(DataWrapper.error(error));
     }
   }
 
   void submitAnswer(Question currentQuestion, String answer) {
     if (_selectedAnswer != null) return;
 
-    _selectedAnswer = answer;
-    _selectedAnswerStreamController.sink.add(answer);
+    _selectedAnswerSubject.sink.add(answer);
 
     if (currentQuestion.correctAnswer == answer) {
       _nbCorrectAnswers = _nbCorrectAnswers + 1;
@@ -60,39 +64,23 @@ class QuizQuestionViewModel {
     if (_currentIndex == _questions.length - 1) {
       Navigator.pushNamed(context, Routes.counter.path, arguments: 17);
     } else {
-      _currentIndex = _currentIndex + 1;
-      _selectedAnswer = null;
-      _selectedAnswerStreamController.sink.add(null);
-      _currentIndexStreamController.sink.add(_currentIndex);
+      _selectedAnswerSubject.sink.add(null);
+      _currentIndexSubject.sink.add(_currentIndex + 1);
     }
   }
 
-  /*
-  void submitAnswer(Question currentQuestion, String answer) {
-    if (state.answered) return;
-    if (currentQuestion.correctAnswer == answer) {
-      state = state.copyWith(
-        selectedAnswer: answer,
-        correct: state.nbCorrect + 1,
-        status: QuizStatus.correct,
-      );
-    } else {
-      state = state.copyWith(
-        selectedAnswer: answer,
-        status: QuizStatus.incorrect,
-      );
+  // Privates
+
+  List<Question> get _questions {
+    final DataWrapperState state = _questionsSubject.value.state;
+    if (state is StateData) {
+      return state.data;
     }
+
+    return <Question>[];
   }
 
-  void nextQuestion(List<Question> questions, int currentIndex) {
-    state = state.copyWith(
-      selectedAnswer: '',
-      status:  currentIndex + 1 < questions.length ? QuizStatus.initial : QuizStatus.complete
-    );
-  }
+  int get _currentIndex => _currentIndexSubject.value;
 
-  void reset() {
-    state = QuizState.initial();
-  }
-   */
+  String? get _selectedAnswer => _selectedAnswerSubject.value;
 }
