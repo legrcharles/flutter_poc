@@ -1,11 +1,15 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_architecture/app_module.dart';
 import 'package:flutter_architecture/app_route.dart';
 import 'package:flutter_architecture/core/data_wrapper.dart';
 import 'package:flutter_architecture/data/datamanager/datamanager.dart';
 import 'package:flutter_architecture/data/datamanager/quiz_datamanager.dart';
 import 'package:flutter_architecture/data/models/question.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
+
+final quizQuestionViewModelProvider = Provider((ref) => QuizQuestionViewModel(ref.read(dataManager)));
 
 class QuizQuestionViewModel {
 

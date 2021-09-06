@@ -1,9 +1,13 @@
 import 'dart:async';
+import 'package:flutter_architecture/app_module.dart';
 import 'package:flutter_architecture/core/data_wrapper.dart';
 import 'package:flutter_architecture/data/datamanager/datamanager.dart';
 import 'package:flutter_architecture/data/datamanager/movie_datamanager.dart';
 import 'package:flutter_architecture/data/models/movie.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
+
+final movieQuestionViewModelProvider = Provider((ref) => MovieListViewModel(ref.read(dataManager)));
 
 class MovieListViewModel  {
 

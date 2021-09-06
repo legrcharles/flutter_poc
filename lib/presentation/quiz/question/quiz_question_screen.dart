@@ -4,23 +4,33 @@ import 'package:flutter_architecture/core/data_wrapper.dart';
 import 'package:flutter_architecture/data/models/question.dart';
 import 'package:flutter_architecture/presentation/quiz/question/quiz_question_viewmodel.dart';
 import 'package:flutter_architecture/presentation/quiz/question/widgets/quiz_question.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class QuizQuestionScreen extends StatefulWidget {
+class QuizQuestionScreen extends ConsumerStatefulWidget {
 
   @override
   _QuizQuestionScreenState createState() => _QuizQuestionScreenState();
 }
 
-class _QuizQuestionScreenState extends State<QuizQuestionScreen> with WidgetsBindingObserver {
-  final _viewModel = QuizQuestionViewModel(dataManager);
+class _QuizQuestionScreenState extends ConsumerState<QuizQuestionScreen> with WidgetsBindingObserver {
+
+  late final QuizQuestionViewModel _viewModel;
   final _pageController = PageController();
 
-  _QuizQuestionScreenState() {
+  @override
+  void initState() {
+    super.initState();
+
+    this._viewModel = ref.read(quizQuestionViewModelProvider);
+
     _viewModel.currentIndexStream.listen((event) {
       if (_pageController.hasClients) {
         _pageController.animateToPage(event, duration: const Duration(microseconds: 250), curve: Curves.linear);
       }
     });
+
+    WidgetsBinding.instance?.addObserver(this);
+    _viewModel.loadQuestions();
   }
 
   @override
@@ -29,13 +39,6 @@ class _QuizQuestionScreenState extends State<QuizQuestionScreen> with WidgetsBin
     _pageController.dispose();
     WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance?.addObserver(this);
-    _viewModel.loadQuestions();
   }
 
   @override

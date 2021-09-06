@@ -11,8 +11,10 @@ abstract class QuizApiProviderInterface {
 }
 
 class QuizApiProvider extends QuizApiProviderInterface {
-  String endpoint = "opentdb.com";
-  final _httpClient = http.Client();
+  final String _endpoint;
+  final http.Client _httpClient;
+
+  QuizApiProvider(this._endpoint, this._httpClient);
 
   @override
   Future<List<Question>> getQuestions({required int numQuestions, required int categoryId}) async {
@@ -22,7 +24,7 @@ class QuizApiProvider extends QuizApiProviderInterface {
       "category": categoryId.toString()
     };
 
-    final uri = Uri.https(endpoint, "/api.php", queryParameters);
+    final uri = Uri.https(_endpoint, "/api.php", queryParameters);
     log(uri.toString());
     final response = await _httpClient.get(uri);
 

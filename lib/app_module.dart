@@ -1,9 +1,22 @@
 import 'package:flutter_architecture/data/datamanager/datamanager.dart';
+import 'package:flutter_architecture/data/provider/firebaseauth/firebase_auth_provider.dart';
 import 'package:flutter_architecture/data/provider/movieapi/movie_api_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'data/provider/quizapi/quiz_api_provider.dart';
+import 'package:http/http.dart' as http;
 
-final _quizApiProvider = QuizApiProvider();
+final _httpClient = Provider((ref) => http.Client());
 
-final _movieApiProvider = MovieApiProvider();
+final _quizEndpoint = Provider((ref) => 'opentdb.com');
+final _quizApiProvider = Provider((ref) => QuizApiProvider(ref.read(_quizEndpoint), ref.read(_httpClient)));
 
-final dataManager = DataManager(_quizApiProvider, _movieApiProvider);
+final _movieEndpoint = Provider((ref) => 'www.omdbapi.com');
+final _movieApiProvider = Provider((ref) => MovieApiProvider(ref.read(_movieEndpoint), ref.read(_httpClient)));
+
+final _authProvider = Provider((ref) => FirebaseAuthProvider());
+
+final dataManager = Provider((ref) => DataManager(
+  ref.read(_quizApiProvider),
+  ref.read(_movieApiProvider),
+  ref.read(_authProvider)
+));

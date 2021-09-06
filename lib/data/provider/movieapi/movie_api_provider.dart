@@ -10,8 +10,10 @@ abstract class MovieApiProviderInterface {
 }
 
 class MovieApiProvider extends MovieApiProviderInterface {
-  String endpoint = "www.omdbapi.com";
-  final _httpClient = http.Client();
+  final String _endpoint;
+  final http.Client _httpClient;
+
+  MovieApiProvider(this._endpoint, this._httpClient);
 
   @override
   Future<List<Movie>> getMovies({required String query}) async {
@@ -19,7 +21,7 @@ class MovieApiProvider extends MovieApiProviderInterface {
       "apikey": "f9bed01b",
       "s": query
     };
-    final uri = Uri.http(endpoint, "", queryParameters);
+    final uri = Uri.http(_endpoint, "", queryParameters);
     final response = await _httpClient.get(uri);
 
     if (response.statusCode != 200) throw http.ClientException('Failed to load movies with query $query');

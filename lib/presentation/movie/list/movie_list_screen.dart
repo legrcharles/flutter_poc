@@ -4,16 +4,23 @@ import 'package:flutter_architecture/core/data_wrapper.dart';
 import 'package:flutter_architecture/data/models/movie.dart';
 import 'package:flutter_architecture/presentation/movie/list/movie_list_viewmodel.dart';
 import 'package:flutter_architecture/presentation/movie/list/widgets/movie_list.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MovieListScreen extends StatefulWidget {
+class MovieListScreen extends ConsumerStatefulWidget {
   @override
   _MovieListScreenState createState() => _MovieListScreenState();
 }
 
-class _MovieListScreenState extends State<MovieListScreen> {
+class _MovieListScreenState extends ConsumerState<MovieListScreen> {
 
+  late final MovieListViewModel _viewModel;
   final TextEditingController _controller = TextEditingController();
-  final _viewModel = MovieListViewModel(dataManager);
+
+  @override
+  void initState() {
+    super.initState();
+    _viewModel = ref.read(movieQuestionViewModelProvider);
+  }
 
   @override
   void dispose() {
@@ -61,6 +68,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
                     stream: _viewModel.moviesStream,
                     builder: (BuildContext context, AsyncSnapshot<DataWrapper<List<Movie>>> snapshot) {
                       final state = snapshot.data?.state ?? DataWrapper.initial();
+
                       if (snapshot.hasData) {
                         if (state is StateInitial) return Container();
                         if (state is StateLoading) return Center(child: CircularProgressIndicator());
