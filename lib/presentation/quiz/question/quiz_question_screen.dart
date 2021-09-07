@@ -21,16 +21,20 @@ class _QuizQuestionScreenState extends ConsumerState<QuizQuestionScreen> with Wi
   void initState() {
     super.initState();
 
-    this._viewModel = ref.read(quizQuestionViewModelProvider);
+    this._viewModel = QuizQuestionViewModel(ref.read(dataManager), Navigator.of(context));
 
+    _observeViewData();
+
+    WidgetsBinding.instance?.addObserver(this);
+    _viewModel.loadQuestions();
+  }
+
+  void _observeViewData() {
     _viewModel.currentIndexStream.listen((event) {
       if (_pageController.hasClients) {
         _pageController.animateToPage(event, duration: const Duration(microseconds: 250), curve: Curves.linear);
       }
     });
-
-    WidgetsBinding.instance?.addObserver(this);
-    _viewModel.loadQuestions();
   }
 
   @override
@@ -58,12 +62,11 @@ class _QuizQuestionScreenState extends ConsumerState<QuizQuestionScreen> with Wi
           title: Text("My App"),
         ),
         backgroundColor: Colors.transparent,
-        body: StreamBuilder<DataWrapper<List<Question>>>(
+        body: StreamBuilder<DataWrapper<List<Question>>?>(
           stream: _viewModel.questionsStream,
-          builder: (BuildContext context, AsyncSnapshot<DataWrapper<List<Question>>> snapshot) {
-            final state = snapshot.data?.state ?? DataWrapper.initial();
-            if (snapshot.hasData) {
-              if (state is StateInitial) return Container();
+          builder: (BuildContext context, AsyncSnapshot<DataWrapper<List<Question>>?> snapshot) {
+            final state = snapshot.data?.state;
+            if (state != null) {
               if (state is StateLoading) return Center(child: CircularProgressIndicator());
               if (state is StateData) return QuizQuestions(pageController: _pageController, questions: state.data, viewModel: _viewModel);
               if (state is StateEmpty) return Center(child: Text('Aucune questions'));

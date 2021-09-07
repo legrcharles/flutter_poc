@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture/app_module.dart';
 import 'package:flutter_architecture/app_route.dart';
+import 'package:flutter_architecture/core/data_wrapper.dart';
 import 'package:flutter_architecture/presentation/common/constants.dart';
 import 'package:flutter_architecture/presentation/common/widgets/loading.dart';
 import 'package:flutter_architecture/presentation/signin/signin_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 
 class SignInScreen extends ConsumerStatefulWidget {
@@ -26,7 +28,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
   void initState() {
     super.initState();
 
-    this._viewModel = SignInViewModel(ref.read(dataManager));
+    this._viewModel = SignInViewModel(ref.read(dataManager), Navigator.of(context));
 
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
@@ -56,9 +58,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return loading
-        ? Loading()
-        : Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Sign in'),
@@ -74,54 +74,77 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
           ),
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _emailController,
-                decoration: textInputDecoration.copyWith(hintText: 'email'),
-                validator: (value) =>
-                value == null || value.isEmpty ? "Enter an email" : null,
-                onChanged: (value) {
-                  _viewModel.setEmail(value);
-                },
-              ),
-              SizedBox(height: 10.0),
-              TextFormField(
-                controller: _passwordController,
-                decoration: textInputDecoration.copyWith(hintText: 'password'),
-                obscureText: true,
-                validator: (value) => value != null && value.length < 6
-                    ? "Enter a password with at least 6 characters"
-                    : null,
-                onChanged: (value) {
-                  _viewModel.setPassword(value);
-                },
-              ),
-              SizedBox(height: 10.0),
-              ElevatedButton(
-                child: Text(
-                  "Sign In",
-                  style: TextStyle(color: Colors.white),
+      body: StreamBuilder<SuccessWrapper?>(
+          stream: _viewModel.loginStateStream,
+          builder: (BuildContext context, AsyncSnapshot<SuccessWrapper?> snapshot) {
+            final state = snapshot.data?.state;
+            if (state is StateLoading) return _buildForm(loading: true);
+            if (state is StateError) return _buildForm(error: state.error.toString());
+
+            return _buildForm();
+          }),
+    );
+  }
+
+  Widget _buildForm({String error = "", bool loading = false}) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            TextFormField(
+              controller: _emailController,
+              decoration: textInputDecoration.copyWith(hintText: 'email'),
+              validator: (value) => value == null || value.isEmpty ? "Enter an email" : null,
+              onChanged: (value) {
+                _viewModel.setEmail(value);
+              },
+            ),
+            SizedBox(height: 10.0),
+            TextFormField(
+              controller: _passwordController,
+              decoration: textInputDecoration.copyWith(hintText: 'password'),
+              obscureText: true,
+              validator: (value) => value != null && value.length < 6
+                  ? "Enter a password with at least 6 characters"
+                  : null,
+              onChanged: (value) {
+                _viewModel.setPassword(value);
+              },
+            ),
+            SizedBox(height: 10.0),
+            ElevatedButton(
+              child: loading ?
+                SpinKitRipple(
+                  color: Colors.white,
+                  size: 20.0,
+                ) : Container(
+                  child: Center(
+                    child: Text(
+                      "Sign In",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ),
-                onPressed: () async {
-                  if (_formKey.currentState?.validate() == true) {
-                    _viewModel.onSignIn(context);
-                  }
-                },
-              ),
-              SizedBox(height: 10.0),
-              Text(
-                error,
-                style: TextStyle(color: Colors.red, fontSize: 15.0),
-              )
-            ],
-          ),
+              onPressed: () async {
+                if (_formKey.currentState?.validate() == true) {
+                  _viewModel.onSignIn();
+                }
+              },
+            ),
+            SizedBox(height: 10.0),
+            (error.isEmpty) ?
+            SizedBox.shrink()
+                :
+            Text(
+              error,
+              style: TextStyle(color: Colors.red, fontSize: 15.0),
+            )
+
+          ],
         ),
-      ),
+      )
     );
   }
 }

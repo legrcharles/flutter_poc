@@ -61,35 +61,56 @@ class RouteGenerator {
 
     final route = Routes.values.firstWhereOrNull((e) => e.path == settings.name);
 
-    switch(route) {
-      case Routes.home :
-        return CupertinoPageRoute(builder: (context) => HomeScreen());
+    if (route != null) {
+      switch (route) {
+        case Routes.home :
+          return CupertinoPageRoute(
+              settings: RouteSettings(name: route.path),
+              builder: (context) => HomeScreen());
 
-      case Routes.quiz:
-        return CupertinoPageRoute(builder: (context) => QuizQuestionScreen());
+        case Routes.quiz:
+          return CupertinoPageRoute(
+              settings: RouteSettings(name: route.path),
+              builder: (context) => QuizQuestionScreen());
 
-      case Routes.counter:
-        return CupertinoPageRoute(builder: (context) => CounterScreen(title: "My Counter", initialValue: int.parse(settings.arguments.toString())));
+        case Routes.counter:
+          return CupertinoPageRoute(
+              settings: RouteSettings(name: route.path),
+              builder: (context) =>
+                CounterScreen(title: "My Counter",
+                  initialValue: int.parse(settings.arguments.toString())));
 
-      case Routes.movieList:
-        return CupertinoPageRoute(builder: (context) => MovieListScreen());
+        case Routes.movieList:
+          return CupertinoPageRoute(
+              settings: RouteSettings(name: route.path),
+              builder: (context) => MovieListScreen());
 
-      case Routes.form:
-        return CupertinoPageRoute(builder: (context) => FormScreen());
+        case Routes.form:
+          return CupertinoPageRoute(
+              settings: RouteSettings(name: route.path),
+              builder: (context) => FormScreen());
 
-      case Routes.authSplash:
-        return CupertinoPageRoute(builder: (context) => AuthSplashScreen());
+        case Routes.authSplash:
+          return CupertinoPageRoute(
+              settings: RouteSettings(name: route.path),
+              builder: (context) => AuthSplashScreen());
 
-      case Routes.register:
-        return CupertinoPageRoute(builder: (context) => RegisterScreen());
+        case Routes.register:
+          return CupertinoPageRoute(
+              settings: RouteSettings(name: route.path),
+              builder: (context) => RegisterScreen());
 
-      case Routes.signin:
-        return CupertinoPageRoute(builder: (context) => SignInScreen());
+        case Routes.signin:
+          return CupertinoPageRoute(
+              settings: RouteSettings(name: route.path),
+              builder: (context) => SignInScreen());
 
-      case Routes.userList:
-        return CupertinoPageRoute(builder: (context) => UserListScreen());
+        case Routes.userList:
+          return CupertinoPageRoute(
+              settings: RouteSettings(name: route.path),
+              builder: (context) => UserListScreen());
 
-        /*
+      /*
       case Routes.quiz:
         return PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) => QuizScreen(),
@@ -102,15 +123,22 @@ class RouteGenerator {
             }
         );
 */
-      default:
-        return MaterialPageRoute(
-            builder: (context) => Scaffold(
-                appBar: AppBar(title:Text("Error"), centerTitle: true),
-                body: Center(
-                  child: Text("Page not found"),
-                )
-            )
-        );
+        default:
+          return _buildFailPage();
+      }
+    } else {
+      return _buildFailPage();
     }
+  }
+
+  static MaterialPageRoute _buildFailPage() {
+    return MaterialPageRoute(
+        builder: (context) => Scaffold(
+            appBar: AppBar(title: Text("Error"), centerTitle: true),
+            body: Center(
+              child: Text("Page not found"),
+            )
+        )
+    );
   }
 }

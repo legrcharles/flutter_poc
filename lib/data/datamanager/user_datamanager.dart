@@ -7,12 +7,13 @@ extension UserDataManager on DataManager {
 
   AppUser? get currentUser => authProvider.currentUser;
 
-  Future signIn(String email, String password) async {
+  Future<AppUser?> signIn(String email, String password) async {
     return authProvider.signInWithEmailAndPassword(email, password);
   }
 
-  Future register(String name, String email, String password) async {
-    return authProvider.registerWithEmailAndPassword(name, email, password);
+  Future<AppUser?> register(String email, String password) async {
+    return authProvider.registerWithEmailAndPassword(email, password);
   }
 
+  Future signOut() async => await authProvider.signOut();
 }

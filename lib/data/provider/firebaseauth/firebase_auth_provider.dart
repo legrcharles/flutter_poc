@@ -5,8 +5,8 @@ import 'package:flutter_architecture/data/provider/mapper/firebase_user_mapper.d
 abstract class FirebaseAuthProviderInterface {
   Stream<AppUser?> get user;
   AppUser? get currentUser;
-  Future signInWithEmailAndPassword(String email, String password);
-  Future registerWithEmailAndPassword(String name, String email, String password);
+  Future<AppUser?> signInWithEmailAndPassword(String email, String password);
+  Future<AppUser?> registerWithEmailAndPassword(String email, String password);
   void dispose();
 }
 
@@ -17,14 +17,14 @@ class FirebaseAuthProvider extends FirebaseAuthProviderInterface {
 
   AppUser? get currentUser => FirebaseUserMapper.map(_auth.currentUser);
 
-  Future signInWithEmailAndPassword(String email, String password) async {
+  Future<AppUser?> signInWithEmailAndPassword(String email, String password) async {
     UserCredential result =
     await _auth.signInWithEmailAndPassword(email: email, password: password);
     User? user = result.user;
     return FirebaseUserMapper.map(user);
   }
 
-  Future registerWithEmailAndPassword(String name, String email, String password) async {
+  Future<AppUser?> registerWithEmailAndPassword(String email, String password) async {
       UserCredential result =
       await _auth.createUserWithEmailAndPassword(email: email, password: password);
       User? user = result.user;

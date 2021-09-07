@@ -1,8 +1,6 @@
 class DataWrapper<T> {
   DataWrapperState state;
 
-  DataWrapper.initial() : state = StateInitial();
-
   DataWrapper.loading() : state = StateLoading();
 
   DataWrapper.empty() : state = StateEmpty();
@@ -37,8 +35,6 @@ class DataWrapper<T> {
 class SuccessWrapper {
   DataWrapperState state;
 
-  SuccessWrapper.initial() : state = StateInitial();
-
   SuccessWrapper.loading() : state = StateLoading();
 
   SuccessWrapper.success() : state = StateSuccess();
@@ -50,7 +46,6 @@ class SuccessWrapper {
 
 abstract class DataWrapperState {}
 
-class StateInitial extends DataWrapperState {}
 class StateLoading extends DataWrapperState {}
 class StateEmpty extends DataWrapperState {}
 class StateSuccess extends DataWrapperState {}

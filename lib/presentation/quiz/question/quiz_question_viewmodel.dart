@@ -9,29 +9,31 @@ import 'package:flutter_architecture/data/models/question.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 
-final quizQuestionViewModelProvider = Provider((ref) => QuizQuestionViewModel(ref.read(dataManager)));
-
 class QuizQuestionViewModel {
 
   // Dependencies
 
   final DataManager _dataManager;
+  final NavigatorState _navigator;
   int _nbCorrectAnswers = 0;
 
   // Subjects
 
-  final BehaviorSubject<DataWrapper<List<Question>>> _questionsSubject = BehaviorSubject.seeded(DataWrapper.initial());
-  Stream<DataWrapper<List<Question>>> get questionsStream => _questionsSubject.stream;
+  final BehaviorSubject<DataWrapper<List<Question>>?> _questionsSubject;
+  Stream<DataWrapper<List<Question>>?> get questionsStream => _questionsSubject.stream;
 
-  final BehaviorSubject<int> _currentIndexSubject = BehaviorSubject.seeded(0);
+  final BehaviorSubject<int> _currentIndexSubject;
   Stream<int> get currentIndexStream => _currentIndexSubject.stream;
 
-  final BehaviorSubject<String?> _selectedAnswerSubject = BehaviorSubject.seeded(null);
+  final BehaviorSubject<String?> _selectedAnswerSubject;
   Stream<String?> get selectedAnswerStream => _selectedAnswerSubject.stream;
 
   // Init
 
-  QuizQuestionViewModel(this._dataManager);
+  QuizQuestionViewModel(this._dataManager, this._navigator)
+      : _questionsSubject = BehaviorSubject.seeded(null),
+        _currentIndexSubject = BehaviorSubject.seeded(0),
+        _selectedAnswerSubject = BehaviorSubject.seeded(null);
 
   // Dispose
 
@@ -66,7 +68,7 @@ class QuizQuestionViewModel {
 
   void nextQuestion(BuildContext context) {
     if (_currentIndex == _questions.length - 1) {
-      Navigator.pushNamed(context, Routes.counter.path, arguments: 17);
+      _navigator.pushNamed(Routes.counter.path, arguments: 17);
     } else {
       _selectedAnswerSubject.sink.add(null);
       _currentIndexSubject.sink.add(_currentIndex + 1);
@@ -76,8 +78,8 @@ class QuizQuestionViewModel {
   // Privates
 
   List<Question> get _questions {
-    final DataWrapperState state = _questionsSubject.value.state;
-    if (state is StateData) {
+    final DataWrapperState? state = _questionsSubject.value?.state;
+    if (state != null && state is StateData) {
       return state.data;
     }
 

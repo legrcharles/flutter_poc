@@ -1,18 +1,16 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_architecture/app_module.dart';
 import 'package:flutter_architecture/app_route.dart';
+import 'package:flutter_architecture/core/data_wrapper.dart';
 import 'package:flutter_architecture/data/datamanager/datamanager.dart';
 import 'package:flutter_architecture/data/datamanager/user_datamanager.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
-
-final signInViewModelProvider = Provider((ref) => SignInViewModel(ref.read(dataManager)));
 
 class SignInViewModel {
 
   // Dependencies
 
   final DataManager _dataManager;
+  final NavigatorState _navigator;
 
   // Subjects
 
@@ -22,43 +20,46 @@ class SignInViewModel {
   final BehaviorSubject<String> _passwordSubject;
   Stream<String> get passwordStream => _passwordSubject.stream;
 
+  final BehaviorSubject<SuccessWrapper?> _loginStateSubject;
+  Stream<SuccessWrapper?> get loginStateStream => _loginStateSubject.stream;
+
   // Init
 
-  SignInViewModel(this._dataManager)
+  SignInViewModel(this._dataManager, this._navigator)
       : _emailSubject = BehaviorSubject.seeded(""),
-        _passwordSubject = BehaviorSubject.seeded("");
+        _passwordSubject = BehaviorSubject.seeded(""),
+        _loginStateSubject = BehaviorSubject.seeded(null);
 
   // Dispose
 
   void dispose() {
-    print("dispose");
     _emailSubject.close();
     _passwordSubject.close();
+    _loginStateSubject.close();
   }
 
   // Events
 
   void setEmail(String email) {
-    print("test");
-    print(email);
     _emailSubject.sink.add(email);
   }
 
   void setPassword(String password) {
-    print("test pwd");
-    print(password);
     _passwordSubject.sink.add(password);
   }
 
-  void onSignIn(BuildContext context) {
-    print(_emailSubject.value);
-    print(_passwordSubject.value);
-    /*
-    _dataManager.signIn(_emailSubject.value, _passwordSubject.value)
-        .then((value) => {
-            Navigator.of(context).pushNamed(Routes.userList.path)
-        });
-
-     */
+  void onSignIn() async {
+    _loginStateSubject.sink.add(SuccessWrapper.loading());
+    try {
+      final result = await _dataManager.signIn(_emailSubject.value, _passwordSubject.value);
+      if (result != null) {
+        _loginStateSubject.sink.add(SuccessWrapper.success());
+        _navigator.pushNamed(Routes.userList.path);
+      } else {
+        _loginStateSubject.sink.add(SuccessWrapper.error("Fail to login"));
+      }
+    } catch (error) {
+      _loginStateSubject.sink.add(SuccessWrapper.error(error));
+    }
   }
 }

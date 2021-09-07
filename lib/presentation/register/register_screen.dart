@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_architecture/app_module.dart';
+import 'package:flutter_architecture/core/data_wrapper.dart';
 import 'package:flutter_architecture/presentation/common/constants.dart';
 import 'package:flutter_architecture/presentation/common/widgets/loading.dart';
 import 'package:flutter_architecture/presentation/register/register_viewmodel.dart';
@@ -12,15 +14,12 @@ class RegisterScreen extends ConsumerStatefulWidget {
 }
 
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
-  //final AuthenticationService _auth = AuthenticationService();
   final _formKey = GlobalKey<FormState>();
   String error = '';
   bool loading = false;
 
-  final emailController = TextEditingController();
-  final nameController = TextEditingController();
-  final passwordController = TextEditingController();
-  bool showSignIn = true;
+  late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
 
   late final RegisterViewModel _viewModel;
 
@@ -28,115 +27,104 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   void initState() {
     super.initState();
 
-    this._viewModel = ref.read(registerViewModelProvider);
+    this._viewModel = RegisterViewModel(ref.read(dataManager), Navigator.of(context));
+
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+
+    _observeViewData();
+  }
+
+  void _observeViewData() {
+    _viewModel.emailStream.listen((event) {
+      _emailController.text = event;
+      _emailController.selection = TextSelection.fromPosition(TextPosition(offset: _emailController.text.length));
+    });
+
+    _viewModel.passwordStream.listen((event) {
+      _passwordController.text = event;
+      _passwordController.selection = TextSelection.fromPosition(TextPosition(offset: _passwordController.text.length));
+    });
   }
 
   @override
   void dispose() {
     _viewModel.dispose();
-    nameController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
-  }
-
-  void toggleView() {
-    setState(() {
-      _formKey.currentState?.reset();
-      error = '';
-      emailController.text = '';
-      nameController.text = '';
-      passwordController.text = '';
-      showSignIn = !showSignIn;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return loading
-        ? Loading()
-        : Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
-        elevation: 0.0,
-        title: Text(showSignIn ? 'Sign in to Water Social' : 'Register to Water Social'),
-        actions: <Widget>[
-          TextButton.icon(
-            icon: Icon(
-              Icons.person,
-              color: Colors.white,
-            ),
-            label: Text(showSignIn ? "Register" : 'Sign In',
-                style: TextStyle(color: Colors.white)),
-            onPressed: () => toggleView(),
-          ),
-        ],
+        title: Text('Register')
       ),
-      body: Container(
+      body: StreamBuilder<SuccessWrapper?>(
+          stream: _viewModel.loginStateStream,
+          builder: (BuildContext context, AsyncSnapshot<SuccessWrapper?> snapshot) {
+            final state = snapshot.data?.state;
+            if (state is StateLoading) return Loading();
+            if (state is StateError) return _buildForm(state.error.toString());
+
+            return _buildForm("");
+          }),
+    );
+  }
+
+  Widget _buildForm(String error) {
+    return Container(
         padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
         child: Form(
           key: _formKey,
           child: Column(
             children: [
-              !showSignIn
-                  ? TextFormField(
-                controller: nameController,
-                decoration: textInputDecoration.copyWith(hintText: 'name'),
-                validator: (value) =>
-                value == null || value.isEmpty ? "Enter a name" : null,
-              )
-                  : Container(),
-              !showSignIn ? SizedBox(height: 10.0) : Container(),
               TextFormField(
-                controller: emailController,
+                controller: _emailController,
                 decoration: textInputDecoration.copyWith(hintText: 'email'),
-                validator: (value) =>
-                value == null || value.isEmpty ? "Enter an email" : null,
+                validator: (value) => value == null || value.isEmpty ? "Enter an email" : null,
+                onChanged: (value) {
+                  _viewModel.setEmail(value);
+                },
               ),
               SizedBox(height: 10.0),
               TextFormField(
-                controller: passwordController,
+                controller: _passwordController,
                 decoration: textInputDecoration.copyWith(hintText: 'password'),
                 obscureText: true,
                 validator: (value) => value != null && value.length < 6
                     ? "Enter a password with at least 6 characters"
                     : null,
+                onChanged: (value) {
+                  _viewModel.setPassword(value);
+                },
               ),
               SizedBox(height: 10.0),
               ElevatedButton(
                 child: Text(
-                  showSignIn ? "Sign In" : "Register",
+                  "Register",
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () async {
                   if (_formKey.currentState?.validate() == true) {
-                    setState(() => loading = true);
-                    var password = passwordController.value.text;
-                    var email = emailController.value.text;
-                    var name = nameController.value.text;
-
-                    //dynamic result = showSignIn
-                    //    ? await _auth.signInWithEmailAndPassword(email, password)
-                    //   : await _auth.registerWithEmailAndPassword(name, email, password);
-                    //if (result == null) {
-                    setState(() {
-                      loading = false;
-                      error = 'Please supply a valid email';
-                    });
-                    //}
+                    _viewModel.onSignIn();
                   }
                 },
               ),
               SizedBox(height: 10.0),
+              (error.isEmpty) ?
+              SizedBox.shrink()
+                  :
               Text(
                 error,
                 style: TextStyle(color: Colors.red, fontSize: 15.0),
               )
+
             ],
           ),
-        ),
-      ),
+        )
     );
   }
 }
