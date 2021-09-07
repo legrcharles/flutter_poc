@@ -17,8 +17,13 @@ class DataManager {
     return _movieApi;
   }
 
+  FirebaseAuthProvider get authProvider {
+    return _authProvider;
+  }
+
   void dispose() {
     _quizApi.dispose();
     _movieApi.dispose();
+    _authProvider.dispose();
   }
 }

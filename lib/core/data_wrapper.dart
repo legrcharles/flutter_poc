@@ -34,11 +34,26 @@ class DataWrapper<T> {
    */
 }
 
+class SuccessWrapper {
+  DataWrapperState state;
+
+  SuccessWrapper.initial() : state = StateInitial();
+
+  SuccessWrapper.loading() : state = StateLoading();
+
+  SuccessWrapper.success() : state = StateSuccess();
+
+  SuccessWrapper.error(Object error)
+      : state = StateError(error);
+
+}
+
 abstract class DataWrapperState {}
 
 class StateInitial extends DataWrapperState {}
 class StateLoading extends DataWrapperState {}
 class StateEmpty extends DataWrapperState {}
+class StateSuccess extends DataWrapperState {}
 class StateData<T> extends DataWrapperState {
   final T data;
 
