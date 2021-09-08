@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_architecture/app_module.dart';
 import 'package:flutter_architecture/app_route.dart';
 import 'package:flutter_architecture/core/data_wrapper.dart';
+import 'package:flutter_architecture/data/datamanager/datamanager.dart';
 import 'package:flutter_architecture/presentation/common/constants.dart';
 import 'package:flutter_architecture/presentation/common/widgets/loading.dart';
 import 'package:flutter_architecture/presentation/signin/signin_viewmodel.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 
 
-class SignInScreen extends ConsumerStatefulWidget {
+class SignInScreen extends StatefulWidget {
   @override
   _SignInScreenState createState() => _SignInScreenState();
 }
 
-class _SignInScreenState extends ConsumerState<SignInScreen> {
+class _SignInScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
   String error = '';
   bool loading = false;
@@ -24,11 +25,8 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
 
   late final SignInViewModel _viewModel;
 
-  @override
-  void initState() {
-    super.initState();
-
-    this._viewModel = SignInViewModel(ref.read(dataManager), Navigator.of(context));
+  void _setup(BuildContext context) {
+    this._viewModel = SignInViewModel(context.read<DataManager>(), Navigator.of(context));
 
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
@@ -58,6 +56,8 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _setup(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

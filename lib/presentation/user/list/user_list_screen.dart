@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture/app_module.dart';
 import 'package:flutter_architecture/app_route.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_architecture/data/datamanager/datamanager.dart';
 import 'package:flutter_architecture/data/datamanager/user_datamanager.dart';
+import 'package:provider/provider.dart';
 
-class UserListScreen extends ConsumerWidget {
+class UserListScreen extends StatelessWidget {
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
 
-    final _dataManager = ref.read(dataManager);
+    final _dataManager = Provider.of<DataManager>(context);
 
     return Scaffold(
       appBar: AppBar(

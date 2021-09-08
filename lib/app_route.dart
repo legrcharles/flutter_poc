@@ -8,7 +8,8 @@ import 'package:flutter_architecture/presentation/movie/list/movie_list_screen.d
 import 'package:flutter_architecture/presentation/quiz/question/quiz_question_screen.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_architecture/presentation/register/register_screen.dart';
-import 'package:flutter_architecture/presentation/signin/signin_screen.dart';
+import 'package:flutter_architecture/presentation/signin/view/signin_page.dart';
+import 'package:flutter_architecture/presentation/signin/view/signin_screen.dart';
 import 'package:flutter_architecture/presentation/user/list/user_list_screen.dart';
 
 enum Routes {
@@ -103,7 +104,7 @@ class RouteGenerator {
         case Routes.signin:
           return CupertinoPageRoute(
               settings: RouteSettings(name: route.path),
-              builder: (context) => SignInScreen());
+              builder: (context) => SignInPage());
 
         case Routes.userList:
           return CupertinoPageRoute(
