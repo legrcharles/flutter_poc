@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture/app_module.dart';
 import 'package:flutter_architecture/app_route.dart';
-import 'package:flutter_architecture/core/data_wrapper.dart';
 import 'package:flutter_architecture/data/datamanager/datamanager.dart';
-import 'package:flutter_architecture/presentation/common/constants.dart';
-import 'package:flutter_architecture/presentation/common/widgets/loading.dart';
 import 'package:flutter_architecture/presentation/signin/bloc/signin_bloc.dart';
-import 'package:flutter_architecture/presentation/signin/signin_viewmodel.dart';
+import 'package:flutter_architecture/presentation/signin/widgets/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 
@@ -78,7 +73,7 @@ class _SignInViewState extends State<SignInView> {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
             showDialog<void>(
               context: context,
-              builder: (_) => SuccessDialog(),
+              builder: (_) => SignInSuccessDialog(),
             );
           }
           if (state.status == FormStatus.loading) {
@@ -93,133 +88,13 @@ class _SignInViewState extends State<SignInView> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
-              EmailInput(focusNode: _emailFocusNode),
-              PasswordInput(focusNode: _passwordFocusNode),
-              SubmitButton(),
+              SignInEmailInput(focusNode: _emailFocusNode),
+              SignInPasswordInput(focusNode: _passwordFocusNode),
+              SignInSubmitButton(),
             ],
           ),
         )
       )
-    );
-  }
-}
-
-class EmailInput extends StatelessWidget {
-  const EmailInput({Key? key, required this.focusNode}) : super(key: key);
-
-  final FocusNode focusNode;
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<SignInBloc, SignInState>(
-      builder: (context, state) {
-        return TextFormField(
-          initialValue: state.email,
-          focusNode: focusNode,
-          decoration: InputDecoration(
-            icon: const Icon(Icons.email),
-            labelText: 'Email',
-            helperText: 'A complete, valid email e.g. joe@gmail.com',
-            errorText: state.email.isEmpty
-                ? 'Please ensure the email entered is valid'
-                : null,
-          ),
-          keyboardType: TextInputType.emailAddress,
-          onChanged: (value) {
-            context.read<SignInBloc>().add(EmailChanged(email: value));
-          },
-          textInputAction: TextInputAction.next,
-        );
-      },
-    );
-  }
-}
-
-class PasswordInput extends StatelessWidget {
-  const PasswordInput({Key? key, required this.focusNode}) : super(key: key);
-
-  final FocusNode focusNode;
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<SignInBloc, SignInState>(
-      builder: (context, state) {
-        return TextFormField(
-          initialValue: state.password,
-          focusNode: focusNode,
-          decoration: InputDecoration(
-            icon: const Icon(Icons.lock),
-            helperText:
-            '''Password should be at least 8 characters with at least one letter and number''',
-            helperMaxLines: 2,
-            labelText: 'Password',
-            errorMaxLines: 2,
-            errorText: state.password.isEmpty
-                ? '''Password must be at least 8 characters and contain at least one letter and number'''
-                : null,
-          ),
-          obscureText: true,
-          onChanged: (value) {
-            context.read<SignInBloc>().add(PasswordChanged(password: value));
-          },
-          textInputAction: TextInputAction.done,
-        );
-      },
-    );
-  }
-}
-
-class SubmitButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<SignInBloc, SignInState>(
-      buildWhen: (previous, current) => previous.status != current.status,
-      builder: (context, state) {
-        return ElevatedButton(
-          onPressed: state.status == FormStatus.success
-              ? () => context.read<SignInBloc>().add(FormSubmitted())
-              : null,
-          child: state.status == FormStatus.loading ? Loading() : Text('Submit'),
-        );
-      },
-    );
-  }
-}
-
-class SuccessDialog extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                const Icon(Icons.info),
-                const Flexible(
-                  child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      'Form Submitted Successfully!',
-                      softWrap: true,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            ElevatedButton(
-              child: const Text('OK'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

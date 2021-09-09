@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_architecture/data/models/appuser.dart';
-import 'package:flutter_architecture/data/provider/mapper/firebase_user_mapper.dart';
+import 'package:flutter_architecture/data/provider/firebaseauth/mapper/firebase_user_mapper.dart';
 
 abstract class FirebaseAuthProviderInterface {
   Stream<AppUser?> get user;

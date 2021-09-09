@@ -1,15 +1,13 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture/presentation/authsplash/authsplash_screen.dart';
-import 'package:flutter_architecture/presentation/counter/counter_screen.dart';
-import 'package:flutter_architecture/presentation/form/form_screen.dart';
+import 'package:flutter_architecture/presentation/authsplash/authsplash.dart';
+import 'package:flutter_architecture/presentation/counter/counter.dart';
 import 'package:flutter_architecture/presentation/home/home_screen.dart';
 import 'package:flutter_architecture/presentation/movie/list/movie_list_screen.dart';
 import 'package:flutter_architecture/presentation/quiz/question/quiz_question_screen.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter_architecture/presentation/register/register_screen.dart';
-import 'package:flutter_architecture/presentation/signin/view/signin_page.dart';
-import 'package:flutter_architecture/presentation/signin/view/signin_screen.dart';
+import 'package:flutter_architecture/presentation/signin/signin.dart';
 import 'package:flutter_architecture/presentation/user/list/user_list_screen.dart';
 
 enum Routes {
@@ -17,7 +15,6 @@ enum Routes {
   quiz,
   counter,
   movieList,
-  form,
   authSplash,
   register,
   signin,
@@ -38,9 +35,6 @@ extension RoutesExtension on Routes {
 
       case Routes.movieList:
         return "/movies";
-
-      case Routes.form:
-        return "/form";
 
       case Routes.authSplash:
         return "/authSplash";
@@ -77,24 +71,17 @@ class RouteGenerator {
         case Routes.counter:
           return CupertinoPageRoute(
               settings: RouteSettings(name: route.path),
-              builder: (context) =>
-                CounterScreen(title: "My Counter",
-                  initialValue: int.parse(settings.arguments.toString())));
+              builder: (context) => CounterPage());
 
         case Routes.movieList:
           return CupertinoPageRoute(
               settings: RouteSettings(name: route.path),
               builder: (context) => MovieListScreen());
 
-        case Routes.form:
-          return CupertinoPageRoute(
-              settings: RouteSettings(name: route.path),
-              builder: (context) => FormScreen());
-
         case Routes.authSplash:
           return CupertinoPageRoute(
               settings: RouteSettings(name: route.path),
-              builder: (context) => AuthSplashScreen());
+              builder: (context) => AuthSplashPage());
 
         case Routes.register:
           return CupertinoPageRoute(
@@ -111,19 +98,6 @@ class RouteGenerator {
               settings: RouteSettings(name: route.path),
               builder: (context) => UserListScreen());
 
-      /*
-      case Routes.quiz:
-        return PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) => QuizScreen(),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              animation = CurvedAnimation(curve: Curves.ease, parent: animation);
-              return FadeTransition(
-                opacity:animation,
-                child: child,
-              );
-            }
-        );
-*/
         default:
           return _buildFailPage();
       }
@@ -143,3 +117,17 @@ class RouteGenerator {
     );
   }
 }
+
+/*
+      case Routes.quiz:
+        return PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) => QuizScreen(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              animation = CurvedAnimation(curve: Curves.ease, parent: animation);
+              return FadeTransition(
+                opacity:animation,
+                child: child,
+              );
+            }
+        );
+*/

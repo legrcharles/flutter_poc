@@ -1,0 +1,3 @@
+class MemoryCacheProvider {
+  int? counterValue;
+}

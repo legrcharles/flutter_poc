@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture/app_route.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeItem extends StatelessWidget {

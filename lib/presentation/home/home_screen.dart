@@ -22,9 +22,6 @@ class HomeScreen extends StatelessWidget {
           HomeItem("Movie List", Icons.movie_creation_outlined, () => {
             Navigator.pushNamed(context, Routes.movieList.path)
           }),
-          HomeItem("Form", Icons.dynamic_form, () => {
-            Navigator.pushNamed(context, Routes.form.path)
-          }),
           HomeItem("Auth Splash", Icons.verified_user, () => {
             Navigator.pushNamed(context, Routes.authSplash.path)
           })
