@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
 class SignInSuccessDialog extends StatelessWidget {
+
+  final VoidCallback? onPressed;
+
+  const SignInSuccessDialog({Key? key, required this.onPressed}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -29,7 +34,7 @@ class SignInSuccessDialog extends StatelessWidget {
             ),
             ElevatedButton(
               child: const Text('OK'),
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: onPressed,
             ),
           ],
         ),

@@ -38,7 +38,10 @@ class _AuthSplashViewState extends State<AuthSplashView> {
             Navigator.of(context).pushReplacementNamed(Routes.signin.path);
           }
         },
-        child: Loading()
+        child: Container(
+            color: Colors.white,
+            child: Loading()
+        )
     );
   }
 }

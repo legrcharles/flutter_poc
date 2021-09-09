@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_architecture/presentation/authsplash/authsplash.dart';
 import 'package:flutter_architecture/presentation/counter/counter.dart';
 import 'package:flutter_architecture/presentation/home/home_screen.dart';
-import 'package:flutter_architecture/presentation/movie/list/movie_list_screen.dart';
+import 'package:flutter_architecture/presentation/movie/list/movie_list.dart';
 import 'package:flutter_architecture/presentation/quiz/question/quiz_question_screen.dart';
 import 'package:flutter_architecture/presentation/register/register_screen.dart';
 import 'package:flutter_architecture/presentation/signin/signin.dart';
@@ -76,7 +76,7 @@ class RouteGenerator {
         case Routes.movieList:
           return CupertinoPageRoute(
               settings: RouteSettings(name: route.path),
-              builder: (context) => MovieListScreen());
+              builder: (context) => MovieListPage());
 
         case Routes.authSplash:
           return CupertinoPageRoute(

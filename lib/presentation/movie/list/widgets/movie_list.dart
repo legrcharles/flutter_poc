@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture/data/models/movie.dart';
+import 'package:flutter_architecture/presentation/movie/list/widgets/movie_list_item.dart';
 
 class MovieList extends StatelessWidget {
 
@@ -14,22 +15,7 @@ class MovieList extends StatelessWidget {
       itemBuilder: (context, index) {
 
         final movie = this.movies[index];
-
-        return ListTile(
-          contentPadding: EdgeInsets.all(10),
-          leading: Container(
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(movie.poster)
-                ),
-                borderRadius: BorderRadius.circular(6)
-            ),
-            width: 50,
-            height: 100,
-          ),
-          title: Text(movie.title),
-        );
+        return MovieListItem(movie: movie);
       },
     );
   }

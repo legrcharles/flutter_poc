@@ -9,11 +9,15 @@ class SignInSubmitButton extends StatelessWidget {
     return BlocBuilder<SignInBloc, SignInState>(
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
+        //print("isFormValid ${state.isFormValid}");
         return ElevatedButton(
-          onPressed: state.status == FormStatus.success
+          onPressed: (state.status == FormStatus.valid)
               ? () => context.read<SignInBloc>().add(FormSubmitted())
               : null,
-          child: state.status == FormStatus.loading ? Loading() : Text('Submit'),
+          child: Container(
+            width: 200,
+            child: state.status == FormStatus.submissionInProgress ? Loading() : Center(child: Text('Submit')),
+          ),
         );
       },
     );

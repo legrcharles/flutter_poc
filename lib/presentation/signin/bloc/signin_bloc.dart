@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_architecture/data/datamanager/datamanager.dart';
+import 'package:flutter_architecture/data/datamanager/user_datamanager.dart';
 
 
 part 'signin_event.dart';
@@ -22,45 +23,54 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   @override
   Stream<SignInState> mapEventToState(SignInEvent event) async* {
     if (event is EmailChanged) {
-      final email = event.email;
       yield state.copyWith(
-        email: email,
+          emailInput: state.emailInput.copyWith(value: event.email, status: FormInputStatus.filled),
+        //  status: FormStatus.initial
       );
-    }
-    /*
-    else if (event is PasswordChanged) {
-      final password = Password.dirty(event.password);
+
+    } else if (event is PasswordChanged) {
       yield state.copyWith(
-        password: password.valid ? password : Password.pure(event.password),
-        status: Formz.validate([state.email, password]),
+          passwordInput: state.passwordInput.copyWith(value: event.password, status: FormInputStatus.filled),
+         // status: FormStatus.initial
       );
+
     } else if (event is EmailUnfocused) {
-      final email = Email.dirty(state.email.value);
       yield state.copyWith(
-        email: email,
-        status: Formz.validate([email, state.password]),
+          emailInput: state.emailInput.copyWith(status: isEmailValid ? FormInputStatus.valid : FormInputStatus.invalid),
+          status: isFormValid ? FormStatus.valid : FormStatus.invalid
       );
+
     } else if (event is PasswordUnfocused) {
-      final password = Password.dirty(state.password.value);
       yield state.copyWith(
-        password: password,
-        status: Formz.validate([state.email, password]),
+          passwordInput: state.passwordInput.copyWith(status: isPasswordValid ? FormInputStatus.valid : FormInputStatus.invalid),
+          status: isFormValid ? FormStatus.valid : FormStatus.invalid
       );
+
     } else if (event is FormSubmitted) {
-      final email = Email.dirty(state.email.value);
-      final password = Password.dirty(state.password.value);
       yield state.copyWith(
-        email: email,
-        password: password,
-        status: Formz.validate([email, password]),
+          emailInput: state.emailInput.copyWith(status: isEmailValid ? FormInputStatus.valid : FormInputStatus.invalid),
+          passwordInput: state.passwordInput.copyWith(status: isPasswordValid ? FormInputStatus.valid : FormInputStatus.invalid),
+          status: isFormValid ? FormStatus.valid : FormStatus.invalid
       );
-      if (state.status.isValidated) {
-        yield state.copyWith(status: FormzStatus.submissionInProgress);
-        await Future<void>.delayed(const Duration(seconds: 1));
-        yield state.copyWith(status: FormzStatus.submissionSuccess);
+
+      if (isFormValid) {
+        yield state.copyWith(status: FormStatus.submissionInProgress);
+
+        try {
+          await _dataManager.signIn(state.emailInput.value, state.passwordInput.value);
+          yield state.copyWith(status: FormStatus.submissionSuccess);
+        } catch (error) {
+          yield state.copyWith(
+              passwordInput: state.passwordInput.copyWith(value: "", status: FormInputStatus.initial),
+              submissionError: error.toString(),
+              status: FormStatus.submissionFailure);
+        }
       }
     }
-
-     */
   }
+
+  bool get isFormValid => isEmailValid && isPasswordValid;
+
+  bool get isEmailValid => state.emailInput.value.trim().length > 4;
+  bool get isPasswordValid => state.passwordInput.value.trim().length > 4;
 }

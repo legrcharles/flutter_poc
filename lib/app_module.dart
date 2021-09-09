@@ -29,7 +29,7 @@ class AppModule {
   final _httpClient = http.Client();
 
   static const _quizEndpoint = 'opentdb.com';
-  static const _movieEndpoint = 'opentdb.com';
+  static const _movieEndpoint = 'www.omdbapi.com';
 
   final _authProvider = FirebaseAuthProvider();
   final _cacheProvider = MemoryCacheProvider();

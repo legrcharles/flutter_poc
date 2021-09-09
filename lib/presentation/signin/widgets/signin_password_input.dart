@@ -12,7 +12,9 @@ class SignInPasswordInput extends StatelessWidget {
     return BlocBuilder<SignInBloc, SignInState>(
       builder: (context, state) {
         return TextFormField(
-          initialValue: state.password,
+          controller: TextEditingController(text: state.passwordInput.value)
+            ..selection = TextSelection.fromPosition(TextPosition(offset: state.passwordInput.value.length),
+            ),
           focusNode: focusNode,
           decoration: InputDecoration(
             icon: const Icon(Icons.lock),
@@ -21,7 +23,7 @@ class SignInPasswordInput extends StatelessWidget {
             helperMaxLines: 2,
             labelText: 'Password',
             errorMaxLines: 2,
-            errorText: state.password.isEmpty
+            errorText: state.passwordInput.status == FormInputStatus.invalid
                 ? '''Password must be at least 8 characters and contain at least one letter and number'''
                 : null,
           ),

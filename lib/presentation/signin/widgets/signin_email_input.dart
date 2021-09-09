@@ -12,13 +12,15 @@ class SignInEmailInput extends StatelessWidget {
     return BlocBuilder<SignInBloc, SignInState>(
       builder: (context, state) {
         return TextFormField(
-          initialValue: state.email,
+          controller: TextEditingController(text: state.emailInput.value)
+            ..selection = TextSelection.fromPosition(TextPosition(offset: state.emailInput.value.length),
+            ),
           focusNode: focusNode,
           decoration: InputDecoration(
             icon: const Icon(Icons.email),
             labelText: 'Email',
             helperText: 'A complete, valid email e.g. joe@gmail.com',
-            errorText: state.email.isEmpty
+            errorText: state.emailInput.status == FormInputStatus.invalid
                 ? 'Please ensure the email entered is valid'
                 : null,
           ),

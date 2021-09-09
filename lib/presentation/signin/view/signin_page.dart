@@ -63,24 +63,33 @@ class _SignInViewState extends State<SignInView> {
             ),
             label: Text("Register",
                 style: TextStyle(color: Colors.white)),
-            onPressed: () => Navigator.of(context).pushNamed(Routes.register.path),
+            onPressed: () => Navigator.of(context).pushReplacementNamed(Routes.register.path),
           ),
         ],
       ),
       body: BlocListener<SignInBloc, SignInState>(
         listener: (context, state) {
-          if (state.status == FormStatus.success) {
+          if (state.status == FormStatus.submissionSuccess) {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
             showDialog<void>(
               context: context,
-              builder: (_) => SignInSuccessDialog(),
+              builder: (_) => SignInSuccessDialog(onPressed: () {
+                Navigator.of(context).pushNamed(Routes.userList.path);
+              }),
             );
           }
-          if (state.status == FormStatus.loading) {
+          if (state.status == FormStatus.submissionInProgress) {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
                 const SnackBar(content: Text('Submitting...')),
+              );
+          }
+          if (state.status == FormStatus.submissionFailure) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(content: Text(state.submissionError)),
               );
           }
         },
@@ -90,6 +99,7 @@ class _SignInViewState extends State<SignInView> {
             children: <Widget>[
               SignInEmailInput(focusNode: _emailFocusNode),
               SignInPasswordInput(focusNode: _passwordFocusNode),
+              SizedBox(height: 50),
               SignInSubmitButton(),
             ],
           ),
