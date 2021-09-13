@@ -5,7 +5,7 @@ import 'package:flutter_architecture/data/datamanager/datamanager.dart';
 import 'package:flutter_architecture/data/models/question.dart';
 import 'package:flutter_architecture/presentation/quiz/question/bloc/quiz_question_bloc.dart';
 import 'package:flutter_architecture/presentation/quiz/question/widgets/widgets.dart';
-import 'package:flutter_architecture/presentation/quiz/result/view/quiz_result_page.dart';
+import 'package:flutter_architecture/presentation/quiz/result/quiz_result_page.dart';
 import 'package:flutter_architecture/presentation/signin/widgets/signin_success_dialog.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

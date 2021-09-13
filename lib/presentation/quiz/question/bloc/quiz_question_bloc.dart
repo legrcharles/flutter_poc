@@ -4,7 +4,7 @@ import 'package:flutter_architecture/core/data_wrapper.dart';
 import 'package:flutter_architecture/data/datamanager/datamanager.dart';
 import 'package:flutter_architecture/data/datamanager/quiz_datamanager.dart';
 import 'package:flutter_architecture/data/models/question.dart';
-import 'package:flutter_architecture/presentation/quiz/result/view/quiz_result_page.dart';
+import 'package:flutter_architecture/presentation/quiz/result/quiz_result_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'quiz_question_event.dart';
