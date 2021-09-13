@@ -67,12 +67,12 @@ class RouteGenerator {
         case Routes.home :
           return CupertinoPageRoute(
               settings: RouteSettings(name: route.path),
-              builder: (context) => HomeScreen());
+              builder: (context) => const HomeScreen());
 
         case Routes.quiz:
           return CupertinoPageRoute(
               settings: RouteSettings(name: route.path),
-              builder: (context) => QuizQuestionPage());
+              builder: (context) => const QuizQuestionPage());
 
         case Routes.quizResult:
           final arguments = settings.arguments as QuizResultPageArguments;
@@ -83,32 +83,32 @@ class RouteGenerator {
         case Routes.counter:
           return CupertinoPageRoute(
               settings: RouteSettings(name: route.path),
-              builder: (context) => CounterPage());
+              builder: (context) => const CounterPage());
 
         case Routes.movieList:
           return CupertinoPageRoute(
               settings: RouteSettings(name: route.path),
-              builder: (context) => MovieListPage());
+              builder: (context) => const MovieListPage());
 
         case Routes.authSplash:
           return CupertinoPageRoute(
               settings: RouteSettings(name: route.path),
-              builder: (context) => AuthSplashPage());
+              builder: (context) => const AuthSplashPage());
 
         case Routes.register:
           return CupertinoPageRoute(
               settings: RouteSettings(name: route.path),
-              builder: (context) => RegisterPage());
+              builder: (context) => const RegisterPage());
 
         case Routes.signin:
           return CupertinoPageRoute(
               settings: RouteSettings(name: route.path),
-              builder: (context) => SignInPage());
+              builder: (context) => const SignInPage());
 
         case Routes.userList:
           return CupertinoPageRoute(
               settings: RouteSettings(name: route.path),
-              builder: (context) => UserListScreen());
+              builder: (context) => const UserListScreen());
 
         default:
           return _buildFailPage();
@@ -121,8 +121,8 @@ class RouteGenerator {
   static MaterialPageRoute _buildFailPage() {
     return MaterialPageRoute(
         builder: (context) => Scaffold(
-            appBar: AppBar(title: Text("Error"), centerTitle: true),
-            body: Center(
+            appBar: AppBar(title: const Text("Error"), centerTitle: true),
+            body: const Center(
               child: Text("Page not found"),
             )
         )

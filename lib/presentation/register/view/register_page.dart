@@ -10,16 +10,20 @@ import 'package:provider/provider.dart';
 
 
 class RegisterPage extends StatelessWidget {
+  const RegisterPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => RegisterBloc(context.read<DataManager>()),
-      child: RegisterView(),
+      child: const RegisterView(),
     );
   }
 }
 
 class RegisterView extends StatefulWidget {
+  const RegisterView({Key? key}) : super(key: key);
+
   @override
   _RegisterViewState createState() => _RegisterViewState();
 }
@@ -40,7 +44,7 @@ class _RegisterViewState extends State<RegisterView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Register'),
+        title: const Text('Register'),
       ),
       body: BlocListener<RegisterBloc, RegisterState>(
         listener: (context, state) {
@@ -78,8 +82,8 @@ class _RegisterViewState extends State<RegisterView> {
             children: <Widget>[
               RegisterEmailInput(focusNode: _emailFocusNode),
               RegisterPasswordInput(focusNode: _passwordFocusNode),
-              SizedBox(height: 50),
-              RegisterSubmitButton(),
+              const SizedBox(height: 50),
+              const RegisterSubmitButton(),
             ],
           ),
         )

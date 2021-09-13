@@ -5,6 +5,8 @@ import 'package:flutter_architecture/presentation/register/bloc/register_bloc.da
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterSubmitButton extends StatelessWidget {
+  const RegisterSubmitButton({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterBloc, RegisterState>(
@@ -13,9 +15,9 @@ class RegisterSubmitButton extends StatelessWidget {
         //print("isFormValid ${state.isFormValid}");
         return ElevatedButton(
           onPressed: () => context.read<RegisterBloc>().add(FormSubmitted()),
-          child: Container(
+          child: SizedBox(
             width: 200,
-            child: state.submissionState is StateLoading ? Loading() : Center(child: Text('Submit')),
+            child: state.submissionState is StateLoading ? const Loading() : const Center(child: Text('Submit')),
           ),
         );
       },

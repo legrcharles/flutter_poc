@@ -4,12 +4,14 @@ import 'package:flutter_architecture/app_route.dart';
 import 'package:flutter_architecture/presentation/home/widgets/home_item.dart';
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home"),
+        title: const Text("Home"),
       ),
       body: ListView(
         children: [

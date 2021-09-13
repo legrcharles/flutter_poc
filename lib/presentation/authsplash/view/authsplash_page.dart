@@ -7,11 +7,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 class AuthSplashPage extends StatelessWidget {
+  const AuthSplashPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AuthSplashBloc(context.read<DataManager>()),
-      child: AuthSplashView(),
+      child: const AuthSplashView(),
     );
   }
 }
@@ -40,7 +42,7 @@ class _AuthSplashViewState extends State<AuthSplashView> {
         },
         child: Container(
             color: Colors.white,
-            child: Loading()
+            child: const Loading()
         )
     );
   }

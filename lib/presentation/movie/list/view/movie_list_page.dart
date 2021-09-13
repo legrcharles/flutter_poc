@@ -13,12 +13,14 @@ class MovieListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => MovieListBloc(context.read()),
-      child: MovieListView()
+      child: const MovieListView()
     );
   }
 }
 
 class MovieListView extends StatefulWidget {
+  const MovieListView({Key? key}) : super(key: key);
+
   @override
   _MovieListScreenState createState() => _MovieListScreenState();
 }
@@ -28,9 +30,9 @@ class _MovieListScreenState extends State<MovieListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF1F1F1),
+      backgroundColor: const Color(0xFFF1F1F1),
         appBar: AppBar(
-            title: Text("Movies")
+            title: const Text("Movies")
         ),
         body: BlocListener<MovieListBloc, MovieListState>(
           listener: (context, state) {
@@ -45,21 +47,25 @@ class _MovieListScreenState extends State<MovieListView> {
             }
           },
           child: Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: Column(children: <Widget>[
-                MovieListQueryInput(),
+                const MovieListQueryInput(),
                 Expanded(
                     child: BlocBuilder<MovieListBloc, MovieListState>(
                       builder: (context, state) {
                         final dataState = state.dataState;
 
-                        if (dataState is DataStateLoading) return Center(child: Loading());
-                        else if (dataState is DataStateEmpty) return Center(child: Text('Aucun film'));
-                        else if (dataState is DataStateLoaded<List<Movie>>) return MovieList(movies: dataState.data);
+                        if (dataState is DataStateLoading) {
+                          return const Center(child: Loading());
+                        } else if (dataState is DataStateEmpty) {
+                          return const Center(child: Text('Aucun film'));
+                        } else if (dataState is DataStateLoaded<List<Movie>>) {
+                          return MovieList(movies: dataState.data);
+                        }
 
-                        return MovieList(movies: []);
+                        return const MovieList(movies: []);
                       },
                     )
                 )

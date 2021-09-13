@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_architecture/core/form_input.dart';
 import 'package:flutter_architecture/core/success_wrapper.dart';
 import 'package:flutter_architecture/data/datamanager/datamanager.dart';
@@ -17,7 +18,9 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
 
   @override
   void onTransition(Transition<SignInEvent, SignInState> transition) {
-    print(transition);
+    if (!kReleaseMode) {
+      print(transition);
+    }
     super.onTransition(transition);
   }
 
@@ -85,14 +88,14 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
 
   InputStateWrapper get emailState {
     if (state.emailInput.value.trim().length < 4) {
-      return InputInvalid(error: "L'email doit contenir au moins 4 caractères");
+      return const InputInvalid(error: "L'email doit contenir au moins 4 caractères");
     }
     return InputValid();
   }
 
   InputStateWrapper get passwordState {
     if (state.passwordInput.value.trim().length < 4) {
-      return InputInvalid(error: "Le mot de passe doit contenir au moins 4 caractères");
+      return const InputInvalid(error: "Le mot de passe doit contenir au moins 4 caractères");
     }
     return InputValid();
   }

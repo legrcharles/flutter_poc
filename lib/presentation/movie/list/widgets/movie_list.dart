@@ -6,15 +6,15 @@ class MovieList extends StatelessWidget {
 
   final List<Movie> movies;
 
-  MovieList({required this.movies});
+  const MovieList({Key? key, required this.movies}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: this.movies.length,
+      itemCount: movies.length,
       itemBuilder: (context, index) {
 
-        final movie = this.movies[index];
+        final movie = movies[index];
         return MovieListItem(movie: movie);
       },
     );

@@ -10,7 +10,7 @@ class MovieListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Container(
+      child: SizedBox(
         height: 60,
         child: Row(
           children: [
@@ -20,12 +20,12 @@ class MovieListItem extends StatelessWidget {
                       fit: BoxFit.cover,
                       image: NetworkImage(movie.poster)
                   ),
-                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(4), topLeft: Radius.circular(4))
+                  borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(4), topLeft: Radius.circular(4))
               ),
               width: 50,
 
             ),
-            SizedBox(width: 10.0),
+            const SizedBox(width: 10.0),
             Expanded(
               child: Text(movie.title,
                   style: GoogleFonts.aleo(fontStyle: FontStyle.normal, fontSize: 14))
@@ -39,7 +39,7 @@ class MovieListItem extends StatelessWidget {
   Widget test() {
     return Card(
       child: ListTile(
-        contentPadding: EdgeInsets.all(10),
+        contentPadding: const EdgeInsets.all(10),
         leading: Container(
           decoration: BoxDecoration(
               image: DecorationImage(

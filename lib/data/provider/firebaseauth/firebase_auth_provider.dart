@@ -13,10 +13,13 @@ abstract class FirebaseAuthProviderInterface {
 class FirebaseAuthProvider extends FirebaseAuthProviderInterface {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  @override
   Stream<AppUser?> get user => _auth.authStateChanges().map(FirebaseUserMapper.map);
 
+  @override
   AppUser? get currentUser => FirebaseUserMapper.map(_auth.currentUser);
 
+  @override
   Future<AppUser?> signInWithEmailAndPassword(String email, String password) async {
     UserCredential result =
     await _auth.signInWithEmailAndPassword(email: email, password: password);
@@ -24,6 +27,7 @@ class FirebaseAuthProvider extends FirebaseAuthProviderInterface {
     return FirebaseUserMapper.map(user);
   }
 
+  @override
   Future<AppUser?> registerWithEmailAndPassword(String email, String password) async {
       UserCredential result =
       await _auth.createUserWithEmailAndPassword(email: email, password: password);

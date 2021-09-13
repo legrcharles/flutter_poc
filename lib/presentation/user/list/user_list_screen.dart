@@ -6,6 +6,8 @@ import 'package:flutter_architecture/data/datamanager/user_datamanager.dart';
 import 'package:provider/provider.dart';
 
 class UserListScreen extends StatelessWidget {
+  const UserListScreen({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -14,14 +16,14 @@ class UserListScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("User List"),
+        title: const Text("User List"),
         actions: <Widget>[
           TextButton.icon(
-            icon: Icon(
+            icon: const Icon(
               Icons.person,
               color: Colors.white,
             ),
-            label: Text("Log out",
+            label: const Text("Log out",
                 style: TextStyle(color: Colors.white)),
             onPressed: () async {
               await _dataManager.signOut();

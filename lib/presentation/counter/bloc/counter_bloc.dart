@@ -25,9 +25,8 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
       add(CounterChanged(value: newValue));
     } else if (event is Reset) {
       yield state.copyWith(value: 0);
-      add(CounterChanged(value: 0));
+      add(const CounterChanged(value: 0));
     } else if (event is CounterChanged) {
-      print("save value = ${event.value}");
       _dataManager.saveCounter(event.value);
     }
   }
@@ -35,7 +34,7 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
 
 // State
 
-class CounterState {
+class CounterState extends Equatable {
   final int value;
 
   const CounterState({

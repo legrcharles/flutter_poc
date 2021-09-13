@@ -30,7 +30,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
           dataState: (state.dataState is DataStateLoaded) ? state.dataState : null);
 
     } else if (event is ClearQuery) {
-      yield MovieListState();
+      yield const MovieListState();
 
     } else if (event is FormSubmitted) {
       yield state.copyWith(
@@ -57,7 +57,7 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
 
   InputStateWrapper get queyState {
     if (state.queryInput.value.trim().length < 4) {
-      return InputInvalid(error: "Le nom du film doit contenir au moins 4 caractères");
+      return const InputInvalid(error: "Le nom du film doit contenir au moins 4 caractères");
     }
     return InputValid();
   }

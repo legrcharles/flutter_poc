@@ -4,6 +4,8 @@ import 'package:flutter_architecture/presentation/movie/list/bloc/movie_list_blo
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MovieListQueryInput extends StatelessWidget {
+  const MovieListQueryInput({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class MovieListQueryInput extends StatelessWidget {
               //helperText: 'A complete, valid movie name e.g. Batman',
               suffixIcon: IconButton(
                 onPressed: () => context.read<MovieListBloc>().add(ClearQuery()),
-                icon: Icon(Icons.clear),
+                icon: const Icon(Icons.clear),
               ),
               errorText: inputState is InputInvalid ? inputState.error.toString() : null,
             ),

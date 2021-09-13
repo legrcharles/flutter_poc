@@ -7,7 +7,7 @@ class HomeItem extends StatelessWidget {
   final IconData _icon;
   final VoidCallback _onTap;
 
-  HomeItem(this._name, this._icon, this._onTap);
+  const HomeItem(this._name, this._icon, this._onTap, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

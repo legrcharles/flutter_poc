@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture/presentation/common/widgets/custom_button.dart';
 import 'package:flutter_architecture/presentation/quiz/question/bloc/quiz_question_bloc.dart';
 
 class QuizResultPageArguments {
@@ -15,14 +14,15 @@ class QuizResultPage extends StatelessWidget {
 
   const QuizResultPage({
     required this.args,
-  });
+    Key? key
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF22293E),
+      backgroundColor: const Color(0xFF22293E),
       appBar: AppBar(
-        title: Text("Results"),
+        title: const Text("Results"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -49,7 +49,7 @@ class QuizResultPage extends StatelessWidget {
           const SizedBox(height: 40.0),
           Center(
             child: ElevatedButton(
-              child: Text('New Quiz'),
+              child: const Text('New Quiz'),
               onPressed: () {
                 args.bloc.add(ResetData());
                 args.bloc.add(LoadData());

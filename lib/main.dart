@@ -2,17 +2,18 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture/app_module.dart';
 import 'package:flutter_architecture/app_route.dart';
-import 'package:flutter_architecture/data/datamanager/datamanager.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -37,8 +38,10 @@ class _MyAppState extends State<MyApp> {
         onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.indigo,
-          accentColor: Colors.redAccent
+          colorScheme: ColorScheme.fromSwatch(
+              primarySwatch: Colors.blueGrey,
+              primaryColorDark: Colors.indigo,
+              accentColor: Colors.redAccent),
         )
       ),
     );

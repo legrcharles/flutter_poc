@@ -5,6 +5,8 @@ import 'package:flutter_architecture/presentation/signin/bloc/signin_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignInSubmitButton extends StatelessWidget {
+  const SignInSubmitButton({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignInBloc, SignInState>(
@@ -15,9 +17,9 @@ class SignInSubmitButton extends StatelessWidget {
           onPressed: (state.status == FormStatus.valid)
               ? () => context.read<SignInBloc>().add(FormSubmitted())
               : null,
-          child: Container(
+          child: SizedBox(
             width: 200,
-            child: state.submissionState is StateLoading ? Loading() : Center(child: Text('Submit')),
+            child: state.submissionState is StateLoading ? const Loading() : const Center(child: Text('Submit')),
           ),
         );
       },

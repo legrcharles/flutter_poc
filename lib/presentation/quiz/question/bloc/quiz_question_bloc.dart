@@ -25,7 +25,7 @@ class QuizQuestionBloc extends Bloc<QuizQuestionEvent, QuizQuestionState> {
   @override
   Stream<QuizQuestionState> mapEventToState(QuizQuestionEvent event) async* {
     if (event is ResetData) {
-      yield QuizQuestionState();
+      yield const QuizQuestionState();
 
     } else if (event is LoadData) {
       yield state.copyWith(dataState: DataStateLoading());

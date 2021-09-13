@@ -19,9 +19,9 @@ class RegisterSuccessDialog extends StatelessWidget {
           children: <Widget>[
             Row(
               mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                const Icon(Icons.info),
-                const Flexible(
+              children: const <Widget>[
+                Icon(Icons.info),
+                Flexible(
                   child: Padding(
                     padding: EdgeInsets.all(10),
                     child: Text(

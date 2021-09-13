@@ -4,7 +4,7 @@ class CustomButton extends StatelessWidget {
   final String title;
   final VoidCallback? onTap;
 
-  const CustomButton({required this.title, this.onTap});
+  const CustomButton({required this.title, this.onTap, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,8 +12,8 @@ class CustomButton extends StatelessWidget {
     return ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
-          primary: Theme.of(context).accentColor,
-          minimumSize: Size(double.infinity, double.infinity)
+          primary: Theme.of(context).colorScheme.onSecondary,
+          minimumSize: const Size(double.infinity, double.infinity)
         ),
         child: Text(
             title,
@@ -23,28 +23,6 @@ class CustomButton extends StatelessWidget {
               fontWeight: FontWeight.w400,
             ),
         )
-    );
-
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-          margin: const EdgeInsets.all(20.0),
-          height: 50.0,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Color(0xffE6812F),
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-        alignment: Alignment.center,
-        child: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 18.0,
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
     );
   }
 }

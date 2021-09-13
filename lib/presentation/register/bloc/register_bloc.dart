@@ -72,17 +72,17 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
   InputStateWrapper get emailState {
     if (state.emailInput.value.trim().length < 4) {
-      return InputInvalid(error: "L'email doit contenir au moins 4 caractères.");
+      return const InputInvalid(error: "L'email doit contenir au moins 4 caractères.");
     }
     if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(state.emailInput.value)) {
-      return InputInvalid(error: "Merci de renseigner une adresse email valide.");
+      return const InputInvalid(error: "Merci de renseigner une adresse email valide.");
     }
     return InputValid();
   }
 
   InputStateWrapper get passwordState {
     if (state.passwordInput.value.trim().length < 6) {
-      return InputInvalid(error: "Le mot de passe doit contenir au moins 6 caractères");
+      return const InputInvalid(error: "Le mot de passe doit contenir au moins 6 caractères");
     }
     return InputValid();
   }

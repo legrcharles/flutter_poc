@@ -9,16 +9,20 @@ import 'package:provider/provider.dart';
 
 
 class SignInPage extends StatelessWidget {
+  const SignInPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SignInBloc(context.read<DataManager>()),
-      child: SignInView(),
+      child: const SignInView(),
     );
   }
 }
 
 class SignInView extends StatefulWidget {
+  const SignInView({Key? key}) : super(key: key);
+
   @override
   _SignInViewState createState() => _SignInViewState();
 }
@@ -55,14 +59,14 @@ class _SignInViewState extends State<SignInView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Sign in'),
+        title: const Text('Sign in'),
         actions: <Widget>[
           TextButton.icon(
-            icon: Icon(
+            icon: const Icon(
               Icons.person,
               color: Colors.white,
             ),
-            label: Text("Register",
+            label: const Text("Register",
                 style: TextStyle(color: Colors.white)),
             onPressed: () => Navigator.of(context).pushReplacementNamed(Routes.register.path),
           ),
@@ -104,8 +108,8 @@ class _SignInViewState extends State<SignInView> {
             children: <Widget>[
               SignInEmailInput(focusNode: _emailFocusNode),
               SignInPasswordInput(focusNode: _passwordFocusNode),
-              SizedBox(height: 50),
-              SignInSubmitButton(),
+              const SizedBox(height: 50),
+              const SignInSubmitButton(),
             ],
           ),
         )

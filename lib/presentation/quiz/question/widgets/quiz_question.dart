@@ -15,13 +15,14 @@ class QuizQuestions extends StatelessWidget {
   const QuizQuestions({
     required this.pageController,
     required this.questions,
-  }) : super();
+    Key? key
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
         controller: pageController,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         itemCount: questions.length,
         itemBuilder: (BuildContext context, int index) {
           final question = questions[index];
@@ -31,7 +32,7 @@ class QuizQuestions extends StatelessWidget {
               children: [
                 Container(
                   height: 60,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Color(0xff2E415A),
                       borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))
@@ -46,10 +47,10 @@ class QuizQuestions extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Row(
                   children: [
-                    Spacer(),
+                    const Spacer(),
                     Padding(padding: const EdgeInsets.only(right: 10.0, bottom: 5.0),
                         child: Text(
                             '${index + 1}/${questions.length}',
@@ -66,7 +67,7 @@ class QuizQuestions extends StatelessWidget {
                 Padding(padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
                   child: LinearProgressIndicator(
                     value: (index + 1) / questions.length,
-                    valueColor: AlwaysStoppedAnimation<Color>(Color(0xffE6812F)),
+                    valueColor: const AlwaysStoppedAnimation<Color>(Color(0xffE6812F)),
                     backgroundColor: Colors.white,
                   ),
                 ),
@@ -87,7 +88,7 @@ class QuizQuestions extends StatelessWidget {
                 Expanded(
                   child: GridView.builder(
                     itemCount: question.answers.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2, childAspectRatio: 1.4),
                     itemBuilder: (BuildContext context, int index) {
 
@@ -110,7 +111,7 @@ class QuizQuestions extends StatelessWidget {
                 BlocBuilder<QuizQuestionBloc, QuizQuestionState>(
                     builder: (context, state) {
                       if (state.answer.isEmpty) {
-                        return SizedBox.shrink();
+                        return const SizedBox.shrink();
                       }
 
                       return Container(
