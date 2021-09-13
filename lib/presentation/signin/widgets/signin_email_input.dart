@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_architecture/core/form_input.dart';
 import 'package:flutter_architecture/presentation/signin/bloc/signin_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,18 +12,19 @@ class SignInEmailInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SignInBloc, SignInState>(
       builder: (context, state) {
+        final inputState = state.emailInput.state;
+        final inputValue = state.emailInput.value;
+
         return TextFormField(
-          controller: TextEditingController(text: state.emailInput.value)
-            ..selection = TextSelection.fromPosition(TextPosition(offset: state.emailInput.value.length),
+          controller: TextEditingController(text: inputValue)
+            ..selection = TextSelection.fromPosition(TextPosition(offset: inputValue.length),
             ),
           focusNode: focusNode,
           decoration: InputDecoration(
             icon: const Icon(Icons.email),
             labelText: 'Email',
             helperText: 'A complete, valid email e.g. joe@gmail.com',
-            errorText: state.emailInput.status == FormInputStatus.invalid
-                ? 'Please ensure the email entered is valid'
-                : null,
+            errorText: inputState is InputInvalid ? inputState.error.toString() : null,
           ),
           keyboardType: TextInputType.emailAddress,
           onChanged: (value) {

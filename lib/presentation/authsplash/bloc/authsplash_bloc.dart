@@ -19,7 +19,7 @@ class AuthSplashBloc extends Bloc<AuthSplashEvent, AuthSplashState> {
 
   @override
   Stream<AuthSplashState> mapEventToState(AuthSplashEvent event) async* {
-    if (event is ViewCreated) {
+    if (event is LoadData) {
       yield _dataManager.currentUser != null ? AuthSplashState.connected : AuthSplashState.notConnected;
     }
   }
@@ -40,4 +40,4 @@ abstract class AuthSplashEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ViewCreated extends AuthSplashEvent {}
+class LoadData extends AuthSplashEvent {}

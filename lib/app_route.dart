@@ -5,7 +5,8 @@ import 'package:flutter_architecture/presentation/authsplash/authsplash.dart';
 import 'package:flutter_architecture/presentation/counter/counter.dart';
 import 'package:flutter_architecture/presentation/home/home_screen.dart';
 import 'package:flutter_architecture/presentation/movie/list/movie_list.dart';
-import 'package:flutter_architecture/presentation/quiz/question/quiz_question_screen.dart';
+import 'package:flutter_architecture/presentation/quiz/question/quiz_question.dart';
+import 'package:flutter_architecture/presentation/quiz/result/view/quiz_result_page.dart';
 import 'package:flutter_architecture/presentation/register/register_screen.dart';
 import 'package:flutter_architecture/presentation/signin/signin.dart';
 import 'package:flutter_architecture/presentation/user/list/user_list_screen.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_architecture/presentation/user/list/user_list_screen.dar
 enum Routes {
   home,
   quiz,
+  quizResult,
   counter,
   movieList,
   authSplash,
@@ -29,6 +31,9 @@ extension RoutesExtension on Routes {
 
       case Routes.quiz:
         return "/quiz";
+
+      case Routes.quizResult:
+        return "/quizResult";
 
       case Routes.counter:
         return "/counter";
@@ -66,7 +71,13 @@ class RouteGenerator {
         case Routes.quiz:
           return CupertinoPageRoute(
               settings: RouteSettings(name: route.path),
-              builder: (context) => QuizQuestionScreen());
+              builder: (context) => QuizQuestionPage());
+
+        case Routes.quizResult:
+          final arguments = settings.arguments as QuizResultPageArguments;
+          return CupertinoPageRoute(
+              settings: RouteSettings(name: route.path),
+              builder: (context) => QuizResultPage(args: arguments));
 
         case Routes.counter:
           return CupertinoPageRoute(
@@ -131,3 +142,10 @@ class RouteGenerator {
             }
         );
 */
+
+class ToRoute {
+  final Routes route;
+  final Object arguments;
+
+  ToRoute(this.route, this.arguments);
+}

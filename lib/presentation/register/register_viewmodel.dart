@@ -20,8 +20,8 @@ class RegisterViewModel {
   final BehaviorSubject<String> _passwordSubject;
   Stream<String> get passwordStream => _passwordSubject.stream;
 
-  final BehaviorSubject<SuccessWrapper?> _loginStateSubject;
-  Stream<SuccessWrapper?> get loginStateStream => _loginStateSubject.stream;
+  final BehaviorSubject<DataState?> _loginStateSubject;
+  Stream<DataState?> get loginStateStream => _loginStateSubject.stream;
 
   // Init
 
@@ -49,17 +49,17 @@ class RegisterViewModel {
   }
 
   void onSignIn() async {
-    _loginStateSubject.sink.add(SuccessWrapper.loading());
+    _loginStateSubject.sink.add(DataStateLoading());
     try {
       final result = await _dataManager.register(_emailSubject.value, _passwordSubject.value);
       if (result != null) {
-        _loginStateSubject.sink.add(SuccessWrapper.success());
+        _loginStateSubject.sink.add(DataStateSuccess());
         _navigator.pushNamed(Routes.userList.path);
       } else {
-        _loginStateSubject.sink.add(SuccessWrapper.error("Fail to login"));
+        _loginStateSubject.sink.add(DataStateError(error: "Fail to login"));
       }
     } catch (error) {
-      _loginStateSubject.sink.add(SuccessWrapper.error(error));
+      _loginStateSubject.sink.add(DataStateError(error: error));
     }
   }
 

@@ -16,8 +16,6 @@ class QueryChanged extends MovieListEvent {
   List<Object> get props => [query];
 }
 
-class QueryUnfocused extends MovieListEvent {}
-
 class ClearQuery extends MovieListEvent {}
 
 class FormSubmitted extends MovieListEvent {}

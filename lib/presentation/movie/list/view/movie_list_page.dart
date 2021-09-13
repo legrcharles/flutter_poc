@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_architecture/core/data_wrapper.dart';
+import 'package:flutter_architecture/data/models/movie.dart';
 import 'package:flutter_architecture/presentation/common/widgets/loading.dart';
 import 'package:flutter_architecture/presentation/movie/list/bloc/movie_list_bloc.dart';
 import 'package:flutter_architecture/presentation/movie/list/widgets/widgets.dart';
@@ -23,24 +25,6 @@ class MovieListView extends StatefulWidget {
 
 class _MovieListScreenState extends State<MovieListView> {
 
-  final _queryFocusNode = FocusNode();
-
-  @override
-  void initState() {
-    super.initState();
-    _queryFocusNode.addListener(() {
-      if (!_queryFocusNode.hasFocus) {
-        context.read<MovieListBloc>().add(QueryUnfocused());
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _queryFocusNode.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,11 +34,13 @@ class _MovieListScreenState extends State<MovieListView> {
         ),
         body: BlocListener<MovieListBloc, MovieListState>(
           listener: (context, state) {
-            if (state.status == FormStatus.failure) {
+            final dataState = state.dataState;
+
+            if (dataState is DataStateError) {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(
-                  SnackBar(content: Text(state.error)),
+                  SnackBar(content: Text(dataState.error.toString())),
                 );
             }
           },
@@ -63,13 +49,17 @@ class _MovieListScreenState extends State<MovieListView> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: Column(children: <Widget>[
-                MovieListQueryInput(focusNode: _queryFocusNode),
+                MovieListQueryInput(),
                 Expanded(
                     child: BlocBuilder<MovieListBloc, MovieListState>(
                       builder: (context, state) {
-                        if (state.status == FormStatus.loading) return Center(child: Loading());
+                        final dataState = state.dataState;
 
-                        return MovieList(movies: state.movies);
+                        if (dataState is DataStateLoading) return Center(child: Loading());
+                        else if (dataState is DataStateEmpty) return Center(child: Text('Aucun film'));
+                        else if (dataState is DataStateLoaded<List<Movie>>) return MovieList(movies: dataState.data);
+
+                        return MovieList(movies: []);
                       },
                     )
                 )

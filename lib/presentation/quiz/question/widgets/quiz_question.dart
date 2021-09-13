@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture/data/models/question.dart';
 import 'package:flutter_architecture/presentation/common/widgets/custom_button.dart';
-import 'package:flutter_architecture/presentation/quiz/question/quiz_question_viewmodel.dart';
+import 'package:flutter_architecture/presentation/quiz/question/bloc/quiz_question_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:html_character_entities/html_character_entities.dart';
 
@@ -10,12 +11,10 @@ import 'answer_card.dart';
 class QuizQuestions extends StatelessWidget {
   final PageController pageController;
   final List<Question> questions;
-  final QuizQuestionViewModel viewModel;
 
   const QuizQuestions({
     required this.pageController,
     required this.questions,
-    required this.viewModel,
   }) : super();
 
   @override
@@ -85,48 +84,46 @@ class QuizQuestions extends StatelessWidget {
                     ),
                   ),
                 ),
-                Expanded(child: GridView.builder(
-                  itemCount: question.answers.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, childAspectRatio: 1.4),
-                  itemBuilder: (BuildContext context, int index) {
+                Expanded(
+                  child: GridView.builder(
+                    itemCount: question.answers.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, childAspectRatio: 1.4),
+                    itemBuilder: (BuildContext context, int index) {
 
-                    final answer = question.answers[index];
+                      final answer = question.answers[index];
 
-                    return StreamBuilder<String?>(
-                      stream: viewModel.selectedAnswerStream,
-                      builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
-                        return AnswerCard(
-                            answer: answer,
-                            isSelected: answer == snapshot.data,
-                            isCorrect : answer == question.correctAnswer,
-                            isDisplayingAnswer : snapshot.hasData,
-                            onTap : () => viewModel.submitAnswer(question, answer)
-                        );
-                      },
-                    );
-                  },
-                )),
-                StreamBuilder<String?>(
-                  stream: viewModel.selectedAnswerStream,
-                  builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
-                    if (snapshot.hasData) {
-                      var currentIndex = pageController.page?.toInt() ?? 0;
+                      return BlocBuilder<QuizQuestionBloc, QuizQuestionState>(
+                        builder: (context, state) {
+                          return AnswerCard(
+                              answer: answer,
+                              isSelected: answer == state.answer,
+                              isCorrect : answer == question.correctAnswer,
+                              isDisplayingAnswer : state.answer.isNotEmpty,
+                              onTap : () => context.read<QuizQuestionBloc>().add(UserAnswered(answer: answer))
+                          );
+                        }
+                      );
+                    },
+                  )
+                ),
+                BlocBuilder<QuizQuestionBloc, QuizQuestionState>(
+                    builder: (context, state) {
+                      if (state.answer.isEmpty) {
+                        return SizedBox.shrink();
+                      }
+
                       return Container(
                           margin: const EdgeInsets.all(20.0),
                           height: 50.0,
                           width: double.infinity,
                           alignment: Alignment.center,
                           child: CustomButton(
-                              title: currentIndex + 1 < questions.length ? 'Next Question' : 'See results',
-                              onTap: () {
-                                viewModel.nextQuestion(context);
-                              }
+                              title: state.currentIndex + 1 < questions.length ? 'Next Question' : 'See results',
+                              onTap: () => context.read<QuizQuestionBloc>().add(NextQuestion())
                           )
                       );
                     }
-                    return SizedBox.shrink();
-                  },
                 )
               ],
             ),

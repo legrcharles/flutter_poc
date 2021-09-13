@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_architecture/core/form_input.dart';
 import 'package:flutter_architecture/presentation/movie/list/bloc/movie_list_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MovieListQueryInput extends StatelessWidget {
-  MovieListQueryInput({Key? key, required this.focusNode}) : super(key: key);
-
-  final FocusNode focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +11,13 @@ class MovieListQueryInput extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: BlocBuilder<MovieListBloc, MovieListState>(
         builder: (context, state) {
+          final inputState = state.queryInput.state;
+          final inputValue = state.queryInput.value;
+
           return TextFormField(
-            controller: TextEditingController(text: state.query)
-              ..selection = TextSelection.fromPosition(TextPosition(offset: state.query.length),
+            controller: TextEditingController(text: inputValue)
+              ..selection = TextSelection.fromPosition(TextPosition(offset: inputValue.length),
             ),
-            focusNode: focusNode,
             decoration: InputDecoration(
               icon: const Icon(Icons.search),
               labelText: 'Movie name',
@@ -26,10 +26,7 @@ class MovieListQueryInput extends StatelessWidget {
                 onPressed: () => context.read<MovieListBloc>().add(ClearQuery()),
                 icon: Icon(Icons.clear),
               ),
-              errorText: !state.isQueryValid
-                  ? 'Please ensure the movie name entered is valid'
-                  : null,
-
+              errorText: inputState is InputInvalid ? inputState.error.toString() : null,
             ),
             keyboardType: TextInputType.text,
             onChanged: (value) {

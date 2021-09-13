@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture/app_route.dart';
+import 'package:flutter_architecture/core/success_wrapper.dart';
 import 'package:flutter_architecture/data/datamanager/datamanager.dart';
 import 'package:flutter_architecture/presentation/signin/bloc/signin_bloc.dart';
 import 'package:flutter_architecture/presentation/signin/widgets/widgets.dart';
@@ -69,29 +70,33 @@ class _SignInViewState extends State<SignInView> {
       ),
       body: BlocListener<SignInBloc, SignInState>(
         listener: (context, state) {
-          if (state.status == FormStatus.submissionSuccess) {
+          final submissionState = state.submissionState;
+
+          if (submissionState is StateSuccess) {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
             showDialog<void>(
               context: context,
-              builder: (_) => SignInSuccessDialog(onPressed: () {
-                Navigator.of(context).pushNamed(Routes.userList.path);
-              }),
+              builder: (_) =>
+                  SignInSuccessDialog(onPressed: () {
+                    Navigator.of(context).pushNamed(Routes.userList.path);
+                  }),
             );
           }
-          if (state.status == FormStatus.submissionInProgress) {
+          if (submissionState is StateLoading) {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
                 const SnackBar(content: Text('Submitting...')),
               );
           }
-          if (state.status == FormStatus.submissionFailure) {
+          if (submissionState is StateError) {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
-                SnackBar(content: Text(state.submissionError)),
+                SnackBar(content: Text(submissionState.error.toString())),
               );
           }
+
         },
         child: Padding(
           padding: const EdgeInsets.all(8.0),

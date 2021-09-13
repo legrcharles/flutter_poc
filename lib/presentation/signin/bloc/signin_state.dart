@@ -1,49 +1,30 @@
 part of 'signin_bloc.dart';
 
-enum FormInputStatus { initial, filled, valid, invalid }
-
-class FormInput extends Equatable {
-
-  final String value;
-  final FormInputStatus status;
-  
-  const FormInput({
-    this.value = '',
-    this.status = FormInputStatus.initial
-  });
-
-  FormInput copyWith({ String? value, FormInputStatus? status }) =>
-    FormInput(value: value ?? this.value, status: status ?? this.status);
-  
-  @override
-  List<Object?> get props => [value, status];
-}
-
-enum FormStatus { initial, valid, invalid, submissionInProgress, submissionSuccess, submissionFailure }
+enum FormStatus { valid, invalid }
 
 class SignInState extends Equatable {
   final FormInput emailInput;
   final FormInput passwordInput;
-  final String submissionError;
-  final FormStatus status;
+  final SuccessWrapper? submissionState;
+  final FormStatus? status;
 
   const SignInState({
     this.emailInput = const FormInput(),
     this.passwordInput = const FormInput(),
-    this.submissionError = '',
-    this.status = FormStatus.initial,
+    this.submissionState,
+    this.status,
   });
 
-  SignInState copyWith({ FormInput? emailInput, FormInput? passwordInput, String? submissionError, FormStatus? status}) =>
+  SignInState copyWith({ FormInput? emailInput, FormInput? passwordInput, required SuccessWrapper? submissionState, required FormStatus? status}) =>
       SignInState(
         emailInput: emailInput ?? this.emailInput,
         passwordInput: passwordInput ?? this.passwordInput,
-        submissionError: submissionError ?? this.submissionError,
-        status: status ?? this.status,
+        submissionState: submissionState ,
+        status: status,
       );
 
   @override
-  List<Object> get props => [emailInput, passwordInput, submissionError, status];
+  List<Object?> get props => [emailInput, passwordInput, submissionState, status];
 }
 
 /*

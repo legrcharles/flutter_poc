@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_architecture/core/success_wrapper.dart';
 import 'package:flutter_architecture/presentation/common/widgets/loading.dart';
 import 'package:flutter_architecture/presentation/signin/bloc/signin_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +17,7 @@ class SignInSubmitButton extends StatelessWidget {
               : null,
           child: Container(
             width: 200,
-            child: state.status == FormStatus.submissionInProgress ? Loading() : Center(child: Text('Submit')),
+            child: state.submissionState is StateLoading ? Loading() : Center(child: Text('Submit')),
           ),
         );
       },

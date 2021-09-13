@@ -1,3 +1,51 @@
+
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+
+@immutable
+abstract class DataState extends Equatable {
+  const DataState();
+
+  @override
+  List<Object> get props => [];
+}
+
+class DataStateInitial extends DataState {}
+
+class DataStateLoading extends DataState {}
+
+class DataStateSuccess extends DataState {}
+
+class DataStateEmpty extends DataState {}
+
+class DataStateLoaded<T extends Object> extends DataState {
+  const DataStateLoaded({required this.data});
+
+  final T data;
+
+  @override
+  List<Object> get props => [data];
+}
+
+class DataStateError extends DataState {
+  const DataStateError({required this.error});
+
+  final Object error;
+
+  @override
+  List<Object> get props => [error];
+}
+
+
+
+
+
+
+
+
+
+
+/*
 class DataWrapper<T> {
   DataWrapperState state;
 
@@ -11,7 +59,7 @@ class DataWrapper<T> {
   DataWrapper.error(Object error)
       : state = StateError(error);
 
-  /*
+
   TResult when<TResult extends Object?>({
         required TResult Function() initial,
         required TResult Function() empty,
@@ -29,7 +77,7 @@ class DataWrapper<T> {
       return data(state.data);
     }
   }
-   */
+
 }
 
 class SuccessWrapper {
@@ -60,6 +108,8 @@ class StateError extends DataWrapperState {
   StateError(this.error);
 }
 
+
+*/
 /*
 class DataWrapper<T> {
 
@@ -87,16 +137,17 @@ class DataWrapper<T> {
   }
 
   R use<R extends DataWrapper>(
-      R Function(StateInitial) useStateInitial,
-      R Function(StateData) useStateData) {
+      R Function() useStateInitial,
+      R Function() useStateData) {
 
     if (this is StateInitial) {
-      return useStateInitial(this);
+      return useStateInitial();
     } else if (this is StateData) {
-      return useStateData(this);
+      return useStateData();
     }
     throw Exception('Invalid state');
   }
+
 }
 
 
@@ -110,7 +161,7 @@ class StateEmpty<T> extends DataWrapper<T> {
   StateEmpty() : super._();
 }
 class StateData<T> extends DataWrapper<T> {
-  T _data;
+  final T _data;
 
   get data => _data;
 
@@ -122,5 +173,5 @@ class StateError<T> extends DataWrapper<T> {
   StateError(this.error): super._();
 }
 
+*/
 
- */

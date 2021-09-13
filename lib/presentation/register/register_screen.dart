@@ -4,7 +4,6 @@ import 'package:flutter_architecture/core/data_wrapper.dart';
 import 'package:flutter_architecture/presentation/common/constants.dart';
 import 'package:flutter_architecture/presentation/common/widgets/loading.dart';
 import 'package:flutter_architecture/presentation/register/register_viewmodel.dart';
-import 'package:flutter_architecture/presentation/signin/signin_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
@@ -62,12 +61,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       appBar: AppBar(
         title: Text('Register')
       ),
-      body: StreamBuilder<SuccessWrapper?>(
+      body: StreamBuilder<DataState?>(
           stream: _viewModel.loginStateStream,
-          builder: (BuildContext context, AsyncSnapshot<SuccessWrapper?> snapshot) {
-            final state = snapshot.data?.state;
-            if (state is StateLoading) return Loading();
-            if (state is StateError) return _buildForm(state.error.toString());
+          builder: (BuildContext context, AsyncSnapshot<DataState?> snapshot) {
+            final state = snapshot.data;
+            if (state is DataStateLoading) return Loading();
+            if (state is DataStateError) return _buildForm(state.error.toString());
 
             return _buildForm("");
           }),

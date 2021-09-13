@@ -1,9 +1,11 @@
 import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_architecture/core/data_wrapper.dart';
+import 'package:flutter_architecture/core/form_input.dart';
 import 'package:flutter_architecture/data/datamanager/datamanager.dart';
 import 'package:flutter_architecture/data/datamanager/movie_datamanager.dart';
-import 'package:flutter_architecture/data/models/movie.dart';
 
 part 'movie_list_event.dart';
 part 'movie_list_state.dart';
@@ -23,37 +25,40 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
   @override
   Stream<MovieListState> mapEventToState(MovieListEvent event) async* {
     if (event is QueryChanged) {
-      final query = event.query;
-      yield state.copyWith(query: query, status: FormStatus.initial);
+      yield state.copyWith(
+          queryInput: state.queryInput.copyWith(value: event.query, state: null),
+          dataState: (state.dataState is DataStateLoaded) ? state.dataState : null);
 
     } else if (event is ClearQuery) {
       yield MovieListState();
 
-    } else if (event is QueryUnfocused) {
-      yield state.copyWith(isQueryValid: isQueryValid);
-
     } else if (event is FormSubmitted) {
-      yield state.copyWith(isQueryValid: isQueryValid);
+      yield state.copyWith(
+          queryInput: state.queryInput.copyWith(state: queyState),
+          dataState: null);
 
-      if (isFormValid) {
-        yield state.copyWith(status: FormStatus.loading);
+      if (queyState == InputValid()) {
+        yield state.copyWith(dataState: DataStateLoading());
 
         try {
-          final results = await _dataManager.getMovies(query: state.query);
+          final results = await _dataManager.getMovies(query: state.queryInput.value);
           final movies = results.toList();
-          yield state.copyWith(movies: movies, status: FormStatus.success);
+          if (movies.isEmpty) {
+            yield state.copyWith(dataState: DataStateEmpty());
+          } else {
+            yield state.copyWith(dataState: DataStateLoaded(data: movies));
+          }
         } catch (error) {
-          yield state.copyWith(
-              error: "Aucun résultat pour la recherche ${state.query}",
-              movies: <Movie>[],
-              status: FormStatus.failure);
+          yield state.copyWith(dataState: DataStateError(error: "Aucun résultat pour la recherche ${state.queryInput.value}"));
         }
       }
     }
   }
 
-  bool get isFormValid => isQueryValid;
-
-  bool get isQueryValid => state.query.trim().length > 4;
-
+  InputStateWrapper get queyState {
+    if (state.queryInput.value.trim().length < 4) {
+      return InputInvalid(error: "Le nom du film doit contenir au moins 4 caractères");
+    }
+    return InputValid();
+  }
 }

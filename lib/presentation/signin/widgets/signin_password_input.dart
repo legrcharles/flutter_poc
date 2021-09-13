@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_architecture/core/form_input.dart';
 import 'package:flutter_architecture/presentation/signin/bloc/signin_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,9 +12,12 @@ class SignInPasswordInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SignInBloc, SignInState>(
       builder: (context, state) {
+        final inputState = state.passwordInput.state;
+        final inputValue = state.passwordInput.value;
+
         return TextFormField(
-          controller: TextEditingController(text: state.passwordInput.value)
-            ..selection = TextSelection.fromPosition(TextPosition(offset: state.passwordInput.value.length),
+          controller: TextEditingController(text: inputValue)
+            ..selection = TextSelection.fromPosition(TextPosition(offset: inputValue.length),
             ),
           focusNode: focusNode,
           decoration: InputDecoration(
@@ -23,9 +27,7 @@ class SignInPasswordInput extends StatelessWidget {
             helperMaxLines: 2,
             labelText: 'Password',
             errorMaxLines: 2,
-            errorText: state.passwordInput.status == FormInputStatus.invalid
-                ? '''Password must be at least 8 characters and contain at least one letter and number'''
-                : null,
+            errorText: inputState is InputInvalid ? inputState.error.toString() : null,
           ),
           obscureText: true,
           onChanged: (value) {

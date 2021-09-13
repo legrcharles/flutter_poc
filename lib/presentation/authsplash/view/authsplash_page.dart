@@ -28,7 +28,7 @@ class _AuthSplashViewState extends State<AuthSplashView> {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 1), () {
-      context.read<AuthSplashBloc>().add(ViewCreated());
+      context.read<AuthSplashBloc>().add(LoadData());
     });
     return BlocListener<AuthSplashBloc, AuthSplashState>(
         listener: (context, state) {
