@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:developer' as dev;
 import 'package:flutter_architecture/app_route.dart';
 import 'package:flutter_architecture/core/data_wrapper.dart';
 import 'package:flutter_architecture/data/datamanager/datamanager.dart';
@@ -49,7 +50,7 @@ class _QuizQuestionViewState extends State<QuizQuestionView> with WidgetsBinding
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    print('AppLifecycleState: $state');
+    dev.log('AppLifecycleState: $state');
   }
 
   @override

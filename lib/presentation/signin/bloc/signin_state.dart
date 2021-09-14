@@ -25,4 +25,21 @@ class SignInState extends Equatable {
 
   @override
   List<Object?> get props => [emailInput, passwordInput, submissionState, status];
+
+  @override
+  String toString() {
+    return 'SignInState { emailInput: $emailInput, passwordInput: $passwordInput, submissionState: $submissionState, status: $status }';
+  }
+
+/*
+  @override
+  String toString() =>
+      """SignInState(
+        emailInput: $emailInput
+        passwordInput: $passwordInput
+        submissionState: $submissionState
+        status: $status)""";
+*/
+
+
 }

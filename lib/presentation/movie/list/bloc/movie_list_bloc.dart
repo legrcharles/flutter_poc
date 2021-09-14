@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'dart:developer' as dev;
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_architecture/core/data_wrapper.dart';
@@ -18,7 +18,9 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
 
   @override
   void onTransition(Transition<MovieListEvent, MovieListState> transition) {
-    print(transition);
+    dev.log("SignInBloc Transition :\ncurrentState : ${transition.currentState.toString()} \n"
+        "event : ${transition.event.toString()} \n"
+        "nextState : ${transition.nextState.toString()}");
     super.onTransition(transition);
   }
 

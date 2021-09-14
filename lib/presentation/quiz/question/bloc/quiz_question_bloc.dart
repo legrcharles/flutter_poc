@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'dart:developer' as dev;
 import 'package:flutter_architecture/app_route.dart';
 import 'package:flutter_architecture/core/data_wrapper.dart';
 import 'package:flutter_architecture/data/datamanager/datamanager.dart';
@@ -18,7 +19,9 @@ class QuizQuestionBloc extends Bloc<QuizQuestionEvent, QuizQuestionState> {
 
   @override
   void onTransition(Transition<QuizQuestionEvent, QuizQuestionState> transition) {
-    print(transition);
+    dev.log("SignInBloc Transition :\ncurrentState : ${transition.currentState.toString()} \n"
+        "event : ${transition.event.toString()} \n"
+        "nextState : ${transition.nextState.toString()}");
     super.onTransition(transition);
   }
 

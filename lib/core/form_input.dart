@@ -16,6 +16,20 @@ class FormInput extends Equatable {
 
   @override
   List<Object?> get props => [value, state];
+
+  @override
+  String toString() {
+    return 'FormInput { value: $value, state: $state }';
+  }
+
+  /*
+  @override
+  String toString() =>
+      """FormInput(
+        value: $value,
+        state: $state)""";
+
+   */
 }
 
 

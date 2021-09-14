@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'dart:developer' as dev;
 import 'package:flutter_architecture/data/datamanager/datamanager.dart';
 import 'package:flutter_architecture/data/datamanager/quiz_datamanager.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,7 +14,9 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
 
   @override
   void onTransition(Transition<CounterEvent, CounterState> transition) {
-    print(transition);
+    dev.log("SignInBloc Transition :\ncurrentState : ${transition.currentState.toString()} \n"
+        "event : ${transition.event.toString()} \n"
+        "nextState : ${transition.nextState.toString()}");
     super.onTransition(transition);
   }
 

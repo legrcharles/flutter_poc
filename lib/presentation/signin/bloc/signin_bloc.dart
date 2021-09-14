@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'dart:developer' as dev;
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_architecture/core/form_input.dart';
 import 'package:flutter_architecture/core/success_wrapper.dart';
 import 'package:flutter_architecture/data/datamanager/datamanager.dart';
@@ -18,9 +18,9 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
 
   @override
   void onTransition(Transition<SignInEvent, SignInState> transition) {
-    if (!kReleaseMode) {
-      print(transition);
-    }
+    dev.log("SignInBloc Transition :\ncurrentState : ${transition.currentState.toString()} \n"
+        "event : ${transition.event.toString()} \n"
+        "nextState : ${transition.nextState.toString()}");
     super.onTransition(transition);
   }
 
