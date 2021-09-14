@@ -90,6 +90,9 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     if (state.emailInput.value.trim().length < 4) {
       return const InputInvalid(error: "L'email doit contenir au moins 4 caractères");
     }
+    if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(state.emailInput.value)) {
+      return const InputInvalid(error: "Merci de renseigner une adresse email valide.");
+    }
     return InputValid();
   }
 

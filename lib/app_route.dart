@@ -9,6 +9,7 @@ import 'package:flutter_architecture/presentation/quiz/question/quiz_question.da
 import 'package:flutter_architecture/presentation/quiz/result/quiz_result_page.dart';
 import 'package:flutter_architecture/presentation/signin/signin.dart';
 import 'package:flutter_architecture/presentation/user/list/user_list_screen.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import 'presentation/register/register.dart';
 
@@ -58,14 +59,14 @@ extension RoutesExtension on Routes {
 }
 
 class RouteGenerator {
-  static Route<dynamic> generateRoute(RouteSettings settings) {
+  static Route<dynamic> generateRoute(RouteSettings settings, BuildContext context) {
 
     final route = Routes.values.firstWhereOrNull((e) => e.path == settings.name);
 
     if (route != null) {
       switch (route) {
         case Routes.home :
-          return CupertinoPageRoute(
+          return platformPageRoute(context: context,
               settings: RouteSettings(name: route.path),
               builder: (context) => const HomeScreen());
 
@@ -81,7 +82,7 @@ class RouteGenerator {
               builder: (context) => QuizResultPage(args: arguments));
 
         case Routes.counter:
-          return CupertinoPageRoute(
+          return platformPageRoute(context: context,
               settings: RouteSettings(name: route.path),
               builder: (context) => const CounterPage());
 
@@ -106,7 +107,7 @@ class RouteGenerator {
               builder: (context) => const SignInPage());
 
         case Routes.userList:
-          return CupertinoPageRoute(
+          return platformPageRoute(context: context,
               settings: RouteSettings(name: route.path),
               builder: (context) => const UserListScreen());
 

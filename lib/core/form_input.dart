@@ -21,15 +21,6 @@ class FormInput extends Equatable {
   String toString() {
     return 'FormInput { value: $value, state: $state }';
   }
-
-  /*
-  @override
-  String toString() =>
-      """FormInput(
-        value: $value,
-        state: $state)""";
-
-   */
 }
 
 

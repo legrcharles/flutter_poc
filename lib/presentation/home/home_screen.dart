@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture/app_route.dart';
+import 'package:flutter_architecture/presentation/common/utils/color_utils.dart';
 import 'package:flutter_architecture/presentation/home/widgets/home_item.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -9,9 +11,19 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
         title: const Text("Home"),
+        cupertino: (context, platform) {
+          return CupertinoNavigationBarData(
+            transitionBetweenRoutes: true,
+            automaticallyImplyLeading: true,
+            previousPageTitle: "Back"
+          );
+        },
+        material: (context, platform) {
+          return MaterialAppBarData();
+        },
       ),
       body: ListView(
         children: [

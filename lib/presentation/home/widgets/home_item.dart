@@ -14,7 +14,7 @@ class HomeItem extends StatelessWidget {
     return GestureDetector(
       onTap: _onTap,
       child: Card(
-        elevation: 4,
+        elevation: 2,
         child: ListTile(
           leading: Icon(_icon, color: Colors.red),
           title: Text(_name,

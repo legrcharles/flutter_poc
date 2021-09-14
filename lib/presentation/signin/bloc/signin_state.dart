@@ -31,15 +31,4 @@ class SignInState extends Equatable {
     return 'SignInState { emailInput: $emailInput, passwordInput: $passwordInput, submissionState: $submissionState, status: $status }';
   }
 
-/*
-  @override
-  String toString() =>
-      """SignInState(
-        emailInput: $emailInput
-        passwordInput: $passwordInput
-        submissionState: $submissionState
-        status: $status)""";
-*/
-
-
 }
