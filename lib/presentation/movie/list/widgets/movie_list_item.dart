@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture/data/models/movie.dart';
+import 'package:flutter_architecture/presentation/common/utils/color_utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MovieListItem extends StatelessWidget {
@@ -10,6 +12,7 @@ class MovieListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: Platform.isIOS ? 0 : 1,
       child: SizedBox(
         height: 60,
         child: Row(
@@ -28,31 +31,11 @@ class MovieListItem extends StatelessWidget {
             const SizedBox(width: 10.0),
             Expanded(
               child: Text(movie.title,
-                  style: GoogleFonts.aleo(fontStyle: FontStyle.normal, fontSize: 14))
+                  style: Theme.of(context).textTheme.bodyText2)
             )
           ],
         ),
       )
-    );
-  }
-
-  Widget test() {
-    return Card(
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(10),
-        leading: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(movie.poster)
-              ),
-              borderRadius: BorderRadius.circular(6)
-          ),
-          width: 50,
-          height: 100,
-        ),
-        title: Text(movie.title),
-      ),
     );
   }
 }

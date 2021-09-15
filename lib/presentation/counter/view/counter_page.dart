@@ -1,7 +1,9 @@
+import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture/app_route.dart';
 import 'package:flutter_architecture/data/datamanager/datamanager.dart';
+import 'package:flutter_architecture/generated/locale_keys.g.dart';
 import 'package:flutter_architecture/presentation/common/utils/color_utils.dart';
 import 'package:flutter_architecture/presentation/counter/bloc/counter_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,12 +67,12 @@ class _CounterViewState extends State<CounterView> {
 
     return PlatformScaffold(
       appBar: PlatformAppBar(
-        title: const Text("Mon compteur"),
+        title: const Text(LocaleKeys.counter_title).tr(),
         cupertino: (context, platform) {
           return CupertinoNavigationBarData(
             transitionBetweenRoutes: true,
             automaticallyImplyLeading: true,
-            previousPageTitle: "Home"
+              previousPageTitle: LocaleKeys.home_title.tr()
           );
         },
         material: (context, platform) {
@@ -82,19 +84,26 @@ class _CounterViewState extends State<CounterView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
+            Text(
               'You have pushed the button this many times:',
+              style: Theme.of(context).textTheme.bodyText1,
             ),
             BlocBuilder<CounterBloc, CounterState>(
                 builder: (context, state) {
                   return Text('${state.value}',
-                    style: Theme.of(context).textTheme.headline4,
+                    style: Theme.of(context).textTheme.headline2,
                   );
                 },
             ),
             Container(height: 40),
-            PlatformButton(
-              child: const Text("Increment"),
+            PlatformTextButton(
+              child: Text(
+                "Increment",
+                style: TextStyle(
+                  color: AppColor.primary,
+                  fontSize: 20
+                )
+              ),
               onPressed: () => context.read<CounterBloc>().add(Increment()),
             )
           ],

@@ -1,12 +1,16 @@
+import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as dev;
 import 'package:flutter_architecture/app_route.dart';
 import 'package:flutter_architecture/core/data_wrapper.dart';
 import 'package:flutter_architecture/data/datamanager/datamanager.dart';
 import 'package:flutter_architecture/data/models/question.dart';
+import 'package:flutter_architecture/generated/locale_keys.g.dart';
 import 'package:flutter_architecture/presentation/quiz/question/bloc/quiz_question_bloc.dart';
 import 'package:flutter_architecture/presentation/quiz/question/widgets/widgets.dart';
+import 'package:flutter_architecture/presentation/quiz/result/quiz_result_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 
 class QuizQuestionPage extends StatelessWidget {
@@ -64,36 +68,41 @@ class _QuizQuestionViewState extends State<QuizQuestionView> with WidgetsBinding
 
         if (toRoute != null) {
           Navigator.of(context).pushNamed(toRoute.route.path, arguments: toRoute.arguments);
+
         } else if (_pageController.hasClients) {
           _pageController.animateToPage(state.currentIndex, duration: const Duration(microseconds: 250), curve: Curves.linear);
         }
       },
-      child: Container(
-        decoration: const BoxDecoration(
-          color: Color(0xFF22293E),
+      child: PlatformScaffold(
+        appBar: PlatformAppBar(
+          title: const Text(LocaleKeys.quiz_title).tr(),
+          cupertino: (context, platform) {
+            return CupertinoNavigationBarData(
+              transitionBetweenRoutes: true,
+              automaticallyImplyLeading: true,
+              previousPageTitle: LocaleKeys.home_title.tr()
+            );
+          },
+          material: (context, platform) {
+            return MaterialAppBarData();
+          },
         ),
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text("My App"),
-          ),
-          backgroundColor: Colors.transparent,
-          body: BlocBuilder<QuizQuestionBloc, QuizQuestionState>(
-            builder: (context, state) {
-              final dataState = state.dataState;
+        body: BlocBuilder<QuizQuestionBloc, QuizQuestionState>(
+          builder: (context, state) {
+            final dataState = state.dataState;
 
-              if (dataState is DataStateLoading) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (dataState is DataStateEmpty) {
-                return const Center(child: Text('Aucune questions'));
-              } else if (dataState is DataStateError) {
-                return Center(child: Text('${dataState.error}'));
-              } else if (dataState is DataStateLoaded<List<Question>>) {
-                return QuizQuestions(pageController: _pageController, questions: dataState.data);
-              }
+            if (dataState is DataStateLoading) {
+              return Center(child: PlatformCircularProgressIndicator());
+            } else if (dataState is DataStateEmpty) {
+              return const Center(child: Text('Aucune questions'));
+            } else if (dataState is DataStateError) {
+              return Center(child: Text('${dataState.error}'));
+            } else if (dataState is DataStateLoaded<List<Question>>) {
+              return QuizQuestions(pageController: _pageController, questions: dataState.data);
+            }
 
-              return const Center(child: CircularProgressIndicator());
-            },
-          ),
+            return Center(child: PlatformCircularProgressIndicator());
+          },
         ),
       ),
     );

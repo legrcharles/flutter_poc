@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_architecture/presentation/common/utils/color_utils.dart';
 import 'package:flutter_architecture/presentation/common/widgets/circular_icon.dart';
 import 'package:html_character_entities/html_character_entities.dart';
 
@@ -27,15 +28,15 @@ class AnswerCard extends StatelessWidget {
         margin: const EdgeInsets.all(10.0),
         padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
-          color: const Color(0xffCCDCE7),
+          color: AppColor.backgroundLight1,
           border: Border.all(
             color: isDisplayingAnswer
                 ? isCorrect
-                    ? Colors.green
+                    ? AppColor.valid
                     : isSelected
-                        ? Colors.red
-                        : const Color(0xffCCDCE7)
-                : const Color(0xffCCDCE7),
+                        ? AppColor.error
+                        : AppColor.backgroundLight1
+                : AppColor.backgroundLight1,
             width: 4.0,
           ),
           borderRadius: BorderRadius.circular(10.0),
@@ -47,19 +48,19 @@ class AnswerCard extends StatelessWidget {
               child: Text(
                 HtmlCharacterEntities.decode(answer),
                 style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18.0,
+                  color: AppColor.textDark3,
+                  fontSize: 15.0,
                   fontWeight: isDisplayingAnswer && isCorrect ? FontWeight.bold : FontWeight.normal,
                 ),
               ),
             ),
             if (isDisplayingAnswer)
                 isCorrect
-                    ? const CircularIcon(icon: Icons.check, color: Colors.green)
+                    ? CircularIcon(icon: Icons.check, color: AppColor.valid)
                     : isSelected
-                        ? const CircularIcon(
+                        ? CircularIcon(
                             icon: Icons.close,
-                            color: Colors.red,
+                            color: AppColor.error,
                           )
                         : const SizedBox.shrink()
           ],

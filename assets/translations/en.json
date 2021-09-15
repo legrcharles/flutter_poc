@@ -3,10 +3,29 @@
 
   "home" : {
     "title": "Home",
-    "items": {
-      "quiz" : "Quiz",
-      "counter": "Counter",
-      "movies": "Movie List"
+    "popup": {
+      "country_title": "Country",
+      "country_content": "Select your country"
     }
+  },
+
+  "quiz" : {
+    "title": "Quiz",
+    "button_next": "Next Question",
+    "button_see_result": "See results",
+
+    "result": {
+      "title": "Results",
+      "label_correct": "CORRECT",
+      "button_new": "New Quiz"
+    }
+  },
+
+  "counter" : {
+    "title": "Counter"
+  },
+
+  "movies": {
+    "title": "Movie List"
   }
 }

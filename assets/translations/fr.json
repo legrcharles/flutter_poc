@@ -1,13 +1,32 @@
 {
   "title" : "Mon App",
 
-
   "home" : {
     "title": "Acceuil",
-    "items": {
-      "quiz" : "Questions",
-      "counter": "Compteur",
-      "movies": "Films"
+    "popup": {
+      "country_title": "Pays",
+      "country_content": "Sélectionnez votre pays"
     }
+  },
+
+  "quiz" : {
+    "title": "Questions",
+    "button_next": "Question suivante",
+    "button_see_result": "Voir le résultat",
+
+
+    "result": {
+      "title": "Résultats",
+      "label_correct": "CORRECT",
+      "button_new": "Nouvelles questions"
+    }
+  },
+
+  "counter" : {
+    "title": "Compteur"
+  },
+
+  "movies": {
+    "title": "Films"
   }
 }

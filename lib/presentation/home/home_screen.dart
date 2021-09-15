@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_architecture/app_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_architecture/generated/locale_keys.g.dart';
+import 'package:flutter_architecture/presentation/common/utils/color_utils.dart';
 import 'package:flutter_architecture/presentation/home/widgets/home_item.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
@@ -28,24 +29,23 @@ class HomeScreen extends StatelessWidget {
         trailingActions: [
           PlatformIconButton(
             padding: const EdgeInsets.all(4.0),
-            icon: const Icon(
+            icon: Icon(
               Icons.outlined_flag,
+
             ),
-            onPressed: () {
-              context.setLocale(context.locale == const Locale('fr') ? const Locale('en') : const Locale('fr'));
-            },
+            onPressed: () => _showCountryDialog(context),
           )
         ],
       ),
       body: ListView(
         children: [
-          HomeItem(LocaleKeys.home_items_quiz.tr(), Icons.question_answer, () => {
+          HomeItem(LocaleKeys.quiz_title.tr(), Icons.question_answer, () => {
             Navigator.pushNamed(context, Routes.quiz.path)
           }),
-          HomeItem(LocaleKeys.home_items_counter.tr(), Icons.looks_one, () => {
+          HomeItem(LocaleKeys.counter_title.tr(), Icons.looks_one, () => {
             Navigator.pushNamed(context, Routes.counter.path, arguments: 6)
           }),
-          HomeItem(LocaleKeys.home_items_movies.tr(), Icons.movie_creation_outlined, () => {
+          HomeItem(LocaleKeys.movies_title.tr(), Icons.movie_creation_outlined, () => {
             Navigator.pushNamed(context, Routes.movieList.path)
           }),
           HomeItem("Auth Splash", Icons.verified_user, () => {
@@ -56,4 +56,29 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  void _showCountryDialog(BuildContext context) {
+    showPlatformDialog(
+      context: context,
+      builder: (_) => PlatformAlertDialog(
+        title: const Text(LocaleKeys.home_popup_country_title).tr(),
+        content: const Text(LocaleKeys.home_popup_country_content).tr(),
+        actions: <Widget>[
+          PlatformDialogAction(
+            child: PlatformText('France'),
+            onPressed: () {
+              context.setLocale(const Locale('fr'));
+              Navigator.pop(context);
+            },
+          ),
+          PlatformDialogAction(
+            child: PlatformText('English'),
+            onPressed: () {
+              context.setLocale(const Locale('en'));
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+    );
+  }
 }

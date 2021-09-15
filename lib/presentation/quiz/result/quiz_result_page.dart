@@ -1,5 +1,10 @@
+import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_architecture/generated/locale_keys.g.dart';
+import 'package:flutter_architecture/presentation/common/utils/color_utils.dart';
+import 'package:flutter_architecture/presentation/common/widgets/app_button.dart';
 import 'package:flutter_architecture/presentation/quiz/question/bloc/quiz_question_bloc.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class QuizResultPageArguments {
   final int nbCorrect;
@@ -19,10 +24,17 @@ class QuizResultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF22293E),
-      appBar: AppBar(
-        title: const Text("Results"),
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+        title: const Text(LocaleKeys.quiz_result_title).tr(),
+        cupertino: (context, platform) {
+          return CupertinoNavigationBarData(
+              transitionBetweenRoutes: true,
+              automaticallyImplyLeading: true,
+              previousPageTitle: LocaleKeys.quiz_title.tr()
+
+          );
+        },
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -30,17 +42,17 @@ class QuizResultPage extends StatelessWidget {
         children: [
           Text(
             '${args.nbCorrect} / ${args.nbQuestions}',
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: AppColor.text,
               fontSize: 60.0,
               fontWeight: FontWeight.w600,
             ),
             textAlign: TextAlign.center,
           ),
-          const Text(
-            'CORRECT',
+          Text(
+            LocaleKeys.quiz_result_label_correct.tr(),
             style: TextStyle(
-              color: Colors.white,
+              color: AppColor.textDark3,
               fontSize: 48.0,
               fontWeight: FontWeight.bold,
             ),
@@ -48,16 +60,15 @@ class QuizResultPage extends StatelessWidget {
           ),
           const SizedBox(height: 40.0),
           Center(
-            child: ElevatedButton(
-              child: const Text('New Quiz'),
+            child: AppButton(
+              style: AppButtonStyle.secondary,
+              title: LocaleKeys.quiz_result_button_new,
               onPressed: () {
                 args.bloc.add(ResetData());
                 args.bloc.add(LoadData());
                 Navigator.of(context).pop();
-                //context.refresh(questionsProvider);
-                //context.read(quizViewModelProvider.notifier).reset();
               },
-            ),
+            )
           ),
         ],
       ),

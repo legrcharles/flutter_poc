@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'custom_button.dart';
+import 'app_button.dart';
 
 class Error extends StatelessWidget {
   final String message;
@@ -27,9 +27,9 @@ class Error extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20.0),
-          CustomButton(
+          AppButton(
             title: 'Retry',
-            onTap: () => callback,
+            onPressed: () => callback,
           )
         ],
       ),

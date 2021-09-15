@@ -1,5 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_architecture/presentation/common/utils/color_utils.dart';
 
 class HomeItem extends StatelessWidget {
 
@@ -14,12 +16,11 @@ class HomeItem extends StatelessWidget {
     return GestureDetector(
       onTap: _onTap,
       child: Card(
-        elevation: 2,
+        color: AppColor.backgroundLight1,
+        elevation: Platform.isIOS ? 0 : 2,
         child: ListTile(
-          leading: Icon(_icon, color: Colors.red),
-          title: Text(_name,
-              style: GoogleFonts.aleo(fontStyle: FontStyle.normal, color: Colors.grey[500])
-          ),
+          leading: Icon(_icon, color: Theme.of(context).colorScheme.secondary),
+          title: Text(_name, style: TextStyle(color: AppColor.text))
         ),
       ),
     );

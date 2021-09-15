@@ -71,14 +71,15 @@ class RouteGenerator {
               builder: (context) => const HomeScreen());
 
         case Routes.quiz:
-          return CupertinoPageRoute(
+          return platformPageRoute(context: context,
               settings: RouteSettings(name: route.path),
               builder: (context) => const QuizQuestionPage());
 
         case Routes.quizResult:
           final arguments = settings.arguments as QuizResultPageArguments;
-          return CupertinoPageRoute(
+          return platformPageRoute(context: context,
               settings: RouteSettings(name: route.path),
+              fullscreenDialog: true,
               builder: (context) => QuizResultPage(args: arguments));
 
         case Routes.counter:
@@ -87,22 +88,22 @@ class RouteGenerator {
               builder: (context) => const CounterPage());
 
         case Routes.movieList:
-          return CupertinoPageRoute(
+          return platformPageRoute(context: context,
               settings: RouteSettings(name: route.path),
               builder: (context) => const MovieListPage());
 
         case Routes.authSplash:
-          return CupertinoPageRoute(
+          return platformPageRoute(context: context,
               settings: RouteSettings(name: route.path),
               builder: (context) => const AuthSplashPage());
 
         case Routes.register:
-          return CupertinoPageRoute(
+          return platformPageRoute(context: context,
               settings: RouteSettings(name: route.path),
               builder: (context) => const RegisterPage());
 
         case Routes.signin:
-          return CupertinoPageRoute(
+          return platformPageRoute(context: context,
               settings: RouteSettings(name: route.path),
               builder: (context) => const SignInPage());
 
@@ -112,15 +113,15 @@ class RouteGenerator {
               builder: (context) => const UserListScreen());
 
         default:
-          return _buildFailPage();
+          return _buildFailPage(context);
       }
     } else {
-      return _buildFailPage();
+      return _buildFailPage(context);
     }
   }
 
-  static MaterialPageRoute _buildFailPage() {
-    return MaterialPageRoute(
+  static PageRoute<dynamic> _buildFailPage(BuildContext context) {
+    return platformPageRoute(context: context,
         builder: (context) => Scaffold(
             appBar: AppBar(title: const Text("Error"), centerTitle: true),
             body: const Center(
