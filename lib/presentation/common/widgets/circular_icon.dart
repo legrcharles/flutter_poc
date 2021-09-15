@@ -7,7 +7,8 @@ class CircularIcon extends StatelessWidget {
   const CircularIcon({
     required this.icon,
     required this.color,
-  }) : super();
+    Key? key
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,22 +1,24 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture/presentation/authsplash/authsplash_screen.dart';
-import 'package:flutter_architecture/presentation/counter/counter_screen.dart';
-import 'package:flutter_architecture/presentation/form/form_screen.dart';
+import 'package:flutter_architecture/presentation/authsplash/authsplash.dart';
+import 'package:flutter_architecture/presentation/counter/counter.dart';
 import 'package:flutter_architecture/presentation/home/home_screen.dart';
-import 'package:flutter_architecture/presentation/movie/list/movie_list_screen.dart';
-import 'package:flutter_architecture/presentation/quiz/question/quiz_question_screen.dart';
-import 'package:collection/collection.dart';
-import 'package:flutter_architecture/presentation/register/register_screen.dart';
-import 'package:flutter_architecture/presentation/signin/signin_screen.dart';
+import 'package:flutter_architecture/presentation/movie/list/movie_list.dart';
+import 'package:flutter_architecture/presentation/quiz/question/quiz_question.dart';
+import 'package:flutter_architecture/presentation/quiz/result/quiz_result_page.dart';
+import 'package:flutter_architecture/presentation/signin/signin.dart';
 import 'package:flutter_architecture/presentation/user/list/user_list_screen.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+
+import 'presentation/register/register.dart';
 
 enum Routes {
   home,
   quiz,
+  quizResult,
   counter,
   movieList,
-  form,
   authSplash,
   register,
   signin,
@@ -32,14 +34,14 @@ extension RoutesExtension on Routes {
       case Routes.quiz:
         return "/quiz";
 
+      case Routes.quizResult:
+        return "/quizResult";
+
       case Routes.counter:
         return "/counter";
 
       case Routes.movieList:
         return "/movies";
-
-      case Routes.form:
-        return "/form";
 
       case Routes.authSplash:
         return "/authSplash";
@@ -57,60 +59,79 @@ extension RoutesExtension on Routes {
 }
 
 class RouteGenerator {
-  static Route<dynamic> generateRoute(RouteSettings settings) {
+  static Route<dynamic> generateRoute(RouteSettings settings, BuildContext context) {
 
     final route = Routes.values.firstWhereOrNull((e) => e.path == settings.name);
 
     if (route != null) {
       switch (route) {
         case Routes.home :
-          return CupertinoPageRoute(
+          return platformPageRoute(context: context,
               settings: RouteSettings(name: route.path),
-              builder: (context) => HomeScreen());
+              builder: (context) => const HomeScreen());
 
         case Routes.quiz:
           return CupertinoPageRoute(
               settings: RouteSettings(name: route.path),
-              builder: (context) => QuizQuestionScreen());
+              builder: (context) => const QuizQuestionPage());
 
-        case Routes.counter:
+        case Routes.quizResult:
+          final arguments = settings.arguments as QuizResultPageArguments;
           return CupertinoPageRoute(
               settings: RouteSettings(name: route.path),
-              builder: (context) =>
-                CounterScreen(title: "My Counter",
-                  initialValue: int.parse(settings.arguments.toString())));
+              builder: (context) => QuizResultPage(args: arguments));
+
+        case Routes.counter:
+          return platformPageRoute(context: context,
+              settings: RouteSettings(name: route.path),
+              builder: (context) => const CounterPage());
 
         case Routes.movieList:
           return CupertinoPageRoute(
               settings: RouteSettings(name: route.path),
-              builder: (context) => MovieListScreen());
-
-        case Routes.form:
-          return CupertinoPageRoute(
-              settings: RouteSettings(name: route.path),
-              builder: (context) => FormScreen());
+              builder: (context) => const MovieListPage());
 
         case Routes.authSplash:
           return CupertinoPageRoute(
               settings: RouteSettings(name: route.path),
-              builder: (context) => AuthSplashScreen());
+              builder: (context) => const AuthSplashPage());
 
         case Routes.register:
           return CupertinoPageRoute(
               settings: RouteSettings(name: route.path),
-              builder: (context) => RegisterScreen());
+              builder: (context) => const RegisterPage());
 
         case Routes.signin:
           return CupertinoPageRoute(
               settings: RouteSettings(name: route.path),
-              builder: (context) => SignInScreen());
+              builder: (context) => const SignInPage());
 
         case Routes.userList:
-          return CupertinoPageRoute(
+          return platformPageRoute(context: context,
               settings: RouteSettings(name: route.path),
-              builder: (context) => UserListScreen());
+              builder: (context) => const UserListScreen());
 
-      /*
+        default:
+          return _buildFailPage();
+      }
+    } else {
+      return _buildFailPage();
+    }
+  }
+
+  static MaterialPageRoute _buildFailPage() {
+    return MaterialPageRoute(
+        builder: (context) => Scaffold(
+            appBar: AppBar(title: const Text("Error"), centerTitle: true),
+            body: const Center(
+              child: Text("Page not found"),
+            )
+        )
+    );
+  }
+}
+
+/*
       case Routes.quiz:
         return PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) => QuizScreen(),
@@ -123,22 +144,10 @@ class RouteGenerator {
             }
         );
 */
-        default:
-          return _buildFailPage();
-      }
-    } else {
-      return _buildFailPage();
-    }
-  }
 
-  static MaterialPageRoute _buildFailPage() {
-    return MaterialPageRoute(
-        builder: (context) => Scaffold(
-            appBar: AppBar(title: Text("Error"), centerTitle: true),
-            body: Center(
-              child: Text("Page not found"),
-            )
-        )
-    );
-  }
+class ToRoute {
+  final Routes route;
+  final Object arguments;
+
+  ToRoute(this.route, this.arguments);
 }

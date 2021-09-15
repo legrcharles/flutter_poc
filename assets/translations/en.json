@@ -1,0 +1,12 @@
+{
+  "title" : "My App",
+
+  "home" : {
+    "title": "Home",
+    "items": {
+      "quiz" : "Quiz",
+      "counter": "Counter",
+      "movies": "Movie List"
+    }
+  }
+}

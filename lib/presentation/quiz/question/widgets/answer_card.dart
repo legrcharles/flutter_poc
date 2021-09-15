@@ -16,7 +16,8 @@ class AnswerCard extends StatelessWidget {
     required this.isCorrect,
     required this.isDisplayingAnswer,
     required this.onTap,
-  }) : super();
+    Key? key
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +27,15 @@ class AnswerCard extends StatelessWidget {
         margin: const EdgeInsets.all(10.0),
         padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
-          color: Color(0xffCCDCE7),
+          color: const Color(0xffCCDCE7),
           border: Border.all(
             color: isDisplayingAnswer
                 ? isCorrect
                     ? Colors.green
                     : isSelected
                         ? Colors.red
-                        : Color(0xffCCDCE7)
-                : Color(0xffCCDCE7),
+                        : const Color(0xffCCDCE7)
+                : const Color(0xffCCDCE7),
             width: 4.0,
           ),
           borderRadius: BorderRadius.circular(10.0),

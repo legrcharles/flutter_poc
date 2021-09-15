@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture/app_route.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeItem extends StatelessWidget {
@@ -8,14 +7,14 @@ class HomeItem extends StatelessWidget {
   final IconData _icon;
   final VoidCallback _onTap;
 
-  HomeItem(this._name, this._icon, this._onTap);
+  const HomeItem(this._name, this._icon, this._onTap, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: _onTap,
       child: Card(
-        elevation: 4,
+        elevation: 2,
         child: ListTile(
           leading: Icon(_icon, color: Colors.red),
           title: Text(_name,
