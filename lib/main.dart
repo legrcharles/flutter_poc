@@ -1,18 +1,26 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture/app_module.dart';
 import 'package:flutter_architecture/app_route.dart';
 import 'package:flutter_architecture/presentation/common/utils/color_utils.dart';
-import 'package:flutter_architecture/presentation/home/home_screen.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await EasyLocalization.ensureInitialized();
 
-  runApp(const MyApp());
+  runApp(
+      EasyLocalization(
+          supportedLocales: const [Locale('en'), Locale('fr')],
+          path: 'assets/translations',
+          fallbackLocale: const Locale('fr'),
+          child: const MyApp()
+      ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -41,11 +49,9 @@ class _MyAppState extends State<MyApp> {
           child: PlatformProvider(
             settings: PlatformSettingsData(iosUsesMaterialWidgets: true),
             builder: (context) => PlatformApp(
-              localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
-                DefaultMaterialLocalizations.delegate,
-                DefaultWidgetsLocalizations.delegate,
-                DefaultCupertinoLocalizations.delegate,
-              ],
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
               onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings, context),
               initialRoute: '/',
               debugShowCheckedModeBanner: false,

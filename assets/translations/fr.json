@@ -1,0 +1,13 @@
+{
+  "title" : "Mon App",
+
+
+  "home" : {
+    "title": "Acceuil",
+    "items": {
+      "quiz" : "Questions",
+      "counter": "Compteur",
+      "movies": "Films"
+    }
+  }
+}
