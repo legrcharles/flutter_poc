@@ -2,16 +2,12 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 class FormInput extends Equatable {
-
   final String value;
   final InputStateWrapper? state;
 
-  const FormInput({
-    this.value = '',
-    this.state
-  });
+  const FormInput({this.value = '', this.state});
 
-  FormInput copyWith({ String? value, required InputStateWrapper? state }) =>
+  FormInput copyWith({String? value, required InputStateWrapper? state}) =>
       FormInput(value: value ?? this.value, state: state);
 
   @override
@@ -22,7 +18,6 @@ class FormInput extends Equatable {
     return 'FormInput { value: $value, state: $state }';
   }
 }
-
 
 @immutable
 abstract class InputStateWrapper extends Equatable {

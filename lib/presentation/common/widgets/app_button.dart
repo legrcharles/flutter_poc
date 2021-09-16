@@ -10,7 +10,12 @@ class AppButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final AppButtonStyle style;
 
-  const AppButton({required this.title, this.onPressed, this.style = AppButtonStyle.primary, Key? key}) : super(key: key);
+  const AppButton(
+      {required this.title,
+      this.onPressed,
+      this.style = AppButtonStyle.primary,
+      Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +31,8 @@ class AppButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24.0),
         ),
-        padding: const EdgeInsets.only(bottom: 15, top: 15, left: 50, right: 50),
+        padding:
+            const EdgeInsets.only(bottom: 15, top: 15, left: 50, right: 50),
       ),
     );
   }

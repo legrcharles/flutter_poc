@@ -17,14 +17,12 @@ class MovieApiProvider extends MovieApiProviderInterface {
 
   @override
   Future<List<Movie>> getMovies({required String query}) async {
-    final queryParameters = {
-      "apikey": "f9bed01b",
-      "s": query
-    };
+    final queryParameters = {"apikey": "f9bed01b", "s": query};
     final uri = Uri.http(_endpoint, "", queryParameters);
     final response = await _httpClient.get(uri);
 
-    if (response.statusCode != 200) throw http.ClientException('Failed to load movies with query $query');
+    if (response.statusCode != 200)
+      throw http.ClientException('Failed to load movies with query $query');
 
     /*
     return (json.decode(response.body)["Search"] as List)
@@ -35,7 +33,8 @@ class MovieApiProvider extends MovieApiProviderInterface {
 
     return MovieResponseDto.fromJson(json.decode(response.body))
         .movies
-        .map((e) => MovieMapper.map(e)).toList();
+        .map((e) => MovieMapper.map(e))
+        .toList();
   }
 
   @override

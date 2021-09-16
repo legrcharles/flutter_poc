@@ -6,7 +6,6 @@ import 'data/provider/quizapi/quiz_api_provider.dart';
 import 'package:http/http.dart' as http;
 
 class AppModule {
-
   final _httpClient = http.Client();
 
   static const _quizEndpoint = 'opentdb.com';
@@ -21,11 +20,11 @@ class AppModule {
     final _quizApiProvider = QuizApiProvider(_quizEndpoint, _httpClient);
     final _movieApiProvider = MovieApiProvider(_movieEndpoint, _httpClient);
 
-    dataManager = DataManager(_quizApiProvider, _movieApiProvider, _authProvider, _cacheProvider);
+    dataManager = DataManager(
+        _quizApiProvider, _movieApiProvider, _authProvider, _cacheProvider);
   }
 
   void dispose() {
     dataManager.dispose();
   }
-
 }

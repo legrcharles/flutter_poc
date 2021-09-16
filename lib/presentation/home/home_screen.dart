@@ -10,7 +10,6 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(
@@ -18,10 +17,9 @@ class HomeScreen extends StatelessWidget {
         title: const Text(LocaleKeys.home_title).tr(),
         cupertino: (context, platform) {
           return CupertinoNavigationBarData(
-            transitionBetweenRoutes: true,
-            automaticallyImplyLeading: true,
-            previousPageTitle: "Back"
-          );
+              transitionBetweenRoutes: true,
+              automaticallyImplyLeading: true,
+              previousPageTitle: "Back");
         },
         material: (context, platform) {
           return MaterialAppBarData();
@@ -31,7 +29,6 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.all(4.0),
             icon: Icon(
               Icons.outlined_flag,
-
             ),
             onPressed: () => _showCountryDialog(context),
           )
@@ -39,18 +36,19 @@ class HomeScreen extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          HomeItem(LocaleKeys.quiz_title.tr(), Icons.question_answer, () => {
-            Navigator.pushNamed(context, Routes.quiz.path)
-          }),
-          HomeItem(LocaleKeys.counter_title.tr(), Icons.looks_one, () => {
-            Navigator.pushNamed(context, Routes.counter.path, arguments: 6)
-          }),
-          HomeItem(LocaleKeys.movies_title.tr(), Icons.movie_creation_outlined, () => {
-            Navigator.pushNamed(context, Routes.movieList.path)
-          }),
-          HomeItem("Auth Splash", Icons.verified_user, () => {
-            Navigator.pushNamed(context, Routes.authSplash.path)
-          })
+          HomeItem(LocaleKeys.quiz_title.tr(), Icons.question_answer,
+              () => {Navigator.pushNamed(context, Routes.quiz.path)}),
+          HomeItem(
+              LocaleKeys.counter_title.tr(),
+              Icons.looks_one,
+              () => {
+                    Navigator.pushNamed(context, Routes.counter.path,
+                        arguments: 6)
+                  }),
+          HomeItem(LocaleKeys.movies_title.tr(), Icons.movie_creation_outlined,
+              () => {Navigator.pushNamed(context, Routes.movieList.path)}),
+          HomeItem("Auth Splash", Icons.verified_user,
+              () => {Navigator.pushNamed(context, Routes.authSplash.path)})
         ],
       ),
     );

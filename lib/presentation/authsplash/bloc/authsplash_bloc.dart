@@ -7,14 +7,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // Bloc
 
 class AuthSplashBloc extends Bloc<AuthSplashEvent, AuthSplashState> {
-
   final DataManager _dataManager;
 
   AuthSplashBloc(this._dataManager) : super(AuthSplashState.initial);
 
   @override
   void onTransition(Transition<AuthSplashEvent, AuthSplashState> transition) {
-    dev.log("SignInBloc Transition :\ncurrentState : ${transition.currentState.toString()} \n"
+    dev.log(
+        "SignInBloc Transition :\ncurrentState : ${transition.currentState.toString()} \n"
         "event : ${transition.event.toString()} \n"
         "nextState : ${transition.nextState.toString()}");
     super.onTransition(transition);
@@ -23,16 +23,16 @@ class AuthSplashBloc extends Bloc<AuthSplashEvent, AuthSplashState> {
   @override
   Stream<AuthSplashState> mapEventToState(AuthSplashEvent event) async* {
     if (event is LoadData) {
-      yield _dataManager.currentUser != null ? AuthSplashState.connected : AuthSplashState.notConnected;
+      yield _dataManager.currentUser != null
+          ? AuthSplashState.connected
+          : AuthSplashState.notConnected;
     }
   }
 }
 
 // State
 
-enum AuthSplashState {
-  initial, connected, notConnected
-}
+enum AuthSplashState { initial, connected, notConnected }
 
 // Events
 

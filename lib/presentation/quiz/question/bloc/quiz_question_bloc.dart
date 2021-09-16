@@ -12,14 +12,15 @@ part 'quiz_question_event.dart';
 part 'quiz_question_state.dart';
 
 class QuizQuestionBloc extends Bloc<QuizQuestionEvent, QuizQuestionState> {
-
   final DataManager _dataManager;
 
   QuizQuestionBloc(this._dataManager) : super(const QuizQuestionState());
 
   @override
-  void onTransition(Transition<QuizQuestionEvent, QuizQuestionState> transition) {
-    dev.log("SignInBloc Transition :\ncurrentState : ${transition.currentState.toString()} \n"
+  void onTransition(
+      Transition<QuizQuestionEvent, QuizQuestionState> transition) {
+    dev.log(
+        "SignInBloc Transition :\ncurrentState : ${transition.currentState.toString()} \n"
         "event : ${transition.event.toString()} \n"
         "nextState : ${transition.nextState.toString()}");
     super.onTransition(transition);
@@ -29,18 +30,20 @@ class QuizQuestionBloc extends Bloc<QuizQuestionEvent, QuizQuestionState> {
   Stream<QuizQuestionState> mapEventToState(QuizQuestionEvent event) async* {
     if (event is ResetData) {
       yield const QuizQuestionState();
-
     } else if (event is LoadData) {
       yield state.copyWith(dataState: DataStateLoading());
 
       try {
         final results = await _dataManager.getQuestions();
         final questions = results.toList();
-        yield state.copyWith(dataState: questions.isEmpty ? DataStateEmpty() : DataStateLoaded(data: questions));
+        yield state.copyWith(
+            dataState: questions.isEmpty
+                ? DataStateEmpty()
+                : DataStateLoaded(data: questions));
       } catch (error) {
-        yield state.copyWith(dataState: DataStateError(error: error.toString()));
+        yield state.copyWith(
+            dataState: DataStateError(error: error.toString()));
       }
-
     } else if (event is UserAnswered) {
       if (state.answer.isEmpty) {
         final dataState = state.dataState;
@@ -49,8 +52,9 @@ class QuizQuestionBloc extends Bloc<QuizQuestionEvent, QuizQuestionState> {
           yield state.copyWith(
               dataState: state.dataState,
               answer: event.answer,
-              nbCorrect: event.answer == question.correctAnswer ? state.nbCorrect + 1 : state.nbCorrect
-          );
+              nbCorrect: event.answer == question.correctAnswer
+                  ? state.nbCorrect + 1
+                  : state.nbCorrect);
         }
       }
     } else if (event is NextQuestion) {
@@ -59,17 +63,19 @@ class QuizQuestionBloc extends Bloc<QuizQuestionEvent, QuizQuestionState> {
         if (dataState.data.length == state.currentIndex + 1) {
           yield state.copyWith(
               dataState: state.dataState,
-              toResult: ToRoute(Routes.quizResult, QuizResultPageArguments(bloc: this, nbCorrect: state.nbCorrect, nbQuestions: dataState.data.length))
-          );
+              toResult: ToRoute(
+                  Routes.quizResult,
+                  QuizResultPageArguments(
+                      bloc: this,
+                      nbCorrect: state.nbCorrect,
+                      nbQuestions: dataState.data.length)));
         } else {
           yield state.copyWith(
               dataState: state.dataState,
               currentIndex: state.currentIndex + 1,
-              answer: ''
-          );
+              answer: '');
         }
       }
     }
   }
-
 }

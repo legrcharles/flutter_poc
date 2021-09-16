@@ -8,7 +8,6 @@ import 'package:flutter_architecture/presentation/register/widgets/widgets.dart'
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-
 class RegisterPage extends StatelessWidget {
   const RegisterPage({Key? key}) : super(key: key);
 
@@ -42,52 +41,48 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text('Register'),
-      ),
-      body: BlocListener<RegisterBloc, RegisterState>(
-        listener: (context, state) {
-          final submissionState = state.submissionState;
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: const Text('Register'),
+        ),
+        body: BlocListener<RegisterBloc, RegisterState>(
+            listener: (context, state) {
+              final submissionState = state.submissionState;
 
-          if (submissionState is StateSuccess) {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            showDialog<void>(
-              context: context,
-              builder: (_) =>
-                  RegisterSuccessDialog(onPressed: () {
+              if (submissionState is StateSuccess) {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                showDialog<void>(
+                  context: context,
+                  builder: (_) => RegisterSuccessDialog(onPressed: () {
                     Navigator.of(context).pushNamed(Routes.userList.path);
                   }),
-            );
-          }
-          if (submissionState is StateLoading) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                const SnackBar(content: Text('Submitting...')),
-              );
-          }
-          if (submissionState is StateError) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                SnackBar(content: Text(submissionState.error.toString())),
-              );
-          }
-
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: <Widget>[
-              RegisterEmailInput(focusNode: _emailFocusNode),
-              RegisterPasswordInput(focusNode: _passwordFocusNode),
-              const SizedBox(height: 50),
-              const RegisterSubmitButton(),
-            ],
-          ),
-        )
-      )
-    );
+                );
+              }
+              if (submissionState is StateLoading) {
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(
+                    const SnackBar(content: Text('Submitting...')),
+                  );
+              }
+              if (submissionState is StateError) {
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(
+                    SnackBar(content: Text(submissionState.error.toString())),
+                  );
+              }
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  RegisterEmailInput(focusNode: _emailFocusNode),
+                  RegisterPasswordInput(focusNode: _passwordFocusNode),
+                  const SizedBox(height: 50),
+                  const RegisterSubmitButton(),
+                ],
+              ),
+            )));
   }
 }

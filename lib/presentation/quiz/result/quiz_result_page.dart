@@ -11,16 +11,14 @@ class QuizResultPageArguments {
   final int nbQuestions;
   final QuizQuestionBloc bloc;
 
-  QuizResultPageArguments({required this.bloc, required this.nbCorrect, required this.nbQuestions});
+  QuizResultPageArguments(
+      {required this.bloc, required this.nbCorrect, required this.nbQuestions});
 }
 
 class QuizResultPage extends StatelessWidget {
   final QuizResultPageArguments args;
 
-  const QuizResultPage({
-    required this.args,
-    Key? key
-  }) : super(key: key);
+  const QuizResultPage({required this.args, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +29,7 @@ class QuizResultPage extends StatelessWidget {
           return CupertinoNavigationBarData(
               transitionBetweenRoutes: true,
               automaticallyImplyLeading: true,
-              previousPageTitle: LocaleKeys.quiz_title.tr()
-
-          );
+              previousPageTitle: LocaleKeys.quiz_title.tr());
         },
       ),
       body: Column(
@@ -60,16 +56,15 @@ class QuizResultPage extends StatelessWidget {
           ),
           const SizedBox(height: 40.0),
           Center(
-            child: AppButton(
-              style: AppButtonStyle.secondary,
-              title: LocaleKeys.quiz_result_button_new,
-              onPressed: () {
-                args.bloc.add(ResetData());
-                args.bloc.add(LoadData());
-                Navigator.of(context).pop();
-              },
-            )
-          ),
+              child: AppButton(
+            style: AppButtonStyle.secondary,
+            title: LocaleKeys.quiz_result_button_new,
+            onPressed: () {
+              args.bloc.add(ResetData());
+              args.bloc.add(LoadData());
+              Navigator.of(context).pop();
+            },
+          )),
         ],
       ),
     );

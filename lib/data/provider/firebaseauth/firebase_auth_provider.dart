@@ -14,29 +14,32 @@ class FirebaseAuthProvider extends FirebaseAuthProviderInterface {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
-  Stream<AppUser?> get user => _auth.authStateChanges().map(FirebaseUserMapper.map);
+  Stream<AppUser?> get user =>
+      _auth.authStateChanges().map(FirebaseUserMapper.map);
 
   @override
   AppUser? get currentUser => FirebaseUserMapper.map(_auth.currentUser);
 
   @override
-  Future<AppUser?> signInWithEmailAndPassword(String email, String password) async {
-    UserCredential result =
-    await _auth.signInWithEmailAndPassword(email: email, password: password);
+  Future<AppUser?> signInWithEmailAndPassword(
+      String email, String password) async {
+    UserCredential result = await _auth.signInWithEmailAndPassword(
+        email: email, password: password);
     User? user = result.user;
     return FirebaseUserMapper.map(user);
   }
 
   @override
-  Future<AppUser?> registerWithEmailAndPassword(String email, String password) async {
-      UserCredential result =
-      await _auth.createUserWithEmailAndPassword(email: email, password: password);
-      User? user = result.user;
-      if (user == null) {
-        throw Exception("No user found");
-      } else {
-        return FirebaseUserMapper.map(user);
-      }
+  Future<AppUser?> registerWithEmailAndPassword(
+      String email, String password) async {
+    UserCredential result = await _auth.createUserWithEmailAndPassword(
+        email: email, password: password);
+    User? user = result.user;
+    if (user == null) {
+      throw Exception("No user found");
+    } else {
+      return FirebaseUserMapper.map(user);
+    }
   }
 
   Future signOut() async => await _auth.signOut();

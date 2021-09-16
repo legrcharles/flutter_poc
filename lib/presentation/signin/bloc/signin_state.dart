@@ -15,20 +15,24 @@ class SignInState extends Equatable {
     this.status,
   });
 
-  SignInState copyWith({ FormInput? emailInput, FormInput? passwordInput, required SuccessWrapper? submissionState, required FormStatus? status}) =>
+  SignInState copyWith(
+          {FormInput? emailInput,
+          FormInput? passwordInput,
+          required SuccessWrapper? submissionState,
+          required FormStatus? status}) =>
       SignInState(
         emailInput: emailInput ?? this.emailInput,
         passwordInput: passwordInput ?? this.passwordInput,
-        submissionState: submissionState ,
+        submissionState: submissionState,
         status: status,
       );
 
   @override
-  List<Object?> get props => [emailInput, passwordInput, submissionState, status];
+  List<Object?> get props =>
+      [emailInput, passwordInput, submissionState, status];
 
   @override
   String toString() {
     return 'SignInState { emailInput: $emailInput, passwordInput: $passwordInput, submissionState: $submissionState, status: $status }';
   }
-
 }

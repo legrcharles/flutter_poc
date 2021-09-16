@@ -20,3 +20,7 @@ samples, guidance on mobile development, and a full API reference.
 ## Update translation in app with LocaleKeys
 
 flutter pub run easy_localization:generate -f keys -o locale_keys.g.dart --source-dir ./assets/translations
+
+## format project
+
+dart format .

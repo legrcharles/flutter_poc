@@ -17,11 +17,10 @@ class Question extends Equatable {
 
   @override
   List<Object> get props => [
-    category,
-    difficulty,
-    question,
-    correctAnswer,
-    answers,
-  ];
-
+        category,
+        difficulty,
+        question,
+        correctAnswer,
+        answers,
+      ];
 }

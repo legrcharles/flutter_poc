@@ -11,14 +11,14 @@ part 'movie_list_event.dart';
 part 'movie_list_state.dart';
 
 class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
-
   final DataManager _dataManager;
 
   MovieListBloc(this._dataManager) : super(const MovieListState());
 
   @override
   void onTransition(Transition<MovieListEvent, MovieListState> transition) {
-    dev.log("SignInBloc Transition :\ncurrentState : ${transition.currentState.toString()} \n"
+    dev.log(
+        "SignInBloc Transition :\ncurrentState : ${transition.currentState.toString()} \n"
         "event : ${transition.event.toString()} \n"
         "nextState : ${transition.nextState.toString()}");
     super.onTransition(transition);
@@ -28,12 +28,12 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
   Stream<MovieListState> mapEventToState(MovieListEvent event) async* {
     if (event is QueryChanged) {
       yield state.copyWith(
-          queryInput: state.queryInput.copyWith(value: event.query, state: null),
-          dataState: (state.dataState is DataStateLoaded) ? state.dataState : null);
-
+          queryInput:
+              state.queryInput.copyWith(value: event.query, state: null),
+          dataState:
+              (state.dataState is DataStateLoaded) ? state.dataState : null);
     } else if (event is ClearQuery) {
       yield const MovieListState();
-
     } else if (event is FormSubmitted) {
       yield state.copyWith(
           queryInput: state.queryInput.copyWith(state: queyState),
@@ -43,7 +43,8 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
         yield state.copyWith(dataState: DataStateLoading());
 
         try {
-          final results = await _dataManager.getMovies(query: state.queryInput.value);
+          final results =
+              await _dataManager.getMovies(query: state.queryInput.value);
           final movies = results.toList();
           if (movies.isEmpty) {
             yield state.copyWith(dataState: DataStateEmpty());
@@ -51,7 +52,10 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
             yield state.copyWith(dataState: DataStateLoaded(data: movies));
           }
         } catch (error) {
-          yield state.copyWith(dataState: DataStateError(error: "Aucun résultat pour la recherche ${state.queryInput.value}"));
+          yield state.copyWith(
+              dataState: DataStateError(
+                  error:
+                      "Aucun résultat pour la recherche ${state.queryInput.value}"));
         }
       }
     }
@@ -59,7 +63,8 @@ class MovieListBloc extends Bloc<MovieListEvent, MovieListState> {
 
   InputStateWrapper get queyState {
     if (state.queryInput.value.trim().length < 4) {
-      return const InputInvalid(error: "Le nom du film doit contenir au moins 4 caractères");
+      return const InputInvalid(
+          error: "Le nom du film doit contenir au moins 4 caractères");
     }
     return InputValid();
   }

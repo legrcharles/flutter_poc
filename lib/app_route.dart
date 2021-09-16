@@ -27,7 +27,7 @@ enum Routes {
 
 extension RoutesExtension on Routes {
   String get path {
-    switch(this) {
+    switch (this) {
       case Routes.home:
         return "/";
 
@@ -59,56 +59,66 @@ extension RoutesExtension on Routes {
 }
 
 class RouteGenerator {
-  static Route<dynamic> generateRoute(RouteSettings settings, BuildContext context) {
-
-    final route = Routes.values.firstWhereOrNull((e) => e.path == settings.name);
+  static Route<dynamic> generateRoute(
+      RouteSettings settings, BuildContext context) {
+    final route =
+        Routes.values.firstWhereOrNull((e) => e.path == settings.name);
 
     if (route != null) {
       switch (route) {
-        case Routes.home :
-          return platformPageRoute(context: context,
+        case Routes.home:
+          return platformPageRoute(
+              context: context,
               settings: RouteSettings(name: route.path),
               builder: (context) => const HomeScreen());
 
         case Routes.quiz:
-          return platformPageRoute(context: context,
+          return platformPageRoute(
+              context: context,
               settings: RouteSettings(name: route.path),
               builder: (context) => const QuizQuestionPage());
 
         case Routes.quizResult:
           final arguments = settings.arguments as QuizResultPageArguments;
-          return platformPageRoute(context: context,
+          return platformPageRoute(
+              context: context,
               settings: RouteSettings(name: route.path),
               fullscreenDialog: true,
               builder: (context) => QuizResultPage(args: arguments));
 
         case Routes.counter:
-          return platformPageRoute(context: context,
+          return platformPageRoute(
+              context: context,
               settings: RouteSettings(name: route.path),
               builder: (context) => const CounterPage());
 
         case Routes.movieList:
-          return platformPageRoute(context: context,
+          return platformPageRoute(
+              context: context,
               settings: RouteSettings(name: route.path),
               builder: (context) => const MovieListPage());
 
         case Routes.authSplash:
-          return platformPageRoute(context: context,
+          return platformPageRoute(
+              context: context,
               settings: RouteSettings(name: route.path),
               builder: (context) => const AuthSplashPage());
 
         case Routes.register:
-          return platformPageRoute(context: context,
+          return platformPageRoute(
+              context: context,
               settings: RouteSettings(name: route.path),
               builder: (context) => const RegisterPage());
 
         case Routes.signin:
-          return platformPageRoute(context: context,
+          return platformPageRoute(
+              context: context,
               settings: RouteSettings(name: route.path),
               builder: (context) => const SignInPage());
 
         case Routes.userList:
-          return platformPageRoute(context: context,
+          return platformPageRoute(
+              context: context,
               settings: RouteSettings(name: route.path),
               builder: (context) => const UserListScreen());
 
@@ -121,14 +131,13 @@ class RouteGenerator {
   }
 
   static PageRoute<dynamic> _buildFailPage(BuildContext context) {
-    return platformPageRoute(context: context,
+    return platformPageRoute(
+        context: context,
         builder: (context) => Scaffold(
             appBar: AppBar(title: const Text("Error"), centerTitle: true),
             body: const Center(
               child: Text("Page not found"),
-            )
-        )
-    );
+            )));
   }
 }
 

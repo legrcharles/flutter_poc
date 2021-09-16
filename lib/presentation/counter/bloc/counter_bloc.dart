@@ -7,14 +7,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // Bloc
 
 class CounterBloc extends Bloc<CounterEvent, CounterState> {
-
   final DataManager _dataManager;
 
-  CounterBloc(this._dataManager) : super(CounterState(value: _dataManager.counterValue));
+  CounterBloc(this._dataManager)
+      : super(CounterState(value: _dataManager.counterValue));
 
   @override
   void onTransition(Transition<CounterEvent, CounterState> transition) {
-    dev.log("SignInBloc Transition :\ncurrentState : ${transition.currentState.toString()} \n"
+    dev.log(
+        "SignInBloc Transition :\ncurrentState : ${transition.currentState.toString()} \n"
         "event : ${transition.event.toString()} \n"
         "nextState : ${transition.nextState.toString()}");
     super.onTransition(transition);
@@ -40,18 +41,13 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
 class CounterState extends Equatable {
   final int value;
 
-  const CounterState({
-    this.value = 0
-  });
+  const CounterState({this.value = 0});
 
-  CounterState copyWith({ int? value}) =>
-      CounterState(
-        value: value ?? this.value
-      );
+  CounterState copyWith({int? value}) =>
+      CounterState(value: value ?? this.value);
 
   @override
   List<Object> get props => [value];
-
 }
 
 // Events

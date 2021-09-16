@@ -14,12 +14,11 @@ void main() async {
   await EasyLocalization.ensureInitialized();
 
   runApp(
-      EasyLocalization(
-          supportedLocales: const [Locale('en'), Locale('fr')],
-          path: 'assets/translations',
-          fallbackLocale: const Locale('fr'),
-          child: const MyApp()
-      ),
+    EasyLocalization(
+        supportedLocales: const [Locale('en'), Locale('fr')],
+        path: 'assets/translations',
+        fallbackLocale: const Locale('fr'),
+        child: const MyApp()),
   );
 }
 
@@ -31,41 +30,39 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  
   final _appModule = AppModule();
-  
+
   @override
   void dispose() {
     _appModule.dispose();
     super.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Provider(
-      create: (_) => _appModule.dataManager,
-      child: Theme(
-          data: materialThemeData,
-          child: PlatformProvider(
-            settings: PlatformSettingsData(iosUsesMaterialWidgets: true),
-            builder: (context) => PlatformApp(
-              localizationsDelegates: context.localizationDelegates,
-              supportedLocales: context.supportedLocales,
-              locale: context.locale,
-              onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings, context),
-              initialRoute: '/',
-              debugShowCheckedModeBanner: false,
-              title: 'Flutter Platform Widgets',
-              material: (_, __) => MaterialAppData(
-                theme: materialThemeData,
+        create: (_) => _appModule.dataManager,
+        child: Theme(
+            data: materialThemeData,
+            child: PlatformProvider(
+              settings: PlatformSettingsData(iosUsesMaterialWidgets: true),
+              builder: (context) => PlatformApp(
+                localizationsDelegates: context.localizationDelegates,
+                supportedLocales: context.supportedLocales,
+                locale: context.locale,
+                onGenerateRoute: (settings) =>
+                    RouteGenerator.generateRoute(settings, context),
+                initialRoute: '/',
+                debugShowCheckedModeBanner: false,
+                title: 'Flutter Platform Widgets',
+                material: (_, __) => MaterialAppData(
+                  theme: materialThemeData,
+                ),
+                cupertino: (_, __) => CupertinoAppData(
+                  theme: cupertinoTheme,
+                ),
               ),
-              cupertino: (_, __) => CupertinoAppData(
-                theme: cupertinoTheme,
-              ),
-            ),
-          )
-      )
-    );
+            )));
   }
 }
 

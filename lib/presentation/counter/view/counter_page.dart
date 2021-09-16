@@ -16,12 +16,10 @@ class CounterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CounterBloc(context.read<DataManager>()),
-      child: const CounterView()
-    );
+        create: (context) => CounterBloc(context.read<DataManager>()),
+        child: const CounterView());
   }
 }
-
 
 class CounterView extends StatefulWidget {
   const CounterView({Key? key}) : super(key: key);
@@ -31,49 +29,41 @@ class CounterView extends StatefulWidget {
 }
 
 class _CounterViewState extends State<CounterView> {
-
   @override
   Widget build(BuildContext context) {
-
     final List<Widget> trailingActions = <Widget>[];
 
     if (Platform.isIOS) {
-      trailingActions.add(
-        PlatformIconButton(
-          padding: const EdgeInsets.all(4.0),
-          icon: const Icon(
-            Icons.add,
-          ),
-          onPressed: () {
-            context.read<CounterBloc>().add(Increment());
-          },
-        )
-      );
-    }
-
-    trailingActions.add(
-      PlatformIconButton(
+      trailingActions.add(PlatformIconButton(
         padding: const EdgeInsets.all(4.0),
         icon: const Icon(
-          Icons.sync,
+          Icons.add,
         ),
         onPressed: () {
-          //context.read<CounterBloc>().add(Reset());
-          Navigator.of(context).pushNamed(Routes.userList.path);
+          context.read<CounterBloc>().add(Increment());
         },
-      )
-    );
+      ));
+    }
 
+    trailingActions.add(PlatformIconButton(
+      padding: const EdgeInsets.all(4.0),
+      icon: const Icon(
+        Icons.sync,
+      ),
+      onPressed: () {
+        //context.read<CounterBloc>().add(Reset());
+        Navigator.of(context).pushNamed(Routes.userList.path);
+      },
+    ));
 
     return PlatformScaffold(
       appBar: PlatformAppBar(
         title: const Text(LocaleKeys.counter_title).tr(),
         cupertino: (context, platform) {
           return CupertinoNavigationBarData(
-            transitionBetweenRoutes: true,
-            automaticallyImplyLeading: true,
-              previousPageTitle: LocaleKeys.home_title.tr()
-          );
+              transitionBetweenRoutes: true,
+              automaticallyImplyLeading: true,
+              previousPageTitle: LocaleKeys.home_title.tr());
         },
         material: (context, platform) {
           return MaterialAppBarData();
@@ -89,21 +79,17 @@ class _CounterViewState extends State<CounterView> {
               style: Theme.of(context).textTheme.bodyText1,
             ),
             BlocBuilder<CounterBloc, CounterState>(
-                builder: (context, state) {
-                  return Text('${state.value}',
-                    style: Theme.of(context).textTheme.headline2,
-                  );
-                },
+              builder: (context, state) {
+                return Text(
+                  '${state.value}',
+                  style: Theme.of(context).textTheme.headline2,
+                );
+              },
             ),
             Container(height: 40),
             PlatformTextButton(
-              child: Text(
-                "Increment",
-                style: TextStyle(
-                  color: AppColor.primary,
-                  fontSize: 20
-                )
-              ),
+              child: Text("Increment",
+                  style: TextStyle(color: AppColor.primary, fontSize: 20)),
               onPressed: () => context.read<CounterBloc>().add(Increment()),
             )
           ],
@@ -112,15 +98,12 @@ class _CounterViewState extends State<CounterView> {
       material: (context, platform) {
         return MaterialScaffoldData(
             floatingActionButton: FloatingActionButton(
-              onPressed: () => context.read<CounterBloc>().add(Increment()),
-              tooltip: 'Increment',
-              child: const Icon(Icons.add),
-              elevation: 3,
-            )
-        );
+          onPressed: () => context.read<CounterBloc>().add(Increment()),
+          tooltip: 'Increment',
+          child: const Icon(Icons.add),
+          elevation: 3,
+        ));
       },
     );
   }
-
-
 }

@@ -18,9 +18,8 @@ class MovieListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => MovieListBloc(context.read()),
-      child: const MovieListView()
-    );
+        create: (context) => MovieListBloc(context.read()),
+        child: const MovieListView());
   }
 }
 
@@ -32,7 +31,6 @@ class MovieListView extends StatefulWidget {
 }
 
 class _MovieListScreenState extends State<MovieListView> {
-
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(
@@ -42,13 +40,11 @@ class _MovieListScreenState extends State<MovieListView> {
               return CupertinoNavigationBarData(
                   transitionBetweenRoutes: true,
                   automaticallyImplyLeading: true,
-                  previousPageTitle: LocaleKeys.home_title.tr()
-              );
+                  previousPageTitle: LocaleKeys.home_title.tr());
             },
             material: (context, platform) {
               return MaterialAppBarData();
-            }
-        ),
+            }),
         body: BlocListener<MovieListBloc, MovieListState>(
           listener: (context, state) {
             final dataState = state.dataState;
@@ -66,43 +62,42 @@ class _MovieListScreenState extends State<MovieListView> {
           child: SafeArea(
             bottom: false,
             child: Container(
-                padding: const EdgeInsets.all(10),
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                child: Column(children: <Widget>[
-                  const MovieListQueryInput(),
-                  Expanded(
-                      child: BlocBuilder<MovieListBloc, MovieListState>(
-                        builder: (context, state) {
-                          final inputState = state.queryInput.state;
+              padding: const EdgeInsets.all(10),
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Column(children: <Widget>[
+                const MovieListQueryInput(),
+                Expanded(child: BlocBuilder<MovieListBloc, MovieListState>(
+                  builder: (context, state) {
+                    final inputState = state.queryInput.state;
 
-                          if (Platform.isIOS && inputState is InputInvalid) {
-                            return Text(
-                              inputState.error.toString(),
-                              style: const TextStyle(color: Colors.redAccent));
-                          }
+                    if (Platform.isIOS && inputState is InputInvalid) {
+                      return Text(inputState.error.toString(),
+                          style: const TextStyle(color: Colors.redAccent));
+                    }
 
-                          final dataState = state.dataState;
+                    final dataState = state.dataState;
 
-                          if (dataState is DataStateLoading) {
-                            return Center(child: PlatformCircularProgressIndicator());
-                          } else if (dataState is DataStateEmpty) {
-                            return const Center(child: Text('Aucun film'));
-                          } else if (dataState is DataStateError) {
-                            return Center(child: Text(dataState.error.toString(), style: TextStyle(color: AppColor.error),));
-                          }else if (dataState is DataStateLoaded<List<Movie>>) {
-                            return MovieList(movies: dataState.data);
-                          }
+                    if (dataState is DataStateLoading) {
+                      return Center(child: PlatformCircularProgressIndicator());
+                    } else if (dataState is DataStateEmpty) {
+                      return const Center(child: Text('Aucun film'));
+                    } else if (dataState is DataStateError) {
+                      return Center(
+                          child: Text(
+                        dataState.error.toString(),
+                        style: TextStyle(color: AppColor.error),
+                      ));
+                    } else if (dataState is DataStateLoaded<List<Movie>>) {
+                      return MovieList(movies: dataState.data);
+                    }
 
-                          return const MovieList(movies: []);
-                        },
-                      )
-                  )
-                ]),
+                    return const MovieList(movies: []);
+                  },
+                ))
+              ]),
             ),
           ),
-        )
-
-    );
+        ));
   }
 }

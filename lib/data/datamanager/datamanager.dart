@@ -9,7 +9,8 @@ class DataManager {
   final FirebaseAuthProvider _authProvider;
   final MemoryCacheProvider _cacheProvider;
 
-  DataManager(this._quizApi, this._movieApi, this._authProvider, this._cacheProvider);
+  DataManager(
+      this._quizApi, this._movieApi, this._authProvider, this._cacheProvider);
 
   QuizApiProviderInterface get quizApi {
     return _quizApi;

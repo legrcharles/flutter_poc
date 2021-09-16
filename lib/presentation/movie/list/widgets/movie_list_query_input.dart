@@ -27,10 +27,13 @@ class MovieListQueryInput extends StatelessWidget {
                 labelText: 'Movie name',
                 //helperText: 'A complete, valid movie name e.g. Batman',
                 suffixIcon: IconButton(
-                  onPressed: () => context.read<MovieListBloc>().add(ClearQuery()),
+                  onPressed: () =>
+                      context.read<MovieListBloc>().add(ClearQuery()),
                   icon: const Icon(Icons.clear),
                 ),
-                errorText: inputState is InputInvalid ? inputState.error.toString() : null,
+                errorText: inputState is InputInvalid
+                    ? inputState.error.toString()
+                    : null,
               ),
             ),
             cupertino: (_, __) => CupertinoTextFieldData(
@@ -40,7 +43,9 @@ class MovieListQueryInput extends StatelessWidget {
                   padding: EdgeInsets.only(left: 10, top: 6, bottom: 6),
                   child: Icon(Icons.search),
                 ),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: AppColor.backgroundLight1)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: AppColor.backgroundLight1)),
             controller: TextEditingController(text: inputValue)
               ..selection = TextSelection.fromPosition(
                 TextPosition(offset: inputValue.length),

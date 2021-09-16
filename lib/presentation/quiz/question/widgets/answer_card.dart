@@ -11,14 +11,14 @@ class AnswerCard extends StatelessWidget {
   final bool isDisplayingAnswer;
   final VoidCallback onTap;
 
-  const AnswerCard({
-    required this.answer,
-    required this.isSelected,
-    required this.isCorrect,
-    required this.isDisplayingAnswer,
-    required this.onTap,
-    Key? key
-  }) : super(key: key);
+  const AnswerCard(
+      {required this.answer,
+      required this.isSelected,
+      required this.isCorrect,
+      required this.isDisplayingAnswer,
+      required this.onTap,
+      Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,19 +50,21 @@ class AnswerCard extends StatelessWidget {
                 style: TextStyle(
                   color: AppColor.textDark3,
                   fontSize: 15.0,
-                  fontWeight: isDisplayingAnswer && isCorrect ? FontWeight.bold : FontWeight.normal,
+                  fontWeight: isDisplayingAnswer && isCorrect
+                      ? FontWeight.bold
+                      : FontWeight.normal,
                 ),
               ),
             ),
             if (isDisplayingAnswer)
-                isCorrect
-                    ? CircularIcon(icon: Icons.check, color: AppColor.valid)
-                    : isSelected
-                        ? CircularIcon(
-                            icon: Icons.close,
-                            color: AppColor.error,
-                          )
-                        : const SizedBox.shrink()
+              isCorrect
+                  ? CircularIcon(icon: Icons.check, color: AppColor.valid)
+                  : isSelected
+                      ? CircularIcon(
+                          icon: Icons.close,
+                          color: AppColor.error,
+                        )
+                      : const SizedBox.shrink()
           ],
         ),
       ),

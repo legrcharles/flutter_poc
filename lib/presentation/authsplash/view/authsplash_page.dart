@@ -26,7 +26,6 @@ class AuthSplashView extends StatefulWidget {
 }
 
 class _AuthSplashViewState extends State<AuthSplashView> {
-
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 1), () {
@@ -40,10 +39,6 @@ class _AuthSplashViewState extends State<AuthSplashView> {
             Navigator.of(context).pushReplacementNamed(Routes.signin.path);
           }
         },
-        child: Container(
-            color: Colors.white,
-            child: const Loading()
-        )
-    );
+        child: Container(color: Colors.white, child: const Loading()));
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
@@ -35,15 +34,6 @@ class DataStateError extends DataState {
   @override
   List<Object> get props => [error];
 }
-
-
-
-
-
-
-
-
-
 
 /*
 class DataWrapper<T> {
@@ -174,4 +164,3 @@ class StateError<T> extends DataWrapper<T> {
 }
 
 */
-

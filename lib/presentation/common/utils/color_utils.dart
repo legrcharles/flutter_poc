@@ -5,36 +5,35 @@ import 'package:google_fonts/google_fonts.dart';
 
 ////Color utilities
 final materialThemeData = ThemeData(
-  scaffoldBackgroundColor: AppColor.background,
-  colorScheme: const ColorScheme.dark().copyWith(
-    primary: AppColor.primary,
-    secondary: AppColor.secondary,
-    error: AppColor.error
-  ),
-  buttonTheme: ButtonThemeData(
-    buttonColor: AppColor.primary,
-    textTheme: ButtonTextTheme.primary
-  ),
-  appBarTheme: AppBarTheme(
-    color: AppColor.primary,
-    foregroundColor: AppColor.text
-  )
-  /*
+    scaffoldBackgroundColor: AppColor.background,
+    colorScheme: const ColorScheme.dark().copyWith(
+        primary: AppColor.primary,
+        secondary: AppColor.secondary,
+        error: AppColor.error),
+    buttonTheme: ButtonThemeData(
+        buttonColor: AppColor.primary, textTheme: ButtonTextTheme.primary),
+    appBarTheme:
+        AppBarTheme(color: AppColor.primary, foregroundColor: AppColor.text)
+    /*
   textTheme: const TextTheme(
     bodyText1: TextStyle(color: Colors.black54, fontSize: 16.0),
   ),
    */
-);
+    );
 
-final cupertinoTheme = MaterialBasedCupertinoThemeData(materialTheme: materialThemeData).copyWith(
+final cupertinoTheme =
+    MaterialBasedCupertinoThemeData(materialTheme: materialThemeData).copyWith(
   barBackgroundColor: AppColor.primary,
   primaryColor: AppColor.text,
   textTheme: CupertinoTextThemeData(
     primaryColor: AppColor.text,
-    navTitleTextStyle: TextStyle(color: AppColor.text, fontWeight: FontWeight.w600, fontSize: 18.0, inherit: false),
+    navTitleTextStyle: TextStyle(
+        color: AppColor.text,
+        fontWeight: FontWeight.w600,
+        fontSize: 18.0,
+        inherit: false),
   ),
 );
-
 
 class AppColor {
   static Color primary = const Color(0xFF00798C);

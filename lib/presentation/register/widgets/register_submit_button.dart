@@ -17,7 +17,9 @@ class RegisterSubmitButton extends StatelessWidget {
           onPressed: () => context.read<RegisterBloc>().add(FormSubmitted()),
           child: SizedBox(
             width: 200,
-            child: state.submissionState is StateLoading ? const Loading() : const Center(child: Text('Submit')),
+            child: state.submissionState is StateLoading
+                ? const Loading()
+                : const Center(child: Text('Submit')),
           ),
         );
       },

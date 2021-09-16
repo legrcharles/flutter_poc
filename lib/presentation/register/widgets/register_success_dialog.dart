@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class RegisterSuccessDialog extends StatelessWidget {
-
   final VoidCallback? onPressed;
 
-  const RegisterSuccessDialog({Key? key, required this.onPressed}) : super(key: key);
+  const RegisterSuccessDialog({Key? key, required this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

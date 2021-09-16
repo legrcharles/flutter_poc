@@ -17,14 +17,16 @@ class SignInEmailInput extends StatelessWidget {
 
         return TextFormField(
           controller: TextEditingController(text: inputValue)
-            ..selection = TextSelection.fromPosition(TextPosition(offset: inputValue.length),
+            ..selection = TextSelection.fromPosition(
+              TextPosition(offset: inputValue.length),
             ),
           focusNode: focusNode,
           decoration: InputDecoration(
             icon: const Icon(Icons.email),
             labelText: 'Email',
             helperText: 'A complete, valid email e.g. joe@gmail.com',
-            errorText: inputState is InputInvalid ? inputState.error.toString() : null,
+            errorText:
+                inputState is InputInvalid ? inputState.error.toString() : null,
           ),
           keyboardType: TextInputType.emailAddress,
           onChanged: (value) {

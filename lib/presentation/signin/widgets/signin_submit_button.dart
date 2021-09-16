@@ -19,7 +19,9 @@ class SignInSubmitButton extends StatelessWidget {
               : null,
           child: SizedBox(
             width: 200,
-            child: state.submissionState is StateLoading ? const Loading() : const Center(child: Text('Submit')),
+            child: state.submissionState is StateLoading
+                ? const Loading()
+                : const Center(child: Text('Submit')),
           ),
         );
       },

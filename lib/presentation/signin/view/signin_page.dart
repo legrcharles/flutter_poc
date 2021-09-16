@@ -7,7 +7,6 @@ import 'package:flutter_architecture/presentation/signin/widgets/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-
 class SignInPage extends StatelessWidget {
   const SignInPage({Key? key}) : super(key: key);
 
@@ -57,63 +56,60 @@ class _SignInViewState extends State<SignInView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text('Sign in'),
-        actions: <Widget>[
-          TextButton.icon(
-            icon: const Icon(
-              Icons.person,
-              color: Colors.white,
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: const Text('Sign in'),
+          actions: <Widget>[
+            TextButton.icon(
+              icon: const Icon(
+                Icons.person,
+                color: Colors.white,
+              ),
+              label:
+                  const Text("Register", style: TextStyle(color: Colors.white)),
+              onPressed: () => Navigator.of(context)
+                  .pushReplacementNamed(Routes.register.path),
             ),
-            label: const Text("Register",
-                style: TextStyle(color: Colors.white)),
-            onPressed: () => Navigator.of(context).pushReplacementNamed(Routes.register.path),
-          ),
-        ],
-      ),
-      body: BlocListener<SignInBloc, SignInState>(
-        listener: (context, state) {
-          final submissionState = state.submissionState;
+          ],
+        ),
+        body: BlocListener<SignInBloc, SignInState>(
+            listener: (context, state) {
+              final submissionState = state.submissionState;
 
-          if (submissionState is StateSuccess) {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            showDialog<void>(
-              context: context,
-              builder: (_) =>
-                  SignInSuccessDialog(onPressed: () {
+              if (submissionState is StateSuccess) {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                showDialog<void>(
+                  context: context,
+                  builder: (_) => SignInSuccessDialog(onPressed: () {
                     Navigator.of(context).pushNamed(Routes.userList.path);
                   }),
-            );
-          }
-          if (submissionState is StateLoading) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                const SnackBar(content: Text('Submitting...')),
-              );
-          }
-          if (submissionState is StateError) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                SnackBar(content: Text(submissionState.error.toString())),
-              );
-          }
-
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: <Widget>[
-              SignInEmailInput(focusNode: _emailFocusNode),
-              SignInPasswordInput(focusNode: _passwordFocusNode),
-              const SizedBox(height: 50),
-              const SignInSubmitButton(),
-            ],
-          ),
-        )
-      )
-    );
+                );
+              }
+              if (submissionState is StateLoading) {
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(
+                    const SnackBar(content: Text('Submitting...')),
+                  );
+              }
+              if (submissionState is StateError) {
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(
+                    SnackBar(content: Text(submissionState.error.toString())),
+                  );
+              }
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  SignInEmailInput(focusNode: _emailFocusNode),
+                  SignInPasswordInput(focusNode: _passwordFocusNode),
+                  const SizedBox(height: 50),
+                  const SignInSubmitButton(),
+                ],
+              ),
+            )));
   }
 }

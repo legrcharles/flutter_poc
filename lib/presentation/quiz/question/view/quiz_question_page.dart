@@ -12,7 +12,6 @@ import 'package:flutter_architecture/presentation/quiz/result/quiz_result_page.d
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-
 class QuizQuestionPage extends StatelessWidget {
   const QuizQuestionPage({Key? key}) : super(key: key);
 
@@ -20,21 +19,19 @@ class QuizQuestionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
         create: (context) => QuizQuestionBloc(context.read<DataManager>()),
-        child: const QuizQuestionView()
-    );
+        child: const QuizQuestionView());
   }
 }
 
 class QuizQuestionView extends StatefulWidget {
   const QuizQuestionView({Key? key}) : super(key: key);
 
-
   @override
   _QuizQuestionViewState createState() => _QuizQuestionViewState();
 }
 
-class _QuizQuestionViewState extends State<QuizQuestionView> with WidgetsBindingObserver {
-
+class _QuizQuestionViewState extends State<QuizQuestionView>
+    with WidgetsBindingObserver {
   final _pageController = PageController();
 
   @override
@@ -62,15 +59,19 @@ class _QuizQuestionViewState extends State<QuizQuestionView> with WidgetsBinding
     context.read<QuizQuestionBloc>().add(LoadData());
 
     return BlocListener<QuizQuestionBloc, QuizQuestionState>(
-      listenWhen: (previous, current) => previous.currentIndex != current.currentIndex || previous.toResult != current.toResult,
+      listenWhen: (previous, current) =>
+          previous.currentIndex != current.currentIndex ||
+          previous.toResult != current.toResult,
       listener: (context, state) {
         final toRoute = state.toResult;
 
         if (toRoute != null) {
-          Navigator.of(context).pushNamed(toRoute.route.path, arguments: toRoute.arguments);
-
+          Navigator.of(context)
+              .pushNamed(toRoute.route.path, arguments: toRoute.arguments);
         } else if (_pageController.hasClients) {
-          _pageController.animateToPage(state.currentIndex, duration: const Duration(microseconds: 250), curve: Curves.linear);
+          _pageController.animateToPage(state.currentIndex,
+              duration: const Duration(microseconds: 250),
+              curve: Curves.linear);
         }
       },
       child: PlatformScaffold(
@@ -78,10 +79,9 @@ class _QuizQuestionViewState extends State<QuizQuestionView> with WidgetsBinding
           title: const Text(LocaleKeys.quiz_title).tr(),
           cupertino: (context, platform) {
             return CupertinoNavigationBarData(
-              transitionBetweenRoutes: true,
-              automaticallyImplyLeading: true,
-              previousPageTitle: LocaleKeys.home_title.tr()
-            );
+                transitionBetweenRoutes: true,
+                automaticallyImplyLeading: true,
+                previousPageTitle: LocaleKeys.home_title.tr());
           },
           material: (context, platform) {
             return MaterialAppBarData();
@@ -98,7 +98,8 @@ class _QuizQuestionViewState extends State<QuizQuestionView> with WidgetsBinding
             } else if (dataState is DataStateError) {
               return Center(child: Text('${dataState.error}'));
             } else if (dataState is DataStateLoaded<List<Question>>) {
-              return QuizQuestions(pageController: _pageController, questions: dataState.data);
+              return QuizQuestions(
+                  pageController: _pageController, questions: dataState.data);
             }
 
             return Center(child: PlatformCircularProgressIndicator());

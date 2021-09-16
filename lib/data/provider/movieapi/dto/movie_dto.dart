@@ -1,5 +1,4 @@
 class MovieDto {
-
   final String title;
   final String poster;
 
@@ -10,9 +9,9 @@ class MovieDto {
         poster = json["Poster"];
 
   Map<String, dynamic> toJson() => {
-    'Title': title,
-    'Poster': poster,
-  };
+        'Title': title,
+        'Poster': poster,
+      };
 }
 
 class MovieResponseDto {
@@ -21,5 +20,6 @@ class MovieResponseDto {
   MovieResponseDto(this.movies);
 
   MovieResponseDto.fromJson(Map<String, dynamic> json)
-      : movies = (json["Search"] as List).map((e) => MovieDto.fromJson(e)).toList();
+      : movies =
+            (json["Search"] as List).map((e) => MovieDto.fromJson(e)).toList();
 }
