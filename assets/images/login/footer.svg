@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="390px" height="255px" viewBox="0 0 390 255" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>header</title>
+    <defs>
+        <radialGradient cx="1.40158454e-16%" cy="-2.60208521e-15%" fx="1.40158454e-16%" fy="-2.60208521e-15%" r="237.327512%" gradientTransform="translate(0.000000,-0.000000),scale(0.618948,1.000000),rotate(13.449903),translate(-0.000000,0.000000)" id="radialGradient-1">
+            <stop stop-color="#00798C" offset="0%"></stop>
+            <stop stop-color="#A89F5C" offset="100%"></stop>
+            <stop stop-color="#EDAE49" offset="100%"></stop>
+            <stop stop-color="#003E5B" offset="100%"></stop>
+            <stop stop-color="#003D5B" offset="100%"></stop>
+            <stop stop-color="#003D5B" offset="100%"></stop>
+        </radialGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="iPhone-12-Pro" transform="translate(0.000000, -589.000000)" fill="url(#radialGradient-1)">
+            <g id="Group" transform="translate(-76.000000, 580.000000)">
+                <g id="header" transform="translate(237.500000, 147.000000) rotate(-360.000000) translate(-237.500000, -147.000000) ">
+                    <path d="M1.07441929e-12,-0.000528109533 L1.07441929e-12,294 C37.9725896,252.688116 82.2327678,224.343788 132.780534,208.967015 C209.914238,185.502725 314.733298,185.502725 371.592232,146.999736 C419.133663,114.806252 453.602919,65.8061639 475,-0.000528109533 L1.07441929e-12,-0.000528109533 Z" id="Path" opacity="0.278087798" transform="translate(237.500000, 146.999736) rotate(-180.000000) translate(-237.500000, -146.999736) "></path>
+                    <path d="M9.8615917,7.92808989 L9.8615917,301.928618 C47.8341813,260.616734 92.0943595,232.272406 142.642126,216.895633 C219.775829,193.431343 324.594889,193.431343 381.453824,154.928354 C428.995254,122.73487 463.46451,73.7347819 484.861592,7.92808989 L9.8615917,7.92808989 Z" id="Path" transform="translate(247.361592, 154.928354) rotate(-180.000000) translate(-247.361592, -154.928354) "></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

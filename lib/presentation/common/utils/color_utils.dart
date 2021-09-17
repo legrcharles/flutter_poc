@@ -45,9 +45,10 @@ class AppColor {
   static Color error = const Color(0xFFB43434);
   static Color valid = const Color(0xFF04724D);
 
-  static Color background = const Color(0xFF343434);
-  static Color backgroundLight1 = const Color(0xFF454545);
-  static Color backgroundDark1 = const Color(0xFF2B2B2B);
+  static Color background = const Color(0xFF1A1E24);
+  static Color backgroundLight1 = const Color(0xFF262A31);
+  static Color backgroundLight2 = const Color(0xFF2C2D39);
+  static Color backgroundDark1 = const Color(0xFF111318);
 
   static Color text = const Color(0xFFE7E7E7);
   static Color textLigth1 = const Color(0xFFEFEFEF);

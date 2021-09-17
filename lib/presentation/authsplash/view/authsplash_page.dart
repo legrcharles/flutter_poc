@@ -4,6 +4,7 @@ import 'package:flutter_architecture/data/datamanager/datamanager.dart';
 import 'package:flutter_architecture/presentation/authsplash/bloc/authsplash_bloc.dart';
 import 'package:flutter_architecture/presentation/common/widgets/loading.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
 class AuthSplashPage extends StatelessWidget {
@@ -39,6 +40,9 @@ class _AuthSplashViewState extends State<AuthSplashView> {
             Navigator.of(context).pushReplacementNamed(Routes.signin.path);
           }
         },
-        child: Container(color: Colors.white, child: const Loading()));
+        child: PlatformScaffold(
+            body: Center(child: PlatformCircularProgressIndicator())
+        )
+    );
   }
 }

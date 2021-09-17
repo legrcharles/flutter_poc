@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="390px" height="269px" viewBox="0 0 390 269" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>header</title>
+    <defs>
+        <radialGradient cx="1.40158454e-16%" cy="-2.60208521e-15%" fx="1.40158454e-16%" fy="-2.60208521e-15%" r="267.191813%" gradientTransform="translate(0.000000,-0.000000),scale(0.618948,1.000000),rotate(26.521184),scale(1.000000,1.034839),translate(-0.000000,0.000000)" id="radialGradient-1">
+            <stop stop-color="#EDAE49" offset="0%"></stop>
+            <stop stop-color="#00798C" offset="100%"></stop>
+        </radialGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="header" fill="url(#radialGradient-1)" transform="translate(-26.000000, 0.000000)">
+            <path d="M0,0 L0,294.000528 C37.9725896,252.688644 82.2327678,224.344316 132.780534,208.967543 C209.914238,185.503254 314.733298,185.503254 371.592232,147.000264 C419.133663,114.80678 453.602919,65.806692 475,0 L0,0 Z" id="Path" opacity="0.217703683"></path>
+            <path d="M-9.8615917,-7.928618 L-9.8615917,286.07191 C28.1109979,244.760026 72.3711761,216.415698 122.918943,201.038925 C200.052646,177.574636 304.871706,177.574636 361.730641,139.071646 C409.272071,106.878162 443.741327,57.878074 465.138408,-7.928618 L-9.8615917,-7.928618 Z" id="Path"></path>
+        </g>
+    </g>
+</svg>

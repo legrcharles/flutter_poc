@@ -9,11 +9,15 @@ class AppButton extends StatelessWidget {
   final String title;
   final VoidCallback? onPressed;
   final AppButtonStyle style;
+  final double radius;
+  final bool loading;
 
   const AppButton(
       {required this.title,
       this.onPressed,
       this.style = AppButtonStyle.primary,
+      this.radius = 24.0,
+      this.loading = false,
       Key? key})
       : super(key: key);
 
@@ -21,18 +25,42 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return PlatformButton(
       color: style._color,
-      child: Text(
-        title,
-        style: TextStyle(color: style._textColor, fontSize: 16),
-      ).tr(),
+      child: Stack(
+        children: [
+          SizedBox(
+            width: double.infinity,
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: style._textColor, fontSize: 16),
+            ).tr(),
+          ),
+          loading ?
+          Align(
+            alignment: Alignment.centerRight,
+            child: SizedBox(
+              height: 16,
+              width: 16,
+              child: CircularProgressIndicator(
+                color: style._textColor,
+                strokeWidth: 2,
+              ),
+            ),
+          ) : const SizedBox.shrink()
+        ],
+      ),
       onPressed: onPressed,
-      cupertino: (context, platform) => CupertinoButtonData(),
+      disabledColor: AppColor.backgroundLight2,
+      cupertino: (context, platform) => CupertinoButtonData(
+        borderRadius: BorderRadius.circular(radius),
+      ),
       materialFlat: (context, platform) => MaterialFlatButtonData(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24.0),
+          borderRadius: BorderRadius.circular(radius),
         ),
+        disabledTextColor: AppColor.textDark3,
         padding:
-            const EdgeInsets.only(bottom: 15, top: 15, left: 50, right: 50),
+            const EdgeInsets.only(bottom: 15, top: 15, right: 16),
       ),
     );
   }

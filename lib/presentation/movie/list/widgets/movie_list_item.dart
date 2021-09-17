@@ -12,6 +12,7 @@ class MovieListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+        color: AppColor.backgroundLight1,
         elevation: Platform.isIOS ? 0 : 1,
         child: SizedBox(
           height: 60,
