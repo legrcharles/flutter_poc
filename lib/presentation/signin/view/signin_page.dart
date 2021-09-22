@@ -83,7 +83,7 @@ class _SignInViewState extends State<SignInView> {
               final submissionState = state.submissionState;
 
               if (submissionState is StateSuccess) {
-                Navigator.of(context).pushReplacementNamed(Routes.userList.path);
+                Navigator.of(context).pushReplacementNamed(Routes.home.path);
               }
               if (submissionState is StateError) {
                 AlertUtils.showError(context, submissionState.error.toString(), androidSnakeBar: true);
@@ -110,29 +110,12 @@ class _SignInViewState extends State<SignInView> {
   }
 
   Widget _buildHeader() {
-    return Stack(
-      children: [
-        SizedBox(
-          width: double.infinity,
-          child: SvgPicture.asset(
-            'assets/images/login/header.svg',
-            fit: BoxFit.fill,
-          ),
-        ),
-        Positioned(
-          top: 36,
-          left: 8,
-          child: PlatformIconButton(
-            padding: const EdgeInsets.all(4.0),
-            icon: Icon(
-              Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
-            ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ),
-      ],
+    return SizedBox(
+      width: double.infinity,
+      child: SvgPicture.asset(
+        'assets/images/login/header.svg',
+        fit: BoxFit.fill,
+      ),
     );
   }
 

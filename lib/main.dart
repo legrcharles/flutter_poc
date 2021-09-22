@@ -52,7 +52,7 @@ class _MyAppState extends State<MyApp> {
                 locale: context.locale,
                 onGenerateRoute: (settings) =>
                     RouteGenerator.generateRoute(settings, context),
-                initialRoute: '/',
+                initialRoute: '/splashscreen',
                 debugShowCheckedModeBanner: false,
                 title: 'Flutter Platform Widgets',
                 material: (_, __) => MaterialAppData(

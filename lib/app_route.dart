@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture/presentation/authsplash/authsplash.dart';
+import 'package:flutter_architecture/presentation/splashscreen/splashscreen.dart';
 import 'package:flutter_architecture/presentation/counter/counter.dart';
 import 'package:flutter_architecture/presentation/home/home_screen.dart';
 import 'package:flutter_architecture/presentation/movie/list/movie_list.dart';
@@ -19,7 +19,7 @@ enum Routes {
   quizResult,
   counter,
   movieList,
-  authSplash,
+  splashScreen,
   register,
   signin,
   userList
@@ -29,7 +29,7 @@ extension RoutesExtension on Routes {
   String get path {
     switch (this) {
       case Routes.home:
-        return "/";
+        return "/home";
 
       case Routes.quiz:
         return "/quiz";
@@ -43,8 +43,8 @@ extension RoutesExtension on Routes {
       case Routes.movieList:
         return "/movies";
 
-      case Routes.authSplash:
-        return "/authSplash";
+      case Routes.splashScreen:
+        return "/splashscreen";
 
       case Routes.register:
         return "/register";
@@ -98,11 +98,11 @@ class RouteGenerator {
               settings: RouteSettings(name: route.path),
               builder: (context) => const MovieListPage());
 
-        case Routes.authSplash:
+        case Routes.splashScreen:
           return platformPageRoute(
               context: context,
               settings: RouteSettings(name: route.path),
-              builder: (context) => const AuthSplashPage());
+              builder: (context) => const SplashScreenPage());
 
         case Routes.register:
           return platformPageRoute(
@@ -111,10 +111,9 @@ class RouteGenerator {
               builder: (context) => const RegisterPage());
 
         case Routes.signin:
-          return platformPageRoute(
-              context: context,
+          return PageRouteBuilder(
               settings: RouteSettings(name: route.path),
-              builder: (context) => const SignInPage());
+              pageBuilder: (context, animation, _) => const SignInPage());
 
         case Routes.userList:
           return platformPageRoute(

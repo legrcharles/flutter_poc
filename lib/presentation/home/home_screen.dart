@@ -2,10 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture/app_route.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_architecture/data/datamanager/datamanager.dart';
+import 'package:flutter_architecture/data/datamanager/user_datamanager.dart';
 import 'package:flutter_architecture/generated/locale_keys.g.dart';
 import 'package:flutter_architecture/presentation/common/utils/color_utils.dart';
 import 'package:flutter_architecture/presentation/home/widgets/home_item.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:provider/src/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -15,11 +18,9 @@ class HomeScreen extends StatelessWidget {
     return PlatformScaffold(
       appBar: PlatformAppBar(
         title: const Text(LocaleKeys.home_title).tr(),
+        leading: Container(),
         cupertino: (context, platform) {
-          return CupertinoNavigationBarData(
-              transitionBetweenRoutes: true,
-              automaticallyImplyLeading: true,
-              previousPageTitle: "Back");
+          return CupertinoNavigationBarData();
         },
         material: (context, platform) {
           return MaterialAppBarData();
@@ -27,11 +28,16 @@ class HomeScreen extends StatelessWidget {
         trailingActions: [
           PlatformIconButton(
             padding: const EdgeInsets.all(4.0),
-            icon: Icon(
-              Icons.outlined_flag,
-            ),
+            icon: const Icon(Icons.outlined_flag),
             onPressed: () => _showCountryDialog(context),
-          )
+          ),
+          PlatformIconButton(
+              padding: const EdgeInsets.all(4.0),
+              icon: const Icon(Icons.logout),
+            onPressed: () async {
+              await context.read<DataManager>().signOut();
+              Navigator.of(context).pushReplacementNamed(Routes.splashScreen.path);
+            }),
         ],
       ),
       body: ListView(
@@ -48,7 +54,7 @@ class HomeScreen extends StatelessWidget {
           HomeItem(LocaleKeys.movies_title.tr(), Icons.movie_creation_outlined,
               () => {Navigator.pushNamed(context, Routes.movieList.path)}),
           HomeItem("Auth Splash", Icons.verified_user,
-              () => {Navigator.pushNamed(context, Routes.authSplash.path)})
+              () => {Navigator.pushNamed(context, Routes.splashScreen.path)})
         ],
       ),
     );

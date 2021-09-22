@@ -26,9 +26,7 @@ class SignInEmailInput extends StatelessWidget {
                   textAlign: TextAlign.left,
                   style: TextStyle(color: AppColor.text, fontSize: 18),
                 )),
-            const SizedBox(
-              height: 8,
-            ),
+            const SizedBox(height: 8),
             Container(
               decoration: BoxDecoration(
                 color: AppColor.backgroundLight1,
@@ -54,9 +52,7 @@ class SignInEmailInput extends StatelessWidget {
                 textInputAction: TextInputAction.next,
               ),
             ),
-            const SizedBox(
-              height: 8,
-            ),
+            const SizedBox(height: 8),
             SizedBox(
                 width: double.infinity,
                 child: Text(

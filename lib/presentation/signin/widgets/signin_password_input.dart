@@ -26,9 +26,7 @@ class SignInPasswordInput extends StatelessWidget {
                   textAlign: TextAlign.left,
                   style: TextStyle(color: AppColor.text, fontSize: 18),
                 )),
-            const SizedBox(
-              height: 8,
-            ),
+            const SizedBox(height: 8,),
             Container(
               decoration: BoxDecoration(
                 color: AppColor.backgroundLight1,
@@ -55,9 +53,7 @@ class SignInPasswordInput extends StatelessWidget {
                 textInputAction: TextInputAction.done,
               ),
             ),
-            const SizedBox(
-              height: 8,
-            ),
+            const SizedBox(height: 8,),
             SizedBox(
                 width: double.infinity,
                 child: Text(
